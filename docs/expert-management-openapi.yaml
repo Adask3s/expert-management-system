@@ -1,0 +1,213 @@
+openapi: 3.0.3
+info:
+  title: Expert Management System API
+  version: 1.0.0
+  description: API do zarządzania kompetencjami pracowników.
+
+servers:
+  - url: http://localhost:8080/api
+
+paths:
+  /auth/login:
+    post:
+      tags: [Authentication]
+      summary: Logowanie użytkownika
+      responses:
+        '200':
+          description: Sukces
+
+  /users:
+    get:
+      tags: [Users]
+      summary: Pobierz wszystkich użytkowników
+      responses:
+        '200':
+          description: Lista użytkowników
+    post:
+      tags: [Users]
+      summary: Utwórz użytkownika
+      responses:
+        '201':
+          description: Użytkownik utworzony
+
+  /users/{id}:
+    get:
+      tags: [Users]
+      summary: Pobierz użytkownika po ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Szczegóły użytkownika
+    put:
+      tags: [Users]
+      summary: Aktualizuj użytkownika
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Użytkownik zaktualizowany
+    delete:
+      tags: [Users]
+      summary: Usuń użytkownika
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Użytkownik usunięty
+
+  /domains:
+    get:
+      tags: [Domains]
+      summary: Pobierz wszystkie domeny
+      responses:
+        '200':
+          description: Lista domen
+    post:
+      tags: [Domains]
+      summary: Utwórz domenę
+      responses:
+        '201':
+          description: Domena utworzona
+
+  /domains/{id}:
+    put:
+      tags: [Domains]
+      summary: Aktualizuj domenę
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Domena zaktualizowana
+    delete:
+      tags: [Domains]
+      summary: Usuń domenę
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Domena usunięta
+
+  /expertise-levels:
+    get:
+      tags: [Expertise Levels]
+      summary: Pobierz poziomy kompetencji
+      responses:
+        '200':
+          description: Lista poziomów
+
+  /user-skills:
+    get:
+      tags: [User Skills]
+      summary: Pobierz przypisania kompetencji
+      responses:
+        '200':
+          description: Lista przypisań
+    post:
+      tags: [User Skills]
+      summary: Przypisz kompetencję użytkownikowi
+      responses:
+        '201':
+          description: Przypisanie utworzone
+
+  /user-skills/{id}:
+    put:
+      tags: [User Skills]
+      summary: Aktualizuj przypisanie kompetencji
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Przypisanie zaktualizowane
+    delete:
+      tags: [User Skills]
+      summary: Usuń przypisanie kompetencji
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Przypisanie usunięte
+
+  /search:
+    get:
+      tags: [Search]
+      summary: Wyszukiwanie ekspertów
+      parameters:
+        - name: domain
+          in: query
+          schema:
+            type: string
+        - name: level
+          in: query
+          schema:
+            type: integer
+        - name: operator
+          in: query
+          schema:
+            type: string
+            example: GTE
+      responses:
+        '200':
+          description: Wyniki wyszukiwania
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+
+    Domain:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+
+    UserSkill:
+      type: object
+      properties:
+        id:
+          type: integer
+        userId:
+          type: integer
+        domainId:
+          type: integer
+        level:
+          type: integer
