@@ -23,8 +23,11 @@ bin/
 *.iml
 *.ipr
 out/
+backend/target/
 !**/src/main/**/out/
 !**/src/test/**/out/
+backend/mvnw
+backend/mvnw.cmd
 
 ### NetBeans ###
 /nbproject/private/
