@@ -1,0 +1,36 @@
+databaseChangeLog:
+  - changeSet:
+      id: 005-create-user-skills
+      author: szymon
+      changes:
+        - createTable:
+            tableName: user_skills
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_user_skills_user_id
+                    references: users(id)
+              - column:
+                  name: domain_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_user_skills_domain_id
+                    references: domains(id)
+              - column:
+                  name: expertise_level_id
+                  type: INT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_user_skills_level_id
+                    references: expertise_levels(id)
