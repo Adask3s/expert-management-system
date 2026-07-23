@@ -7,24 +7,38 @@ info:
 servers:
   - url: http://localhost:8080/api
 
+security:
+  - bearerAuth: [ ]
+
 paths:
   /auth/login:
     post:
-      tags: [Authentication]
+      tags: [ Authentication ]
       summary: Logowanie użytkownika
+      security: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
       responses:
         '200':
           description: Sukces
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
 
   /users:
     get:
-      tags: [Users]
+      tags: [ Users ]
       summary: Pobierz wszystkich użytkowników
       responses:
         '200':
           description: Lista użytkowników
     post:
-      tags: [Users]
+      tags: [ Users ]
       summary: Utwórz użytkownika
       responses:
         '201':
@@ -32,7 +46,7 @@ paths:
 
   /users/{id}:
     get:
-      tags: [Users]
+      tags: [ Users ]
       summary: Pobierz użytkownika po ID
       parameters:
         - name: id
@@ -44,7 +58,7 @@ paths:
         '200':
           description: Szczegóły użytkownika
     put:
-      tags: [Users]
+      tags: [ Users ]
       summary: Aktualizuj użytkownika
       parameters:
         - name: id
@@ -56,7 +70,7 @@ paths:
         '200':
           description: Użytkownik zaktualizowany
     delete:
-      tags: [Users]
+      tags: [ Users ]
       summary: Usuń użytkownika
       parameters:
         - name: id
@@ -70,13 +84,13 @@ paths:
 
   /domains:
     get:
-      tags: [Domains]
+      tags: [ Domains ]
       summary: Pobierz wszystkie domeny
       responses:
         '200':
           description: Lista domen
     post:
-      tags: [Domains]
+      tags: [ Domains ]
       summary: Utwórz domenę
       responses:
         '201':
@@ -84,7 +98,7 @@ paths:
 
   /domains/{id}:
     put:
-      tags: [Domains]
+      tags: [ Domains ]
       summary: Aktualizuj domenę
       parameters:
         - name: id
@@ -96,7 +110,7 @@ paths:
         '200':
           description: Domena zaktualizowana
     delete:
-      tags: [Domains]
+      tags: [ Domains ]
       summary: Usuń domenę
       parameters:
         - name: id
@@ -110,7 +124,7 @@ paths:
 
   /expertise-levels:
     get:
-      tags: [Expertise Levels]
+      tags: [ Expertise Levels ]
       summary: Pobierz poziomy kompetencji
       responses:
         '200':
@@ -118,13 +132,13 @@ paths:
 
   /user-skills:
     get:
-      tags: [User Skills]
+      tags: [ User Skills ]
       summary: Pobierz przypisania kompetencji
       responses:
         '200':
           description: Lista przypisań
     post:
-      tags: [User Skills]
+      tags: [ User Skills ]
       summary: Przypisz kompetencję użytkownikowi
       responses:
         '201':
@@ -132,7 +146,7 @@ paths:
 
   /user-skills/{id}:
     put:
-      tags: [User Skills]
+      tags: [ User Skills ]
       summary: Aktualizuj przypisanie kompetencji
       parameters:
         - name: id
@@ -144,7 +158,7 @@ paths:
         '200':
           description: Przypisanie zaktualizowane
     delete:
-      tags: [User Skills]
+      tags: [ User Skills ]
       summary: Usuń przypisanie kompetencji
       parameters:
         - name: id
@@ -158,7 +172,7 @@ paths:
 
   /search:
     get:
-      tags: [Search]
+      tags: [ Search ]
       summary: Wyszukiwanie ekspertów
       parameters:
         - name: domain
@@ -179,6 +193,12 @@ paths:
           description: Wyniki wyszukiwania
 
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
   schemas:
     User:
       type: object
@@ -246,3 +266,21 @@ components:
         roleName:
           type: string
           example: ROLE_ADMIN
+
+    LoginRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+
+    TokenResponse:
+        type: object
+        properties:
+          accessToken:
+            type: string
