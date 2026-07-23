@@ -130,6 +130,12 @@ paths:
       responses:
         '200':
           description: Lista domen
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Domain'
     post:
       tags: [ Domains ]
       summary: Utwórz domenę
@@ -190,6 +196,12 @@ paths:
       responses:
         '200':
           description: Lista poziomów
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ExpertiseLevel'
 
   /users/{userId}/skills:
     get:
@@ -204,6 +216,12 @@ paths:
       responses:
         '200':
           description: Lista przypisań kompetencji dla wskazanego użytkownika
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserSkillDetail'
     post:
       tags: [ User Skills ]
       summary: Przypisz nową kompetencję użytkownikowi
@@ -394,7 +412,6 @@ components:
     UserSkillRequest:
       type: object
       required:
-        - userId
         - domainId
         - expertiseLevelId
       properties:
