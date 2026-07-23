@@ -1,15 +1,15 @@
 package de.cronn.expertmanagementsystem.controller;
 
 import de.cronn.expertmanagementsystem.api.AuthApi;
+import de.cronn.expertmanagementsystem.model.LoginRequestDto;
+import de.cronn.expertmanagementsystem.model.TokenResponseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-// if cannot resolve .api package run maven clean compile
-// this creates interfaces from openapi plugin
 @RestController
 public class TempController implements AuthApi {
     @Override
-    public ResponseEntity<Void> authLoginPost() {
+    public ResponseEntity<TokenResponseDto> authLoginPost(LoginRequestDto loginRequestDto) {
         return null;
     }
 }
