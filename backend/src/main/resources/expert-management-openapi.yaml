@@ -147,16 +147,34 @@ paths:
         '200':
           description: Lista poziomów
 
-  /user-skills:
+  /users/{userId}/skills:
     get:
       tags: [ User Skills ]
-      summary: Pobierz przypisania kompetencji
+      summary: Pobierz kompetencje konkretnego użytkownika
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
       responses:
         '200':
-          description: Lista przypisań
+          description: Lista przypisań kompetencji dla wskazanego użytkownika
     post:
       tags: [ User Skills ]
-      summary: Przypisz kompetencję użytkownikowi
+      summary: Przypisz nową kompetencję użytkownikowi
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserSkillRequest'
       responses:
         '201':
           description: Przypisanie utworzone
@@ -171,6 +189,12 @@ paths:
           required: true
           schema:
             type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserSkillRequest'
       responses:
         '200':
           description: Przypisanie zaktualizowane
