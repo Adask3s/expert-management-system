@@ -57,9 +57,19 @@ paths:
     post:
       tags: [ Users ]
       summary: Utwórz użytkownika
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
       responses:
         '201':
           description: Użytkownik utworzony
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
 
   /users/{id}:
     get:
@@ -74,6 +84,10 @@ paths:
       responses:
         '200':
           description: Szczegóły użytkownika
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
     put:
       tags: [ Users ]
       summary: Aktualizuj użytkownika
@@ -83,9 +97,19 @@ paths:
           required: true
           schema:
             type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
       responses:
         '200':
           description: Użytkownik zaktualizowany
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
     delete:
       tags: [ Users ]
       summary: Usuń użytkownika
@@ -238,8 +262,31 @@ components:
       bearerFormat: JWT
 
   schemas:
+    UserRequest:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - active
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        active:
+          type: boolean
+
     User:
       type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - active
       properties:
         id:
           type: integer
@@ -371,7 +418,6 @@ components:
           type: integer
         number:
           type: integer
-
 
     ExpertSearchCriteria:
       type: object
