@@ -212,26 +212,23 @@ paths:
           description: Przypisanie usunięte
 
   /search:
-    get:
+    post:
       tags: [ Search ]
-      summary: Wyszukiwanie ekspertów
-      parameters:
-        - name: domain
-          in: query
-          schema:
-            type: string
-        - name: level
-          in: query
-          schema:
-            type: integer
-        - name: operator
-          in: query
-          schema:
-            type: string
-            example: GTE
+      summary: Wielokryterialne wyszukiwanie ekspertów
+      description: Umożliwia wyszukiwanie z użyciem operatorów logicznych (AND/OR) i relacyjnych (np. GTE).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExpertSearchRequest'
       responses:
         '200':
-          description: Wyniki wyszukiwania
+          description: Wyniki wyszukiwania (paginowana lista użytkowników)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserListPage'
 
 components:
   securitySchemes:
@@ -374,3 +371,37 @@ components:
           type: integer
         number:
           type: integer
+
+
+    ExpertSearchCriteria:
+      type: object
+      required:
+        - domainName
+        - minRankValue
+      properties:
+        domainName:
+          type: string
+          example: Java
+        minRankValue:
+          type: integer
+          example: 3
+        operator:
+          type: string
+          enum: [ EQ, GTE ]
+          default: GTE
+
+    ExpertSearchRequest:
+      type: object
+      required:
+        - criteria
+        - logicalOperator
+      properties:
+        criteria:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExpertSearchCriteria'
+          minItems: 1
+        logicalOperator:
+          type: string
+          enum: [ AND, OR ]
+          example: AND
