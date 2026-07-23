@@ -22,14 +22,38 @@ public class UserSkill {
     @JoinColumn(name = "expertise_level_id", nullable = false)
     private ExpertiseLevel expertiseLevel;
 
-    public UserSkill() {}
+    public UserSkill() {
+    }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public User getUser() { return user; }
-    public void setUser(User user) { this.user = user; }
-    public Domain getDomain() { return domain; }
-    public void setDomain(Domain domain) { this.domain = domain; }
-    public ExpertiseLevel getExpertiseLevel() { return expertiseLevel; }
-    public void setExpertiseLevel(ExpertiseLevel expertiseLevel) { this.expertiseLevel = expertiseLevel; }
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Domain getDomain() {
+        return domain;
+    }
+
+    public void setDomain(Domain domain) {
+        this.domain = domain;
+    }
+
+    public ExpertiseLevel getExpertiseLevel() {
+        return expertiseLevel;
+    }
+
+    public void setExpertiseLevel(ExpertiseLevel expertiseLevel) {
+        this.expertiseLevel = expertiseLevel;
+    }
 }
