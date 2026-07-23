@@ -133,9 +133,19 @@ paths:
     post:
       tags: [ Domains ]
       summary: Utwórz domenę
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DomainRequest'
       responses:
         '201':
           description: Domena utworzona
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Domain'
 
   /domains/{id}:
     put:
@@ -147,9 +157,19 @@ paths:
           required: true
           schema:
             type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DomainRequest'
       responses:
         '200':
           description: Domena zaktualizowana
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Domain'
     delete:
       tags: [ Domains ]
       summary: Usuń domenę
@@ -306,6 +326,8 @@ components:
           type: integer
         name:
           type: string
+        description:
+          type: string
 
     ExpertiseLevel:
       type: object
@@ -451,3 +473,13 @@ components:
           type: string
           enum: [ AND, OR ]
           example: AND
+
+    DomainRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
