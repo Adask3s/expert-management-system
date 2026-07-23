@@ -191,6 +191,8 @@ components:
           type: string
         email:
           type: string
+        active:
+          type: boolean
 
     Domain:
       type: object
@@ -199,6 +201,16 @@ components:
           type: integer
         name:
           type: string
+
+    ExpertiseLevel:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        rankValue:
+          type: integer
 
     UserSkill:
       type: object
@@ -209,5 +221,28 @@ components:
           type: integer
         domainId:
           type: integer
-        level:
+        expertiseLevelId:
           type: integer
+
+    UserSkillRequest:
+      type: object
+      required:
+        - userId
+        - domainId
+        - expertiseLevelId
+      properties:
+        userId:
+          type: integer
+        domainId:
+          type: integer
+        expertiseLevelId:
+          type: integer
+
+    RoleRequest:
+      type: object
+      required:
+        - roleName
+      properties:
+        roleName:
+          type: string
+          example: ROLE_ADMIN
