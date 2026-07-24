@@ -1,0 +1,191 @@
+/**
+ * Design Tokens - Expert Management System
+ * Źródło: Figma (Dashboard / Domains / User Properties Admin Panel)
+ *
+ *  - Spacing: przeliczone z realnych wartości Figmy (siatka 3.5px = 4px × 0.875)
+ *    na czyste piksele. Dowód: 10.5/0.875=12, 14/0.875=16, 21/0.875=24 - idealnie
+ *    trafia w standardową skalę 4px. Bez zgadywania.
+ *  - Typografia: skonsolidowana do 6 stopni. Różnice 0.5px w oryginale to szum
+ *    (drobne, niezamierzone przeskalowanie komponentów w Figmie), nie design.
+ *  - Kolory: dwuwarstwowa architektura - prymitywy (surowe wartości) +
+ *    tokeny semantyczne (nazwane wg funkcji/domeny, np. poziom kompetencji).
+ *  - Login Panel: WYCIĘTY z tego pliku. To osobny, spójny wizualnie ekran -
+ *    jego tokeny powinny żyć w Login.module.css, nie tutaj.
+ */
+
+/**
+* ============================================================
+* UWAGA - Login Panel
+* ============================================================
+* Ekran logowania w Figmie ma inny język wizualny
+* (fioletowy glassmorphism na czarnym tle) niż reszta aplikacji.
+* Celowo NIE ma tu jego tokenów - gdy zdecydujemy się go
+* zaimplementować, stwórzymy osobny `Login.module.css` z lokalnymi
+* zmiennymi. Nie mieszamy tego z globalnym design systemem.
+*/
+
+:root {
+    /* ============================================================
+     * PRYMITYWY - surowe wartości kolorów (nie używamy bezpośrednio
+     * w komponentach - odwołujemy się do warstwy semantycznej niżej)
+     * ============================================================ */
+    --raw-white-100: #f2f2f7;
+    --raw-blue-500: #2b7fff;
+    --raw-blue-600: #1447e6;
+    --raw-blue-400: #51a2ff;
+    --raw-blue-300: #8ec5ff;
+    --raw-blue-solid: #155dfc;
+    --raw-blue-glow: #3b82f6;
+
+    --raw-green-500: #00bc7d;
+    --raw-green-400: #00d492;
+    --raw-green-300: #5ee9b5;
+    --raw-green-glow: #10b981;
+
+    --raw-purple-500: #8e51ff;
+    --raw-purple-400: #a684ff;
+    --raw-purple-300: #c4b4ff;
+    --raw-purple-glow: #8b5cf6;
+
+    --raw-amber-500: #ffb900;
+    --raw-amber-400: #ffd230;
+    --raw-amber-glow: #f59e0b;
+
+    --raw-orange-500: #fe9a00;
+    --raw-red-500: #b3261e;
+    --raw-red-900: #8c1d18;
+    --raw-red-glow: rgba(236, 34, 31, 0.2);
+
+    /* ============================================================
+     * SEMANTYKA - Surfaces (tło, dark theme)
+     * ============================================================ */
+    --color-bg-app: #0d0d12; /* tło głównego obszaru (content area) */
+    --color-bg-sidebar: #16161f; /* tło sidebaru - jaśniejsze niż app bg */
+    --color-bg-header: rgba(13, 13, 18, 0.8);
+    --color-bg-surface: #1c1c26; /* karty, panele, tabela, profil */
+    --color-bg-surface-hover: rgba(255, 255, 255, 0.05);
+    --color-bg-surface-active: rgba(43, 127, 255, 0.15);
+    --color-bg-row-highlight: rgba(43, 127, 255, 0.05);
+    --color-bg-table-header: #18181f;
+
+    --color-segment-track-bg: #0d0d12;
+    --color-segment-active-bg: #252530;
+
+    --color-border-subtle: rgba(255, 255, 255, 0.04);
+    --color-border-default: rgba(255, 255, 255, 0.06);
+    --color-border-strong: rgba(255, 255, 255, 0.1);
+    --color-border-card: rgba(255, 255, 255, 0.07);
+    --color-border-brand: rgba(43, 127, 255, 0.4);
+
+    /* ============================================================
+     * SEMANTYKA - Tekst
+     * ============================================================ */
+    --color-text-primary: var(--raw-white-100);
+    --color-text-secondary: rgba(255, 255, 255, 0.5);
+    --color-text-tertiary: rgba(255, 255, 255, 0.45);
+    --color-text-muted: rgba(255, 255, 255, 0.4);
+    --color-text-subtle: rgba(255, 255, 255, 0.35);
+    --color-text-faint: rgba(255, 255, 255, 0.25);
+
+    /* ============================================================
+     * SEMANTYKA - Brand / przyciski akcji
+     * ============================================================ */
+    --color-brand-gradient: linear-gradient(135deg, var(--raw-blue-500) 0%, var(--raw-blue-600) 100%);
+    --color-brand-solid-button: var(--raw-blue-solid); /* np. "Add Employee", "Save Changes" */
+    --color-brand-text: var(--raw-blue-300); /* aktywny link w Sidebar */
+
+    --color-danger-button-bg: var(--raw-red-900);
+    --color-danger-button-glow: var(--raw-red-glow);
+    --color-error: var(--raw-red-500);
+
+    /* ============================================================
+     * SEMANTYKA - Poziomy kompetencji (EXPERTISE_LEVEL)
+     * Spięte z domeną aplikacji - 1:1 z tym co przyjdzie z API.
+     * Każdy poziom ma wariant fg (tekst/kropka), bg (tło badge'a)
+     * i glow (cień pod kropką statusu).
+     * ============================================================ */
+    --color-level-awareness-fg: var(--raw-amber-400);
+    --color-level-awareness-dot: var(--raw-amber-500);
+    --color-level-awareness-bg: color-mix(in srgb, var(--raw-amber-500) 10%, transparent);
+    --color-level-awareness-glow: var(--raw-amber-glow);
+
+    --color-level-functional-fg: var(--raw-blue-300);
+    --color-level-functional-dot: var(--raw-blue-400);
+    --color-level-functional-bg: rgba(43, 127, 255, 0.1);
+    --color-level-functional-glow: var(--raw-blue-glow);
+
+    --color-level-professional-fg: var(--raw-purple-300);
+    --color-level-professional-dot: var(--raw-purple-400);
+    --color-level-professional-bg: rgba(142, 81, 255, 0.1);
+    --color-level-professional-glow: var(--raw-purple-glow);
+
+    --color-level-master-fg: var(--raw-green-300);
+    --color-level-master-dot: var(--raw-green-400);
+    --color-level-master-bg: rgba(0, 188, 125, 0.1);
+    --color-level-master-glow: var(--raw-green-glow);
+
+    /* Status "Active" korzysta z tej samej palety co poziom "Master" -
+       to nie przypadek, ten sam zielony jest reużywany w statusach kont. */
+    --color-status-active-fg: var(--raw-green-400);
+    --color-status-active-glow: var(--raw-green-glow);
+
+    /* Akcent stat-card "Skill Domains" - osobny odcień pomarańczu,
+       bliski, ale NIE identyczny z amber powyżej. Zostawiony osobno
+       celowo (tak jest w designie). */
+    --color-accent-orange: var(--raw-orange-500);
+    --color-accent-orange-bg: rgba(254, 154, 0, 0.1);
+
+    /* ============================================================
+     * TYPOGRAFIA
+     * ============================================================ */
+    --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-family-mono: 'Liberation Mono', 'SFMono-Regular', Consolas, monospace;
+
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+
+    /* Skonsolidowane do 6 czytelnych stopni (usunięte różnice 0.5px) */
+    --font-size-xs: 10px; /* meta, labelki, "Admin Console" */
+    --font-size-sm: 11px; /* status text, ID w tabeli, badge'e */
+    --font-size-base: 12px; /* drugorzędny tekst, przyciski */
+    --font-size-md: 13px; /* nawigacja, nazwy w tabeli */
+    --font-size-lg: 15px; /* nagłówki sekcji */
+    --font-size-xl: 22px; /* duże liczby w stat cards */
+
+    --letter-spacing-tight: -0.55px;
+    --letter-spacing-wide: 1px;
+
+    /* ============================================================
+     * SPACING - czysta siatka 4px, przeliczona z Figmy (÷0.875)
+     * ============================================================ */
+    --space-1: 4px;
+    --space-1-5: 6px;
+    --space-2: 8px;
+    --space-2-5: 10px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-4-5: 18px;
+    --space-5: 20px;
+    --space-6: 24px;
+
+    /* ============================================================
+     * RADIUS - skonsolidowany
+     * ============================================================ */
+    --radius-xs: 4px;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px; /* karty, główne przyciski */
+    --radius-full: 9999px; /* avatary, badge'e, pill buttons */
+
+    /* ============================================================
+     * CIENIE
+     * ============================================================ */
+    --shadow-card-blue: 0px 10px 7.5px rgba(43, 127, 255, 0.1), 0px 4px 3px rgba(43, 127, 255, 0.1);
+    --shadow-card-green: 0px 10px 7.5px rgba(0, 188, 125, 0.1), 0px 4px 3px rgba(0, 188, 125, 0.1);
+    --shadow-card-purple: 0px 10px 7.5px rgba(142, 81, 255, 0.1), 0px 4px 3px rgba(142, 81, 255, 0.1);
+    --shadow-card-orange: 0px 10px 7.5px rgba(254, 154, 0, 0.1), 0px 4px 3px rgba(254, 154, 0, 0.1);
+    --shadow-button: 0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+    --shadow-status-glow: 0px 0px 5px 0px var(--color-status-active-glow);
+    --shadow-modal-card: 0px 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
