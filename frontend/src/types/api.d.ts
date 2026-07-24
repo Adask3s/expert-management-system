@@ -21,14 +21,20 @@ export interface paths {
                 path?: never;
                 cookie?: never;
             };
-            requestBody?: never;
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["LoginRequest"];
+                };
+            };
             responses: {
                 /** @description Sukces */
                 200: {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "application/json": components["schemas"]["TokenResponse"];
+                    };
                 };
             };
         };
@@ -45,22 +51,27 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Pobierz wszystkich użytkowników */
+        /** Pobierz wszystkich użytkowników z ich rolami i kompetencjami (DTO Listy) */
         get: {
             parameters: {
-                query?: never;
+                query?: {
+                    page?: number;
+                    size?: number;
+                };
                 header?: never;
                 path?: never;
                 cookie?: never;
             };
             requestBody?: never;
             responses: {
-                /** @description Lista użytkowników */
+                /** @description Lista zdenormalizowanych użytkowników */
                 200: {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "application/json": components["schemas"]["UserListPage"];
+                    };
                 };
             };
         };
@@ -73,14 +84,20 @@ export interface paths {
                 path?: never;
                 cookie?: never;
             };
-            requestBody?: never;
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["UserRequest"];
+                };
+            };
             responses: {
                 /** @description Użytkownik utworzony */
                 201: {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "application/json": components["schemas"]["User"];
+                    };
                 };
             };
         };
@@ -114,7 +131,9 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "application/json": components["schemas"]["User"];
+                    };
                 };
             };
         };
@@ -128,14 +147,20 @@ export interface paths {
                 };
                 cookie?: never;
             };
-            requestBody?: never;
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["UserRequest"];
+                };
+            };
             responses: {
                 /** @description Użytkownik zaktualizowany */
                 200: {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "application/json": components["schemas"]["User"];
+                    };
                 };
             };
         };
@@ -188,7 +213,9 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "application/json": components["schemas"]["Domain"][];
+                    };
                 };
             };
         };
@@ -201,14 +228,20 @@ export interface paths {
                 path?: never;
                 cookie?: never;
             };
-            requestBody?: never;
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["DomainRequest"];
+                };
+            };
             responses: {
                 /** @description Domena utworzona */
                 201: {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "application/json": components["schemas"]["Domain"];
+                    };
                 };
             };
         };
@@ -236,14 +269,20 @@ export interface paths {
                 };
                 cookie?: never;
             };
-            requestBody?: never;
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["DomainRequest"];
+                };
+            };
             responses: {
                 /** @description Domena zaktualizowana */
                 200: {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "application/json": components["schemas"]["Domain"];
+                    };
                 };
             };
         };
@@ -296,7 +335,9 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "application/json": components["schemas"]["ExpertiseLevel"][];
+                    };
                 };
             };
         };
@@ -308,42 +349,52 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/user-skills": {
+    "/users/{userId}/skills": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** Pobierz przypisania kompetencji */
+        /** Pobierz kompetencje konkretnego użytkownika */
         get: {
             parameters: {
                 query?: never;
                 header?: never;
-                path?: never;
+                path: {
+                    userId: number;
+                };
                 cookie?: never;
             };
             requestBody?: never;
             responses: {
-                /** @description Lista przypisań */
+                /** @description Lista przypisań kompetencji dla wskazanego użytkownika */
                 200: {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "application/json": components["schemas"]["UserSkillDetail"][];
+                    };
                 };
             };
         };
         put?: never;
-        /** Przypisz kompetencję użytkownikowi */
+        /** Przypisz nową kompetencję użytkownikowi */
         post: {
             parameters: {
                 query?: never;
                 header?: never;
-                path?: never;
+                path: {
+                    userId: number;
+                };
                 cookie?: never;
             };
-            requestBody?: never;
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["UserSkillRequest"];
+                };
+            };
             responses: {
                 /** @description Przypisanie utworzone */
                 201: {
@@ -378,7 +429,11 @@ export interface paths {
                 };
                 cookie?: never;
             };
-            requestBody?: never;
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["UserSkillRequest"];
+                };
+            };
             responses: {
                 /** @description Przypisanie zaktualizowane */
                 200: {
@@ -423,22 +478,69 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Wyszukiwanie ekspertów */
-        get: {
+        get?: never;
+        put?: never;
+        /**
+         * Wielokryterialne wyszukiwanie ekspertów
+         * @description Umożliwia wyszukiwanie z użyciem operatorów logicznych (AND/OR) i relacyjnych (np. GTE).
+         */
+        post: {
             parameters: {
-                query?: {
-                    domain?: string;
-                    level?: number;
-                    operator?: string;
-                };
+                query?: never;
                 header?: never;
                 path?: never;
                 cookie?: never;
             };
-            requestBody?: never;
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["ExpertSearchRequest"];
+                };
+            };
             responses: {
-                /** @description Wyniki wyszukiwania */
+                /** @description Wyniki wyszukiwania (paginowana lista użytkowników) */
                 200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["UserListPage"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/users/{userId}/roles": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Nadaj rolę użytkownikowi */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    userId: number;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["RoleRequest"];
+                };
+            };
+            responses: {
+                /** @description Rola przypisana pomyślnie */
+                201: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -446,9 +548,44 @@ export interface paths {
                 };
             };
         };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/users/{userId}/roles/{roleName}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
         put?: never;
         post?: never;
-        delete?: never;
+        /** Odbierz rolę użytkownikowi */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    userId: number;
+                    roleName: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Rola usunięta */
+                204: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
         options?: never;
         head?: never;
         patch?: never;
@@ -458,21 +595,97 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        UserRequest: {
+            firstName: string;
+            lastName: string;
+            /** Format: email */
+            email: string;
+            active: boolean;
+        };
         User: {
             id?: number;
-            firstName?: string;
-            lastName?: string;
-            email?: string;
+            firstName: string;
+            lastName: string;
+            email: string;
+            active: boolean;
         };
         Domain: {
             id?: number;
             name?: string;
+            description?: string;
+        };
+        ExpertiseLevel: {
+            id?: number;
+            name?: string;
+            rankValue?: number;
         };
         UserSkill: {
             id?: number;
             userId?: number;
             domainId?: number;
-            level?: number;
+            expertiseLevelId?: number;
+        };
+        UserSkillRequest: {
+            userId?: number;
+            domainId: number;
+            expertiseLevelId: number;
+        };
+        RoleRequest: {
+            /** @example ROLE_ADMIN */
+            roleName: string;
+        };
+        LoginRequest: {
+            /** Format: email */
+            email: string;
+            password: string;
+        };
+        TokenResponse: {
+            accessToken?: string;
+        };
+        UserSkillDetail: {
+            domainName?: string;
+            levelName?: string;
+            rankValue?: number;
+        };
+        /** @description Zagregowany obiekt DTO dla widoku listy, zapobiegający problemowi N+1. */
+        UserListItem: {
+            id?: number;
+            firstName?: string;
+            lastName?: string;
+            email?: string;
+            active?: boolean;
+            roles?: string[];
+            skills?: components["schemas"]["UserSkillDetail"][];
+        };
+        UserListPage: {
+            content?: components["schemas"]["UserListItem"][];
+            totalElements?: number;
+            totalPages?: number;
+            size?: number;
+            number?: number;
+        };
+        ExpertSearchCriteria: {
+            /** @example Java */
+            domainName: string;
+            /** @example 3 */
+            minRankValue: number;
+            /**
+             * @default GTE
+             * @enum {string}
+             */
+            operator: "EQ" | "GTE";
+        };
+        ExpertSearchRequest: {
+            criteria: components["schemas"]["ExpertSearchCriteria"][];
+            /**
+             * @example AND
+             * @enum {string}
+             */
+            logicalOperator: "AND" | "OR";
+        };
+        DomainRequest: {
+            name: string;
+            description?: string;
         };
     };
     responses: never;
