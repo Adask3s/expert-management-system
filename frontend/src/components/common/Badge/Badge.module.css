@@ -1,0 +1,104 @@
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2, 8px);
+    padding: var(--space-1, 4px) var(--space-3, 12px);
+    border-radius: var(--radius-full, 9999px);
+    font-size: var(--font-size-xs, 12px);
+    font-weight: var(--font-weight-medium, 500);
+    line-height: 1.2;
+    white-space: nowrap;
+    user-select: none;
+}
+
+/* Wariant: Domyślny */
+.default {
+    background-color: var(--color-bg-surface, #1c1c26);
+    color: var(--color-text-secondary, #9ca3af);
+    border: 1px solid var(--color-border-subtle, rgba(255, 255, 255, 0.08));
+}
+
+/* Wariant: Status */
+.status {
+    background-color: transparent;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.active {
+    color: var(--color-status-active-fg);
+}
+
+.active .dot {
+    background-color: var(--color-status-active-fg);
+    box-shadow: var(--shadow-active-status-glow);
+}
+
+.inactive {
+    color: var(--color-error);
+}
+
+.inactive .dot {
+    background-color: var(--color-error);
+    box-shadow: var(--shadow-inactive-status-glow);
+}
+
+/* Wariant: Skill (Umiejętność) */
+.skill {
+    background-color: var(--color-bg-surface, #1c1c26);
+    color: var(--color-text-primary, #ffffff);
+    border: 1px solid var(--color-border-subtle, rgba(255, 255, 255, 0.08));
+}
+
+/* Kropka dekoracyjna wewnątrz Badge'a */
+.dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.skill .dot {
+    background-color: var(--color-brand-text, #8ec5ff);
+}
+
+/* Warianty poziomów (dla wariantu: skill) */
+/* Poziom 1: Awareness */
+.level1 {
+    background-color: var(--color-level-awareness-bg);
+    color: var(--color-level-awareness-fg);
+}
+
+.level1 .dot {
+    background-color: var(--color-level-awareness-dot);
+}
+
+/* Poziom 2: Functional */
+.level2 {
+    background-color: var(--color-level-functional-bg);
+    color: var(--color-level-functional-fg);
+}
+
+.level2 .dot {
+    background-color: var(--color-level-functional-dot);
+}
+
+/* Poziom 3: Professional */
+.level3 {
+    background-color: var(--color-level-professional-bg);
+    color: var(--color-level-professional-fg);
+}
+
+.level3 .dot {
+    background-color: var(--color-level-professional-dot);
+}
+
+/* Poziom 4: Master */
+.level4 {
+    background-color: var(--color-level-master-bg);
+    color: var(--color-level-master-fg);
+}
+
+.level4 .dot {
+    background-color: var(--color-level-master-dot);
+}

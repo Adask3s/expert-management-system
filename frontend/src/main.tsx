@@ -6,6 +6,7 @@ import App from './App.tsx'
 
 // Globalny import tokenów - deklaruje zmienne :root w całej aplikacji
 import './styles/tokens.css';
+import './index.css'
 
 // tworzymy instancję QueryClient do zarządzania zapytaniami REST API
 const queryClient = new QueryClient({

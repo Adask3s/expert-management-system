@@ -1,38 +1,51 @@
-/* czysty rerest CSS - podpinamy font Inter, wyrównujemy zachowanie przeglądarek */
-
-/* Box sizing reset */
-*,
-*::before,
-*::after {
+/* CSS RESET & NORMALIZE
+ * Wymuszamy przewidywalny model pudełkowy (box-model) dla wszystkich elementów.
+ */
+*, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-/* Podstawowe ustawienia dokumentu */
-html,
+/* GLOBALNE STYLE (BODY)
+ * Aplikujemy tokeny semantyczne do głównego kontenera aplikacji.
+ */
 body {
-    height: 100%;
-    width: 100%;
-    background-color: var(--color-bg-app);
+    /* Tło i kolor tekstu */
+    background-color: var(--color-bg-app); /* Zgodnie z tokenami - tło głównego obszaru */
     color: var(--color-text-primary);
-    font-family: var(--font-family-sans);
-    font-size: var(--font-size-base);
+
+    /* Typografia bazowa */
+    font-family: var(--font-family-sans); /* 'Inter' i fallbacki */
+    font-size: var(--font-size-base); /* Domyślnie 12px w naszym systemie */
+    font-weight: var(--font-weight-regular);
+
+    /* Poprawa renderowania czcionek na systemach MacOS/Windows */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-}
 
-#root {
+    /* Ustawienia układu */
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    line-height: 1.5;
+    overflow-x: hidden;
 }
 
-/* Wygładzenie dla elementów interaktywnych */
-button,
-input,
-select,
-textarea {
-    font: inherit;
+/* RESET ELEMENTÓW INTERAKTYWNYCH
+ * Domyślnie inputy i buttony nie dziedziczą fontów z body.
+ * Wymuszamy to zachowanie.
+ */
+button, input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+}
+
+/* RESET LIST I LINKÓW */
+ul, ol {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
     color: inherit;
 }

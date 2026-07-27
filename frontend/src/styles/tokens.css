@@ -186,6 +186,7 @@
     --shadow-card-purple: 0px 10px 7.5px rgba(142, 81, 255, 0.1), 0px 4px 3px rgba(142, 81, 255, 0.1);
     --shadow-card-orange: 0px 10px 7.5px rgba(254, 154, 0, 0.1), 0px 4px 3px rgba(254, 154, 0, 0.1);
     --shadow-button: 0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
-    --shadow-status-glow: 0px 0px 5px 0px var(--color-status-active-glow);
+    --shadow-active-status-glow: 0px 0px 5px 0px var(--color-status-active-glow);
+    --shadow-inactive-status-glow: 0px 0px 5px 0px var(--color-error);
     --shadow-modal-card: 0px 25px 50px -12px rgba(0, 0, 0, 0.25);
 }
