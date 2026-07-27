@@ -1,0 +1,17 @@
+.avatarWrapper {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-segment-active-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-border-subtle);
+    flex-shrink: 0;
+}
+
+.avatarIcon {
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
+}
