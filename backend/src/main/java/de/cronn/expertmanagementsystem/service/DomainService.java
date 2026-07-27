@@ -2,9 +2,10 @@ package de.cronn.expertmanagementsystem.service;
 
 import de.cronn.expertmanagementsystem.entity.Domain;
 import de.cronn.expertmanagementsystem.repository.DomainRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class DomainService {
@@ -15,8 +16,13 @@ public class DomainService {
         this.domainRepository = domainRepository;
     }
 
-    public List<Domain> getAllDomains() {
-        return domainRepository.findAll();
+    public Page<Domain> getDomains(String name, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        if (name != null && !name.isBlank()) {
+            return domainRepository.findByNameContainingIgnoreCase(name, pageable);
+        }
+
+        return domainRepository.findAll(pageable);
     }
 
     public Domain createDomain(Domain domain) {

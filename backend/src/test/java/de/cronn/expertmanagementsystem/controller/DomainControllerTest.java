@@ -16,8 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.List;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
@@ -47,6 +45,7 @@ class DomainControllerTest {
 
     @Test
     void shouldReturnAllDomainsWithStatus200() throws Exception {
+        // GIVEN
         Domain domain = new Domain();
         domain.setId(1L);
         domain.setName("Backend");
@@ -55,14 +54,21 @@ class DomainControllerTest {
         domainDto.setId(1);
         domainDto.setName("Backend");
 
-        when(domainService.getAllDomains()).thenReturn(List.of(domain));
-        when(domainMapper.toDto(domain)).thenReturn(domainDto);
+        org.springframework.data.domain.Page<Domain> domainPage = new org.springframework.data.domain.PageImpl<>(java.util.List.of(domain));
 
-        mockMvc.perform(get("/domains")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.size()").value(1))
-                .andExpect(jsonPath("$[0].name").value("Backend"));
+        org.mockito.Mockito.when(domainService.getDomains(
+                org.mockito.ArgumentMatchers.any(),
+                org.mockito.ArgumentMatchers.anyInt(),
+                org.mockito.ArgumentMatchers.anyInt()
+        )).thenReturn(domainPage);
+
+        org.mockito.Mockito.when(domainMapper.toDto(domain)).thenReturn(domainDto);
+
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/domains")
+                        .contentType(org.springframework.http.MediaType.APPLICATION_JSON))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.status().isOk())
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.size()").value(1))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$[0].name").value("Backend"));
     }
 
     @Test

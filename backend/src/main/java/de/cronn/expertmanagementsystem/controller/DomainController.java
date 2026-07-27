@@ -12,7 +12,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 public class DomainController implements DomainsApi {
@@ -25,12 +24,21 @@ public class DomainController implements DomainsApi {
         this.domainMapper = domainMapper;
     }
 
+
     @Override
-    public ResponseEntity<List<DomainDto>> domainsGet() {
-        List<DomainDto> respone = domainService.getAllDomains().stream()
+    public ResponseEntity<List<DomainDto>> domainsGet(String name, Integer page, Integer size) {
+
+        int pageNumber = page != null ? page : 0;
+        int pageSize = size != null ? size : 10;
+
+        org.springframework.data.domain.Page<de.cronn.expertmanagementsystem.entity.Domain> domainPage =
+                domainService.getDomains(name, pageNumber, pageSize);
+
+        List<DomainDto> dtoList = domainPage.getContent().stream()
                 .map(domainMapper::toDto)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(respone);
+                .toList();
+
+        return ResponseEntity.ok(dtoList);
     }
 
     @Override

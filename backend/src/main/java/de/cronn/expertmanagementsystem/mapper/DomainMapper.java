@@ -17,6 +17,7 @@ public class DomainMapper {
             dto.setId(domain.getId().intValue());
         }
         dto.setName(domain.getName());
+        dto.setDescription(domain.getDescription());
         return dto;
     }
 

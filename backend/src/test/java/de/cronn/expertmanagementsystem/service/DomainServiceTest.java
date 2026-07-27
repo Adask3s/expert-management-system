@@ -7,6 +7,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,23 +28,22 @@ class DomainServiceTest {
     private DomainService domainService;
 
     @Test
-    void shouldReturnAllDomains() {
-        Domain domain1 = new Domain();
-        domain1.setId(1L);
-        domain1.setName("Backend");
+    void shouldReturnDomainsPage() {
+        Domain domain = new Domain();
+        domain.setId(1L);
+        domain.setName("Backend");
 
-        Domain domain2 = new Domain();
-        domain2.setId(2L);
-        domain2.setName("Frontend");
+        Page<Domain> page = new PageImpl<>(List.of(domain));
 
-        when(domainRepository.findAll()).thenReturn(List.of(domain1, domain2));
+        when(domainRepository.findAll(any(Pageable.class)))
+                .thenReturn(page);
 
-        List<Domain> result = domainService.getAllDomains();
+        Page<Domain> result = domainService.getDomains(null, 0, 10);
 
-        assertThat(result).hasSize(2);
-        assertThat(result.get(0).getName()).isEqualTo("Backend");
-        assertThat(result.get(1).getName()).isEqualTo("Frontend");
-        verify(domainRepository, times(1)).findAll();
+        assertThat(result.getContent()).hasSize(1);
+        assertThat(result.getContent().get(0).getName()).isEqualTo("Backend");
+        verify(domainRepository, times(1))
+                .findAll(any(Pageable.class));
     }
 
     @Test

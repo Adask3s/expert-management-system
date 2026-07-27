@@ -126,7 +126,28 @@ paths:
   /domains:
     get:
       tags: [ Domains ]
-      summary: Pobierz wszystkie domeny
+      summary: Pobierz listę domen
+      parameters:
+        - name: name
+          in: query
+          description: Filtruj domeny po nazwie
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Numer strony (od 0)
+          required: false
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          description: Liczba elementów na stronie
+          required: false
+          schema:
+            type: integer
+            default: 10
       responses:
         '200':
           description: Lista domen
@@ -357,6 +378,22 @@ components:
           format: email
         active:
           type: boolean
+    DomainPage:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Domain'
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+        size:
+          type: integer
+        number:
+          type: integer
 
     User:
       type: object
