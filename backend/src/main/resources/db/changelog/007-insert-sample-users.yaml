@@ -1,0 +1,146 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-insert-sample-users
+      author: szymon
+      context: dev
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: "first_name", value: "Jan" }
+              - column: { name: "last_name", value: "Kowalski" }
+              - column: { name: "email", value: "jan.kowalski1@example.com" }
+              - column: { name: "active", valueBoolean: "true" }
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: "first_name", value: "Piotr" }
+              - column: { name: "last_name", value: "Nowak" }
+              - column: { name: "email", value: "piotr.nowak2@example.com" }
+              - column: { name: "active", valueBoolean: "true" }
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: "first_name", value: "Paweł" }
+              - column: { name: "last_name", value: "Wiśniewski" }
+              - column: { name: "email", value: "pawel.wisniewski3@example.com" }
+              - column: { name: "active", valueBoolean: "false" }
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: "first_name", value: "Michał" }
+              - column: { name: "last_name", value: "Wójcik" }
+              - column: { name: "email", value: "michal.wojcik4@example.com" }
+              - column: { name: "active", valueBoolean: "true" }
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: "first_name", value: "Tomasz" }
+              - column: { name: "last_name", value: "Kowalczyk" }
+              - column: { name: "email", value: "tomasz.kowalczyk5@example.com" }
+              - column: { name: "active", valueBoolean: "true" }
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: "first_name", value: "Adam" }
+              - column: { name: "last_name", value: "Kamiński" }
+              - column: { name: "email", value: "adam.kaminski6@example.com" }
+              - column: { name: "active", valueBoolean: "false" }
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: "first_name", value: "Krzysztof" }
+              - column: { name: "last_name", value: "Lewandowski" }
+              - column: { name: "email", value: "krzysztof.lewandowski7@example.com" }
+              - column: { name: "active", valueBoolean: "true" }
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: "first_name", value: "Marcin" }
+              - column: { name: "last_name", value: "Zieliński" }
+              - column: { name: "email", value: "marcin.zielinski8@example.com" }
+              - column: { name: "active", valueBoolean: "true" }
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: "first_name", value: "Marek" }
+              - column: { name: "last_name", value: "Szymański" }
+              - column: { name: "email", value: "marek.szymanski9@example.com" }
+              - column: { name: "active", valueBoolean: "false" }
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: "first_name", value: "Łukasz" }
+              - column: { name: "last_name", value: "Woźniak" }
+              - column: { name: "email", value: "lukasz.wozniak10@example.com" }
+              - column: { name: "active", valueBoolean: "true" }
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: "first_name", value: "Anna" }
+              - column: { name: "last_name", value: "Dąbrowska" }
+              - column: { name: "email", value: "anna.dabrowska11@example.com" }
+              - column: { name: "active", valueBoolean: "true" }
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: "first_name", value: "Maria" }
+              - column: { name: "last_name", value: "Kozłowska" }
+              - column: { name: "email", value: "maria.kozlowska12@example.com" }
+              - column: { name: "active", valueBoolean: "true" }
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: "first_name", value: "Katarzyna" }
+              - column: { name: "last_name", value: "Jankowska" }
+              - column: { name: "email", value: "katarzyna.jankowska13@example.com" }
+              - column: { name: "active", valueBoolean: "true" }
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: "first_name", value: "Małgorzata" }
+              - column: { name: "last_name", value: "Mazur" }
+              - column: { name: "email", value: "malgorzata.mazur14@example.com" }
+              - column: { name: "active", valueBoolean: "true" }
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: "first_name", value: "Agnieszka" }
+              - column: { name: "last_name", value: "Wojciechowska" }
+              - column: { name: "email", value: "agnieszka.wojciechowska15@example.com" }
+              - column: { name: "active", valueBoolean: "true" }
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: "first_name", value: "Ewa" }
+              - column: { name: "last_name", value: "Kwiatkowska" }
+              - column: { name: "email", value: "ewa.kwiatkowska16@example.com" }
+              - column: { name: "active", valueBoolean: "true" }
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: "first_name", value: "Magdalena" }
+              - column: { name: "last_name", value: "Krawczyk" }
+              - column: { name: "email", value: "magdalena.krawczyk17@example.com" }
+              - column: { name: "active", valueBoolean: "true" }
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: "first_name", value: "Elżbieta" }
+              - column: { name: "last_name", value: "Kaczmarek" }
+              - column: { name: "email", value: "elzbieta.kaczmarek18@example.com" }
+              - column: { name: "active", valueBoolean: "false" }
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: "first_name", value: "Joanna" }
+              - column: { name: "last_name", value: "Piotrowska" }
+              - column: { name: "email", value: "joanna.piotrowska19@example.com" }
+              - column: { name: "active", valueBoolean: "true" }
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: "first_name", value: "Monika" }
+              - column: { name: "last_name", value: "Grabowska" }
+              - column: { name: "email", value: "monika.grabowska20@example.com" }
+              - column: { name: "active", valueBoolean: "true" }
