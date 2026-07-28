@@ -3,8 +3,8 @@ package de.cronn.expertmanagementsystem.mapper;
 import de.cronn.expertmanagementsystem.entity.Role;
 import de.cronn.expertmanagementsystem.entity.User;
 import de.cronn.expertmanagementsystem.model.UserDto;
-import de.cronn.expertmanagementsystem.model.UserListPageDto;
 import de.cronn.expertmanagementsystem.model.UserListItemDto;
+import de.cronn.expertmanagementsystem.model.UserListPageDto;
 import de.cronn.expertmanagementsystem.model.UserRequestDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -14,7 +14,7 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 import java.util.Set;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {UserSkillMapper.class})
 public interface UserMapper {
 
     UserDto toDto(User entity);

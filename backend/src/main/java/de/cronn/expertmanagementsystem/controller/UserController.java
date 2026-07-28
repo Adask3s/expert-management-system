@@ -1,11 +1,10 @@
 package de.cronn.expertmanagementsystem.controller;
 
 import de.cronn.expertmanagementsystem.api.UsersApi;
-import de.cronn.expertmanagementsystem.service.UserService;
 import de.cronn.expertmanagementsystem.model.*;
-
+import de.cronn.expertmanagementsystem.service.UserService;
+import de.cronn.expertmanagementsystem.service.UserSkillService;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -18,7 +17,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class UserController implements UsersApi {
-
+    private final UserSkillService userSkillService;
     private final UserService userService;
 
     @Override
@@ -74,14 +73,14 @@ public class UserController implements UsersApi {
     // user_skills table
     @Override
     public ResponseEntity<List<UserSkillDetailDto>> usersUserIdSkillsGet(Integer userId) {
-        // 200
-        return null;
+        List<UserSkillDetailDto> userSkills = userSkillService.getUserSkills(userId.longValue());
+        return ResponseEntity.ok(userSkills);
     }
 
     // user_skills table
     @Override
     public ResponseEntity<Void> usersUserIdSkillsPost(Integer userId, UserSkillRequestDto userSkillRequestDto) {
-        // 201
-        return null;
+        userSkillService.createUserSkill(userId.longValue(), userSkillRequestDto);
+        return ResponseEntity.noContent().build();
     }
 }
