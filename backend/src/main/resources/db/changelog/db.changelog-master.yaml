@@ -15,3 +15,5 @@ databaseChangeLog:
       file: db/changelog/007-insert-sample-users.yaml
   - include:
       file: db/changelog/008-insert-sample-domains.yaml
+  - include:
+      file: db/changelog/009-insert-sample-expertise-levels.yaml
