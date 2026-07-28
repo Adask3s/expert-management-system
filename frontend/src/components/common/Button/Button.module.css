@@ -1,0 +1,62 @@
+/* Klasa bazowa - resetuje domyślne style przeglądarki i ustawia wspólną anatomię dla przycisków */
+.base {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2); /* 8px odstępu między ikoną a tekstem */
+    padding: var(--space-2) var(--space-4); /* 8px góra/dół, 16px lewo/prawo */
+
+    font-family: var(--font-family-sans);
+    font-size: var(--font-size-base); /* 12px - drugorzędny tekst, przyciski */
+    font-weight: var(--font-weight-medium);
+
+    border-radius: var(--radius-full); /* pill buttons */
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.base:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Wariant Primary ("Apply Filters", "+ Add Employee") */
+.primary {
+    background-color: var(--color-brand-solid-button); /* var(--raw-blue-solid) z tokens.css */
+    color: var(--color-text-primary);
+    box-shadow: var(--shadow-button);
+}
+
+.primary:hover:not(:disabled) {
+    background-image: var(--color-brand-gradient);
+}
+
+/* Wariant Ghost ("Clear All") */
+.ghost {
+    background-color: transparent;
+    color: var(--color-text-secondary);
+}
+
+.ghost:hover:not(:disabled) {
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-surface-hover);
+}
+
+/* Wariant Danger ("Restore default", usuwanie ról) */
+.danger {
+    background-color: var(--color-danger-button-bg);
+    color: var(--color-text-primary);
+    border: 1px solid transparent; /* Zapobiega skokom layoutu, jeśli inne warianty dostaną border */
+}
+
+.danger:hover:not(:disabled) {
+    /* Używamy dedykowanego tokenu poświaty dla akcji niebezpiecznych */
+    box-shadow: 0px 0px 12px var(--color-danger-button-glow);
+    background-color: var(--color-error);
+}
+
+.iconWrapper {
+    display: flex;
+    align-items: center;
+}
