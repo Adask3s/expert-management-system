@@ -1,0 +1,56 @@
+.iconButton {
+    /* elastyczny kontener wewnątrz linii tekstu */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-1); /* zmienna z tokens.css */
+    /* bazowe tło przezroczyste i przezroczysta ramka - przycisk zyskuje kolor później */
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm); /* zaokrąglenie rogów */
+    cursor: pointer; /* wskaźnik gdy najedziemy */
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Stan zablokowany */
+.iconButton:disabled {
+    opacity: 0.5; /* półprzezroczysty */
+    cursor: not-allowed; /* uniemożliwiamy interakcję */
+}
+
+/* Dostępność - wyraźny focus tylko przy nawigacji klawiaturą */
+.iconButton:focus-visible {
+    /* akcenty kolorystyczne */
+    outline: 2px solid var(--color-brand-solid-button);
+    outline-offset: 2px;
+}
+
+/* Wariant 1. - Domyślny (np. Edycja) */
+.default {
+    color: var(--color-text-secondary);
+}
+
+/* zmiana tła po najechaniu kursorem */
+.default:not(:disabled):hover {
+    background-color: var(--color-bg-surface-hover);
+}
+
+/* Wariant 2. - Niebezpieczny (np. Usuwanie) */
+.danger {
+    color: var(--color-text-secondary);
+}
+
+/* zmiana tła po najechaniu kursorem */
+.danger:not(:disabled):hover {
+    background-color: var(--color-danger-button-glow);
+    box-shadow: 0 0 8px var(--color-danger-button-glow); /* poświata */
+}
+
+.icon {
+
+    width: var(--space-4); /* 16px */
+    height: var(--space-4); /* 16px */
+
+    /* Gwarantujemy, że grafika zachowa proporcje we wskazanym kwadracie */
+    object-fit: contain;
+}
