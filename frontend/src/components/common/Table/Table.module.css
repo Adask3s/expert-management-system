@@ -1,0 +1,65 @@
+.tableContainer {
+    width: 100%;
+    background-color: var(--color-bg-surface);
+    border: 1px solid var(--color-border-card);
+    border-radius: var(--radius-lg);
+    overflow: hidden; /* Zabezpieczenie rogów karty tabeli */
+    box-shadow: var(--shadow-modal-card);
+}
+
+.tableElement {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-family: var(--font-family-sans);
+}
+
+/* Nagłówek tabeli */
+.tableElement th {
+    background-color: var(--color-bg-table-header);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--color-border-default);
+}
+
+/* Wiersze tabeli */
+.tableElement td {
+    padding: var(--space-4);
+    font-size: var(--font-size-base);
+    color: var(--color-text-primary);
+    border-bottom: 1px solid var(--color-border-subtle);
+    white-space: nowrap;
+}
+
+/* Ostatni wiersz nie potrzebuje dolnej ramki */
+.tableElement tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Interaktywny hover wiersza z użyciem tokena */
+.tableElement tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.tableElement tbody tr:hover {
+    background-color: var(--color-bg-row-highlight);
+}
+
+/* Pusty stan tabeli (Empty State) */
+.tableEmptyState {
+    text-align: center;
+    padding: var(--space-6);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-md);
+}
+
+/* Slot na paginację na dole karty tabeli */
+.tablePaginationSlot {
+    padding: var(--space-3) var(--space-4);
+    border-top: 1px solid var(--color-border-default);
+    background-color: var(--color-bg-surface);
+}
