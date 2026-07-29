@@ -1,0 +1,366 @@
+databaseChangeLog:
+  - changeSet:
+      id: 010-insert-sample-user-skills
+      author: jonatan
+      context: dev
+      changes:
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "1" }
+              - column: { name: "domain_id", value: "1" }
+              - column: { name: "expertise_level_id", value: "1" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "1" }
+              - column: { name: "domain_id", value: "10" }
+              - column: { name: "expertise_level_id", value: "4" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "2" }
+              - column: { name: "domain_id", value: "1" }
+              - column: { name: "expertise_level_id", value: "3" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "2" }
+              - column: { name: "domain_id", value: "4" }
+              - column: { name: "expertise_level_id", value: "3" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "2" }
+              - column: { name: "domain_id", value: "6" }
+              - column: { name: "expertise_level_id", value: "4" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "3" }
+              - column: { name: "domain_id", value: "5" }
+              - column: { name: "expertise_level_id", value: "4" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "3" }
+              - column: { name: "domain_id", value: "8" }
+              - column: { name: "expertise_level_id", value: "2" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "4" }
+              - column: { name: "domain_id", value: "1" }
+              - column: { name: "expertise_level_id", value: "2" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "4" }
+              - column: { name: "domain_id", value: "8" }
+              - column: { name: "expertise_level_id", value: "2" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "5" }
+              - column: { name: "domain_id", value: "1" }
+              - column: { name: "expertise_level_id", value: "2" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "5" }
+              - column: { name: "domain_id", value: "4" }
+              - column: { name: "expertise_level_id", value: "1" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "5" }
+              - column: { name: "domain_id", value: "6" }
+              - column: { name: "expertise_level_id", value: "4" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "5" }
+              - column: { name: "domain_id", value: "7" }
+              - column: { name: "expertise_level_id", value: "1" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "5" }
+              - column: { name: "domain_id", value: "8" }
+              - column: { name: "expertise_level_id", value: "1" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "5" }
+              - column: { name: "domain_id", value: "10" }
+              - column: { name: "expertise_level_id", value: "2" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "6" }
+              - column: { name: "domain_id", value: "2" }
+              - column: { name: "expertise_level_id", value: "2" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "6" }
+              - column: { name: "domain_id", value: "4" }
+              - column: { name: "expertise_level_id", value: "4" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "6" }
+              - column: { name: "domain_id", value: "8" }
+              - column: { name: "expertise_level_id", value: "4" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "6" }
+              - column: { name: "domain_id", value: "10" }
+              - column: { name: "expertise_level_id", value: "4" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "7" }
+              - column: { name: "domain_id", value: "10" }
+              - column: { name: "expertise_level_id", value: "2" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "8" }
+              - column: { name: "domain_id", value: "2" }
+              - column: { name: "expertise_level_id", value: "3" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "9" }
+              - column: { name: "domain_id", value: "4" }
+              - column: { name: "expertise_level_id", value: "4" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "9" }
+              - column: { name: "domain_id", value: "7" }
+              - column: { name: "expertise_level_id", value: "1" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "10" }
+              - column: { name: "domain_id", value: "3" }
+              - column: { name: "expertise_level_id", value: "2" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "10" }
+              - column: { name: "domain_id", value: "10" }
+              - column: { name: "expertise_level_id", value: "4" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "11" }
+              - column: { name: "domain_id", value: "3" }
+              - column: { name: "expertise_level_id", value: "1" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "11" }
+              - column: { name: "domain_id", value: "5" }
+              - column: { name: "expertise_level_id", value: "1" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "12" }
+              - column: { name: "domain_id", value: "1" }
+              - column: { name: "expertise_level_id", value: "3" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "12" }
+              - column: { name: "domain_id", value: "2" }
+              - column: { name: "expertise_level_id", value: "2" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "12" }
+              - column: { name: "domain_id", value: "5" }
+              - column: { name: "expertise_level_id", value: "3" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "12" }
+              - column: { name: "domain_id", value: "9" }
+              - column: { name: "expertise_level_id", value: "2" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "12" }
+              - column: { name: "domain_id", value: "10" }
+              - column: { name: "expertise_level_id", value: "1" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "13" }
+              - column: { name: "domain_id", value: "1" }
+              - column: { name: "expertise_level_id", value: "2" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "13" }
+              - column: { name: "domain_id", value: "10" }
+              - column: { name: "expertise_level_id", value: "1" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "14" }
+              - column: { name: "domain_id", value: "7" }
+              - column: { name: "expertise_level_id", value: "4" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "14" }
+              - column: { name: "domain_id", value: "8" }
+              - column: { name: "expertise_level_id", value: "4" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "14" }
+              - column: { name: "domain_id", value: "9" }
+              - column: { name: "expertise_level_id", value: "3" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "15" }
+              - column: { name: "domain_id", value: "1" }
+              - column: { name: "expertise_level_id", value: "2" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "15" }
+              - column: { name: "domain_id", value: "2" }
+              - column: { name: "expertise_level_id", value: "3" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "15" }
+              - column: { name: "domain_id", value: "4" }
+              - column: { name: "expertise_level_id", value: "1" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "15" }
+              - column: { name: "domain_id", value: "6" }
+              - column: { name: "expertise_level_id", value: "1" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "15" }
+              - column: { name: "domain_id", value: "7" }
+              - column: { name: "expertise_level_id", value: "2" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "16" }
+              - column: { name: "domain_id", value: "1" }
+              - column: { name: "expertise_level_id", value: "4" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "16" }
+              - column: { name: "domain_id", value: "2" }
+              - column: { name: "expertise_level_id", value: "1" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "17" }
+              - column: { name: "domain_id", value: "1" }
+              - column: { name: "expertise_level_id", value: "4" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "17" }
+              - column: { name: "domain_id", value: "3" }
+              - column: { name: "expertise_level_id", value: "3" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "17" }
+              - column: { name: "domain_id", value: "4" }
+              - column: { name: "expertise_level_id", value: "4" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "17" }
+              - column: { name: "domain_id", value: "7" }
+              - column: { name: "expertise_level_id", value: "3" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "17" }
+              - column: { name: "domain_id", value: "9" }
+              - column: { name: "expertise_level_id", value: "3" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "18" }
+              - column: { name: "domain_id", value: "3" }
+              - column: { name: "expertise_level_id", value: "4" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "18" }
+              - column: { name: "domain_id", value: "4" }
+              - column: { name: "expertise_level_id", value: "2" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "18" }
+              - column: { name: "domain_id", value: "5" }
+              - column: { name: "expertise_level_id", value: "2" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "18" }
+              - column: { name: "domain_id", value: "10" }
+              - column: { name: "expertise_level_id", value: "3" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "19" }
+              - column: { name: "domain_id", value: "3" }
+              - column: { name: "expertise_level_id", value: "1" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "19" }
+              - column: { name: "domain_id", value: "4" }
+              - column: { name: "expertise_level_id", value: "4" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "19" }
+              - column: { name: "domain_id", value: "5" }
+              - column: { name: "expertise_level_id", value: "1" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "19" }
+              - column: { name: "domain_id", value: "6" }
+              - column: { name: "expertise_level_id", value: "1" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "20" }
+              - column: { name: "domain_id", value: "4" }
+              - column: { name: "expertise_level_id", value: "2" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "20" }
+              - column: { name: "domain_id", value: "7" }
+              - column: { name: "expertise_level_id", value: "3" }
+        - insert:
+            tableName: user_skills
+            columns:
+              - column: { name: "user_id", value: "20" }
+              - column: { name: "domain_id", value: "10" }
+              - column: { name: "expertise_level_id", value: "4" }
