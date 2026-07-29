@@ -2,29 +2,28 @@ package de.cronn.expertmanagementsystem.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.cronn.expertmanagementsystem.config.SecurityConfig;
-import de.cronn.expertmanagementsystem.model.UserDto;
-import de.cronn.expertmanagementsystem.model.UserListPageDto;
-import de.cronn.expertmanagementsystem.model.UserRequestDto;
+import de.cronn.expertmanagementsystem.model.*;
 import de.cronn.expertmanagementsystem.service.UserService;
-
+import de.cronn.expertmanagementsystem.service.UserSkillService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.util.List;
 
 import static org.hamcrest.Matchers.endsWith;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(UserController.class)
 @Import(SecurityConfig.class)
@@ -37,6 +36,9 @@ class UserControllerTest {
 
     @MockitoBean
     private UserService userService;
+
+    @MockitoBean
+    private UserSkillService userSkillService;
 
     // endpoint classes should test unhappy paths later - after exception handling implementation
     @Nested
@@ -159,6 +161,54 @@ class UserControllerTest {
             mockMvc.perform(delete("/users/{id}", userId));
 
             verify(userService).deleteUser(userId.longValue()); // weird int-long typing again
+        }
+    }
+
+    @Nested
+    @DisplayName("GET /users/{userId}/skills")
+    class GetUserSkillsTests {
+
+        @Test
+        void shouldReturn200AndListOfSkills() throws Exception {
+            // given
+            Integer userId = 1;
+            UserSkillDetailDto skillDto = new UserSkillDetailDto();
+            skillDto.setDomainName("Java");
+            skillDto.setLevelName("Professional");
+            skillDto.setRankValue(3);
+
+            when(userSkillService.getUserSkills(userId.longValue())).thenReturn(List.of(skillDto));
+
+            // when & then
+            mockMvc.perform(get("/users/{userId}/skills", userId))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$[0].domainName").value("Java"))
+                    .andExpect(jsonPath("$[0].levelName").value("Professional"))
+                    .andExpect(jsonPath("$[0].rankValue").value(3));
+
+            verify(userSkillService).getUserSkills(userId.longValue());
+        }
+    }
+
+    @Nested
+    @DisplayName("POST /users/{userId}/skills")
+    class CreateUserSkillTests {
+
+        @Test
+        void shouldReturn204WhenSkillIsAssigned() throws Exception {
+            // given
+            Integer userId = 1;
+            UserSkillRequestDto requestDto = new UserSkillRequestDto();
+            requestDto.setDomainId(1);
+            requestDto.setExpertiseLevelId(2);
+
+            // when & then
+            mockMvc.perform(post("/users/{userId}/skills", userId)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(requestDto)))
+                    .andExpect(status().isNoContent());
+
+            verify(userSkillService).createUserSkill(eq(userId.longValue()), any(UserSkillRequestDto.class));
         }
     }
 }
