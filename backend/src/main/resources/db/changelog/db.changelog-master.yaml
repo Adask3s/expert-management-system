@@ -19,3 +19,5 @@ databaseChangeLog:
       file: db/changelog/009-insert-sample-expertise-levels.yaml
   - include:
       file: db/changelog/010-insert-sample-user-skills.yaml
+  - include:
+      file: db/changelog/011-add-user-search-text-column.yaml

@@ -3,6 +3,7 @@ package de.cronn.expertmanagementsystem.controller;
 import de.cronn.expertmanagementsystem.api.UsersApi;
 import de.cronn.expertmanagementsystem.model.*;
 import de.cronn.expertmanagementsystem.service.UserService;
+import de.cronn.expertmanagementsystem.service.UserService;
 import de.cronn.expertmanagementsystem.service.UserSkillService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +22,8 @@ public class UserController implements UsersApi {
     private final UserService userService;
 
     @Override
-    public ResponseEntity<UserListPageDto> usersGet(Integer page, Integer size) {
-        UserListPageDto userListPageDto = userService.getAllUsers(page, size);
+    public ResponseEntity<UserListPageDto> usersGet(String search, Integer page, Integer size) {
+        UserListPageDto userListPageDto = userService.getAllUsers(search, page, size);
         return ResponseEntity.ok(userListPageDto);
     }
 

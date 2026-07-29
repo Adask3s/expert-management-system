@@ -33,8 +33,14 @@ paths:
   /users:
     get:
       tags: [ Users ]
-      summary: Pobierz wszystkich użytkowników z ich rolami i kompetencjami (DTO Listy)
+      summary: Pobierz wszystkich użytkowników z możliwością filtrowania po frazie (search)
       parameters:
+        - name: search
+          in: query
+          description: Fraza wyszukiwania (dopasowuje fragment imienia, nazwiska lub adresu email)
+          required: false
+          schema:
+            type: string
         - name: page
           in: query
           required: false
@@ -154,9 +160,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Domain'
+                $ref: '#/components/schemas/DomainPageDto'
     post:
       tags: [ Domains ]
       summary: Utwórz domenę
@@ -395,6 +399,26 @@ components:
         number:
           type: integer
 
+    DomainPageDto:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Domain'
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        number:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+
     User:
       type: object
       required:
@@ -499,6 +523,12 @@ components:
     UserListItem:
       type: object
       description: Zagregowany obiekt DTO dla widoku listy, zapobiegający problemowi N+1.
+      required:
+        - id
+        - firstName
+        - lastName
+        - email
+        - active
       properties:
         id:
           type: integer

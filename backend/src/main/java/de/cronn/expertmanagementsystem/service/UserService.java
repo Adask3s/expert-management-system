@@ -30,16 +30,22 @@ public class UserService {
     private final SearchQueryBuilder searchQueryBuilder;
 
     @Transactional(readOnly = true)
-    public UserListPageDto getAllUsers(Integer page, Integer size) {
+    public UserListPageDto getAllUsers(String search, Integer page, Integer size) {
         int pageNumber = (page != null) ? page : 0;
         int pageSize = (size != null) ? size : 10;
 
+        String searchPattern = null;
+        if (search != null && !search.isBlank()) {
+            searchPattern = "%" + search.toLowerCase().trim() + "%";
+        }
+        
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<User> userPage;
 
-        Page<UserListItemDto> userPage = userRepository.findAll(pageable)
-                .map(userMapper::toListItemDto);
+        userPage = userRepository.findByNameSearchQuery(searchPattern, pageable);
 
-        return userMapper.toUserListPageDto(userPage);
+        Page<UserListItemDto> dtoPage = userPage.map(userMapper::toListItemDto);
+        return userMapper.toUserListPageDto(dtoPage);
     }
 
     @Transactional(readOnly = true)
@@ -47,7 +53,7 @@ public class UserService {
         List<ExpertSearchCriteriaDto> criteria = searchCriteriaBuilder.build(searchRequestDto);
 
         if (criteria.isEmpty()) {
-            return getAllUsers(null, null);
+            return getAllUsers(null, null, null);
         }
 
         SearchQuery searchQuery = searchQueryBuilder.buildQuery(

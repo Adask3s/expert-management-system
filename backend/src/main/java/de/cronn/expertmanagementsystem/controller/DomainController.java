@@ -4,6 +4,7 @@ import de.cronn.expertmanagementsystem.api.DomainsApi;
 import de.cronn.expertmanagementsystem.entity.Domain;
 import de.cronn.expertmanagementsystem.mapper.DomainMapper;
 import de.cronn.expertmanagementsystem.model.DomainDto;
+import de.cronn.expertmanagementsystem.model.DomainPageDtoDto;
 import de.cronn.expertmanagementsystem.model.DomainRequestDto;
 import de.cronn.expertmanagementsystem.service.DomainService;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ public class DomainController implements DomainsApi {
 
 
     @Override
-    public ResponseEntity<List<DomainDto>> domainsGet(String name, Integer page, Integer size) {
+    public ResponseEntity<DomainPageDtoDto> domainsGet(String name, Integer page, Integer size) {
 
         int pageNumber = page != null ? page : 0;
         int pageSize = size != null ? size : 10;
@@ -38,7 +39,14 @@ public class DomainController implements DomainsApi {
                 .map(domainMapper::toDto)
                 .toList();
 
-        return ResponseEntity.ok(dtoList);
+        DomainPageDtoDto responseDto = new DomainPageDtoDto();
+        responseDto.setContent(dtoList);
+        responseDto.setTotalElements(domainPage.getTotalElements());
+        responseDto.setTotalPages(domainPage.getTotalPages());
+        responseDto.setNumber(domainPage.getNumber());
+        responseDto.setSize(domainPage.getSize());
+
+        return ResponseEntity.ok(responseDto);
     }
 
     @Override

@@ -8,6 +8,7 @@ import de.cronn.expertmanagementsystem.service.UserSkillService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
@@ -49,7 +50,7 @@ class UserControllerTest {
         void shouldReturn200AndUserListPage() throws Exception {
             // given
             UserListPageDto pageDto = new UserListPageDto();
-            when(userService.getAllUsers(0, 10)).thenReturn(pageDto);
+            when(userService.getAllUsers(null, 0, 10)).thenReturn(pageDto);
 
             // when & then
             mockMvc.perform(get("/users")
@@ -57,7 +58,7 @@ class UserControllerTest {
                             .param("size", "10"))
                     .andExpect(status().isOk());
 
-            verify(userService).getAllUsers(0, 10);
+            verify(userService).getAllUsers(null, 0, 10);
         }
     }
 

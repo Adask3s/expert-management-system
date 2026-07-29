@@ -35,10 +35,17 @@ public class User {
     )
     private Set<Role> roles = new HashSet<>();
 
+    @Column(name = "search_text", insertable = false, updatable = false)
+    private String searchText;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserSkill> skills = new ArrayList<>();
 
     public User() {
+    }
+
+    public String getSearchText() {
+        return searchText;
     }
 
     public List<UserSkill> getSkills() {
