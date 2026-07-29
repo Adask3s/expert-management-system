@@ -1,0 +1,56 @@
+databaseChangeLog:
+  - changeSet:
+      id: 008-insert-sample-domains
+      author: szymon
+      context: dev
+      changes:
+        - insert:
+            tableName: domains
+            columns:
+              - column: { name: "name", value: "Java" }
+              - column: { name: "description", value: "General-purpose object-oriented language for enterprise backend systems." }
+        - insert:
+            tableName: domains
+            columns:
+              - column: { name: "name", value: "Spring" }
+              - column: { name: "description", value: "Java framework for building production-grade web and microservice apps." }
+        - insert:
+            tableName: domains
+            columns:
+              - column: { name: "name", value: "React" }
+              - column: { name: "description", value: "Declarative component-based UI library for building interactive interfaces." }
+        - insert:
+            tableName: domains
+            columns:
+              - column: { name: "name", value: "SQL" }
+              - column: { name: "description", value: "Structured query language for relational database management and analytics." }
+        - insert:
+            tableName: domains
+            columns:
+              - column: { name: "name", value: "Docker" }
+              - column: { name: "description", value: "Containerisation platform for packaging and running isolated applications." }
+        - insert:
+            tableName: domains
+            columns:
+              - column: { name: "name", value: "Kubernetes" }
+              - column: { name: "description", value: "Container orchestration system for automating deployment and scaling." }
+        - insert:
+            tableName: domains
+            columns:
+              - column: { name: "name", value: "Python" }
+              - column: { name: "description", value: "Interpreted high-level language used for scripting, data, and automation." }
+        - insert:
+            tableName: domains
+            columns:
+              - column: { name: "name", value: "AWS" }
+              - column: { name: "description", value: "Amazon cloud platform providing compute, storage, and managed services." }
+        - insert:
+            tableName: domains
+            columns:
+              - column: { name: "name", value: "TypeScript" }
+              - column: { name: "description", value: "Strongly-typed superset of JavaScript for scalable web application code." }
+        - insert:
+            tableName: domains
+            columns:
+              - column: { name: "name", value: "PostgreSQL" }
+              - column: { name: "description", value: "Advanced open-source relational database with rich SQL compliance and JSONB." }

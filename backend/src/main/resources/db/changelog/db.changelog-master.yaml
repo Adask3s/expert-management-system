@@ -13,3 +13,5 @@ databaseChangeLog:
       file: db/changelog/006-create-user_role-table.yaml
   - include:
       file: db/changelog/007-insert-sample-users.yaml
+  - include:
+      file: db/changelog/008-insert-sample-domains.yaml
