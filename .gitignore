@@ -24,6 +24,7 @@ bin/
 *.ipr
 out/
 backend/target/
+**/target/
 !**/src/main/**/out/
 !**/src/test/**/out/
 backend/mvnw

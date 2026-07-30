@@ -51,10 +51,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Pobierz wszystkich użytkowników z ich rolami i kompetencjami (DTO Listy) */
+        /** Pobierz wszystkich użytkowników z możliwością filtrowania po frazie (search) */
         get: {
             parameters: {
                 query?: {
+                    /** @description Fraza wyszukiwania (dopasowuje fragment imienia, nazwiska lub adresu email) */
+                    search?: string;
                     page?: number;
                     size?: number;
                 };
@@ -198,10 +200,17 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Pobierz wszystkie domeny */
+        /** Pobierz listę domen */
         get: {
             parameters: {
-                query?: never;
+                query?: {
+                    /** @description Filtruj domeny po nazwie */
+                    name?: string;
+                    /** @description Numer strony (od 0) */
+                    page?: number;
+                    /** @description Liczba elementów na stronie */
+                    size?: number;
+                };
                 header?: never;
                 path?: never;
                 cookie?: never;
@@ -214,7 +223,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["Domain"][];
+                        "application/json": components["schemas"]["DomainPageDto"];
                     };
                 };
             };
@@ -602,6 +611,25 @@ export interface components {
             email: string;
             active: boolean;
         };
+        DomainPage: {
+            content?: components["schemas"]["Domain"][];
+            /** Format: int64 */
+            totalElements?: number;
+            totalPages?: number;
+            size?: number;
+            number?: number;
+        };
+        DomainPageDto: {
+            content?: components["schemas"]["Domain"][];
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+            /** Format: int32 */
+            number?: number;
+            /** Format: int32 */
+            size?: number;
+        };
         User: {
             id?: number;
             firstName: string;
@@ -649,11 +677,11 @@ export interface components {
         };
         /** @description Zagregowany obiekt DTO dla widoku listy, zapobiegający problemowi N+1. */
         UserListItem: {
-            id?: number;
-            firstName?: string;
-            lastName?: string;
-            email?: string;
-            active?: boolean;
+            id: number;
+            firstName: string;
+            lastName: string;
+            email: string;
+            active: boolean;
             roles?: string[];
             skills?: components["schemas"]["UserSkillDetail"][];
         };
