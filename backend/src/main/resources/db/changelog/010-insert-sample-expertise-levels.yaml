@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 009-insert-sample-expertise-levels
+      id: 010-insert-sample-expertise-levels
       author: jonatan
       context: dev
       changes:

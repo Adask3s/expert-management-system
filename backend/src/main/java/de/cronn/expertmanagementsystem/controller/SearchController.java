@@ -6,6 +6,7 @@ import de.cronn.expertmanagementsystem.model.UserListPageDto;
 import de.cronn.expertmanagementsystem.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -16,6 +17,7 @@ public class SearchController implements SearchApi {
     // paging in this endpoint can be done later
     // openapi doesn't allow for name or email search, so no tests for this method for now TODO later
     @Override
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<UserListPageDto> searchPost(ExpertSearchRequestDto expertSearchRequestDto) {
         UserListPageDto userListPageDto = userService.searchUsers(expertSearchRequestDto);
         return ResponseEntity.ok(userListPageDto);

@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - changeSet:
+      id: 015-insert-admin-user
+      author: jonatan
+      context: dev
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: "first_name", value: "Admin" }
+              - column: { name: "last_name", value: "System" }
+              - column: { name: "email", value: "admin@example.com" }
+              - column: { name: "active", valueBoolean: "true" }
+
+        - insert:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  valueComputed: "(SELECT id FROM users WHERE email = 'admin@example.com')"
+              - column:
+                  name: role_id
+                  valueComputed: "(SELECT id FROM roles WHERE name = 'ROLE_ADMIN')"

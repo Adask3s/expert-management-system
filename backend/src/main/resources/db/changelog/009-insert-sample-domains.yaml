@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 008-insert-sample-domains
+      id: 009-insert-sample-domains
       author: szymon
       context: dev
       changes:

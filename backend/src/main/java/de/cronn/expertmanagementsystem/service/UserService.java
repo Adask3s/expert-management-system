@@ -1,8 +1,10 @@
 package de.cronn.expertmanagementsystem.service;
 
+import de.cronn.expertmanagementsystem.entity.Role;
 import de.cronn.expertmanagementsystem.entity.User;
 import de.cronn.expertmanagementsystem.mapper.UserMapper;
 import de.cronn.expertmanagementsystem.model.*;
+import de.cronn.expertmanagementsystem.repository.RoleRepository;
 import de.cronn.expertmanagementsystem.repository.UserRepository;
 import de.cronn.expertmanagementsystem.service.search.SearchCriteriaBuilder;
 import de.cronn.expertmanagementsystem.service.search.SearchQuery;
@@ -24,6 +26,7 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final UserMapper userMapper;
     private final EntityManager entityManager;
     private final SearchCriteriaBuilder searchCriteriaBuilder;
@@ -114,5 +117,28 @@ public class UserService {
 
         credentialsProvider.deleteCredentials(user.getEmail());
         userRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void addRoleToUser(Long userId, String roleName) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
+
+        Role role = roleRepository.findByName(roleName)
+                .orElseThrow(() -> new EntityNotFoundException("Role not found with name: " + roleName));
+
+        user.addRole(role); // Wykorzystanie metody z encji
+        // Brak potrzeby userSave() - JPA Hibernate wyczyści zmiany dzięki @Transactional
+    }
+
+    @Transactional
+    public void removeRoleFromUser(Long userId, String roleName) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
+
+        Role role = roleRepository.findByName(roleName)
+                .orElseThrow(() -> new EntityNotFoundException("Role not found with name: " + roleName));
+
+        user.removeRole(role); // Wykorzystanie metody z encji
     }
 }

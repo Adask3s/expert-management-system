@@ -2,6 +2,7 @@ package de.cronn.expertmanagementsystem.service;
 
 import de.cronn.expertmanagementsystem.entity.UserCredentials;
 import de.cronn.expertmanagementsystem.repository.UserCredentialsRepository;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +13,7 @@ public class DatabaseCredentialsProvider {
     private final UserCredentialsRepository repository;
     private final PasswordEncoder passwordEncoder;
 
-    public DatabaseCredentialsProvider(UserCredentialsRepository repository, PasswordEncoder passwordEncoder) {
+    public DatabaseCredentialsProvider(UserCredentialsRepository repository, @Lazy PasswordEncoder passwordEncoder) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
     }

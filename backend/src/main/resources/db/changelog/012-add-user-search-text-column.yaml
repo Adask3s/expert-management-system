@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 011-add-user-search-text-column
+      id: 012-add-user-search-text-column
       author: jonatan
       context: dev
       changes:

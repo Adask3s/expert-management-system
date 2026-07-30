@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 007-insert-sample-users
+      id: 008-insert-sample-users
       author: szymon
       context: dev
       changes:

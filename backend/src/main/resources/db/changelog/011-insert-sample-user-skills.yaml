@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 010-insert-sample-user-skills
+      id: 011-insert-sample-user-skills
       author: jonatan
       context: dev
       changes:

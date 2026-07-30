@@ -8,6 +8,7 @@ import de.cronn.expertmanagementsystem.model.DomainPageDtoDto;
 import de.cronn.expertmanagementsystem.model.DomainRequestDto;
 import de.cronn.expertmanagementsystem.service.DomainService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -27,6 +28,7 @@ public class DomainController implements DomainsApi {
 
 
     @Override
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<DomainPageDtoDto> domainsGet(String name, Integer page, Integer size) {
 
         int pageNumber = page != null ? page : 0;
@@ -50,12 +52,14 @@ public class DomainController implements DomainsApi {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> domainsIdDelete(Integer id) {
         domainService.deleteDomain(id.longValue());
         return ResponseEntity.noContent().build();
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<DomainDto> domainsIdPut(Integer id, DomainRequestDto domainRequestDto) {
         Domain updateData = domainMapper.toEntity(domainRequestDto);
 
@@ -65,6 +69,7 @@ public class DomainController implements DomainsApi {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<DomainDto> domainsPost(DomainRequestDto domainRequestDto) {
 
         Domain domainToSave = domainMapper.toEntity(domainRequestDto);

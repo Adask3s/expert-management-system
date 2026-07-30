@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -54,6 +55,14 @@ public class User {
 
     public void setSkills(List<UserSkill> skills) {
         this.skills = skills;
+    }
+
+    public void addRole(Role role) {
+        this.roles.add(role);
+    }
+
+    public void removeRole(Role role) {
+        this.roles.remove(role);
     }
 
     public Long getId() {

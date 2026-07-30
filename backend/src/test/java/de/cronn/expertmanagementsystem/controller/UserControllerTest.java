@@ -1,19 +1,21 @@
 package de.cronn.expertmanagementsystem.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.cronn.expertmanagementsystem.config.SecurityConfig;
 import de.cronn.expertmanagementsystem.model.*;
 import de.cronn.expertmanagementsystem.service.UserService;
 import de.cronn.expertmanagementsystem.service.UserSkillService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
-import org.springframework.context.annotation.Import;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.List;
 
@@ -25,20 +27,25 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(UserController.class)
-@Import(SecurityConfig.class)
+@ExtendWith(MockitoExtension.class)
 class UserControllerTest {
 
-    @Autowired
     private MockMvc mockMvc;
-
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    @MockitoBean
+    @Mock
     private UserService userService;
 
-    @MockitoBean
+    @Mock
     private UserSkillService userSkillService;
+
+    @InjectMocks
+    private UserController userController;
+
+    @BeforeEach
+    void setUp() {
+        mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
+    }
 
     // endpoint classes should test unhappy paths later - after exception handling implementation
     @Nested
@@ -66,6 +73,7 @@ class UserControllerTest {
     class GetUserByIdTests {
 
         @Test
+        @WithMockUser
         void shouldReturn200AndUserWhenUserExists() throws Exception {
             // given
             Integer userId = 1;
@@ -86,6 +94,7 @@ class UserControllerTest {
     class CreateUserTests {
 
         @Test
+        @WithMockUser(roles = "ADMIN")
         void shouldReturn201AndLocationHeaderWhenUserIsCreated() throws Exception {
             // given
             UserRequestDto requestDto = new UserRequestDto();
@@ -120,6 +129,7 @@ class UserControllerTest {
     class UpdateUserTests {
 
         @Test
+        @WithMockUser(roles = "ADMIN")
         void shouldReturn200WhenUserIsUpdated() throws Exception {
             // given
             Integer userId = 1;
@@ -150,6 +160,7 @@ class UserControllerTest {
 
     @Nested
     @DisplayName("DELETE /users/{id}")
+    @WithMockUser(roles = "ADMIN")
     class DeleteUserTests {
 
         @Test
@@ -169,6 +180,7 @@ class UserControllerTest {
     class GetUserSkillsTests {
 
         @Test
+        @WithMockUser
         void shouldReturn200AndListOfSkills() throws Exception {
             // given
             Integer userId = 1;
@@ -195,6 +207,7 @@ class UserControllerTest {
     class CreateUserSkillTests {
 
         @Test
+        @WithMockUser(roles = "ADMIN")
         void shouldReturn204WhenSkillIsAssigned() throws Exception {
             // given
             Integer userId = 1;

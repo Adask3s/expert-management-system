@@ -1,35 +1,42 @@
 package de.cronn.expertmanagementsystem.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.cronn.expertmanagementsystem.config.SecurityConfig;
 import de.cronn.expertmanagementsystem.model.UserSkillRequestDto;
 import de.cronn.expertmanagementsystem.service.UserSkillService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
-import org.springframework.context.annotation.Import;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(UserSkillController.class)
-@Import(SecurityConfig.class)
+@ExtendWith(MockitoExtension.class)
 class UserSkillControllerTest {
 
-    @Autowired
     private MockMvc mockMvc;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    @MockitoBean
+    @Mock
     private UserSkillService userSkillService;
+
+    @InjectMocks
+    private UserSkillController userSkillController;
+
+    @BeforeEach
+    void setUp() {
+        mockMvc = MockMvcBuilders.standaloneSetup(userSkillController).build();
+    }
 
     @Nested
     @DisplayName("DELETE /user-skills/{id}")
@@ -65,7 +72,7 @@ class UserSkillControllerTest {
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsString(requestDto)))
                     .andExpect(status().isOk());
-            
+
             // verify(userSkillService).updateUserSkill(eq(skillId), any(UserSkillRequestDto.class));
         }
     }
