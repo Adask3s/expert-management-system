@@ -28,6 +28,7 @@ public class UserService {
     private final EntityManager entityManager;
     private final SearchCriteriaBuilder searchCriteriaBuilder;
     private final SearchQueryBuilder searchQueryBuilder;
+    private final DatabaseCredentialsProvider credentialsProvider;
 
     @Transactional(readOnly = true)
     public UserListPageDto getAllUsers(String search, Integer page, Integer size) {
@@ -38,7 +39,7 @@ public class UserService {
         if (search != null && !search.isBlank()) {
             searchPattern = "%" + search.toLowerCase().trim() + "%";
         }
-        
+
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<User> userPage;
 
@@ -87,7 +88,13 @@ public class UserService {
     @Transactional
     public UserDto createUser(UserRequestDto userRequestDto) {
         User userToSave = userMapper.toEntity(userRequestDto);
+
+        // Zapisujemy usera do głównej tabeli (bez hasła)
         User savedUser = userRepository.save(userToSave);
+
+        // Generujemy i zapisujemy domyślne hasło startowe w nowej tabeli
+        credentialsProvider.createDefaultCredentials(savedUser.getEmail());
+
         return userMapper.toDto(savedUser);
     }
 
@@ -102,9 +109,10 @@ public class UserService {
 
     @Transactional
     public void deleteUser(Long id) {
-        if (!userRepository.existsById(id)) {
-            throw new EntityNotFoundException("User not found with id: " + id);
-        }
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
+
+        credentialsProvider.deleteCredentials(user.getEmail());
         userRepository.deleteById(id);
     }
 }

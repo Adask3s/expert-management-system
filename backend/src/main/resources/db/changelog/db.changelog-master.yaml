@@ -21,3 +21,5 @@ databaseChangeLog:
       file: db/changelog/010-insert-sample-user-skills.yaml
   - include:
       file: db/changelog/011-add-user-search-text-column.yaml
+  - include:
+      file: db/changelog/012-create-user-credentials-table.yaml

@@ -24,11 +24,13 @@ paths:
               $ref: '#/components/schemas/LoginRequest'
       responses:
         '200':
-          description: Sukces
+          description: Zalogowano pomyślnie
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TokenResponse'
+        '401':
+          description: Niepoprawne dane uwierzytelniające
 
   /users:
     get:
@@ -501,8 +503,11 @@ components:
         email:
           type: string
           format: email
+          example: user@example.com
         password:
           type: string
+          format: password
+          example: Secret123!
 
     TokenResponse:
       type: object

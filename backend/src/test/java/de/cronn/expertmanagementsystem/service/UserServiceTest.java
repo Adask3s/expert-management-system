@@ -30,6 +30,9 @@ class UserServiceTest {
     @Mock
     private UserMapper userMapper;
 
+    @Mock
+    private DatabaseCredentialsProvider credentialsProvider;
+
     @InjectMocks
     private UserService userService;
 
@@ -74,12 +77,15 @@ class UserServiceTest {
     void deleteUserShouldDeleteWhenUserExists() {
         // given
         Long userId = 1L;
-        when(userRepository.existsById(userId)).thenReturn(true);
+        User user = new User();
+        user.setEmail("test@example.com");
+        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
         // when
         userService.deleteUser(userId);
 
         // then
+        verify(credentialsProvider).deleteCredentials("test@example.com");
         verify(userRepository).deleteById(userId);
     }
 
@@ -87,12 +93,14 @@ class UserServiceTest {
     void deleteUserShouldThrowExceptionAndNotDeleteWhenUserDoesNotExist() {
         // given
         Long userId = 99L;
-        when(userRepository.existsById(userId)).thenReturn(false);
+        when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
         // when & then
         assertThatThrownBy(() -> userService.deleteUser(userId))
-                .isInstanceOf(EntityNotFoundException.class);
+                .isInstanceOf(EntityNotFoundException.class)
+                .hasMessage("User not found with id: 99");
 
+        verify(credentialsProvider, never()).deleteCredentials(any());
         verify(userRepository, never()).deleteById(any());
     }
 
@@ -135,9 +143,26 @@ class UserServiceTest {
                 .hasMessage("User not found with id: " + userID);
     }
 
-    // Tests for user creation can be skipped for now since there is no real logic to them
-    // just userMapper and userRepository calls, mocking these would result in an always-true test anyway
-    // @Test
-    // void createUserShouldCreateNewUserForCorrectData() {
-    // }
+    @Test
+    void createUserShouldSaveUserAndCreateDefaultCredentials() {
+        // given
+        UserRequestDto requestDto = new UserRequestDto();
+        requestDto.setEmail("test@example.com");
+
+        User userEntity = new User();
+        userEntity.setEmail("test@example.com");
+        UserDto expectedDto = new UserDto();
+
+        when(userMapper.toEntity(requestDto)).thenReturn(userEntity);
+        when(userRepository.save(any(User.class))).thenReturn(userEntity);
+        when(userMapper.toDto(userEntity)).thenReturn(expectedDto);
+
+        // when
+        UserDto result = userService.createUser(requestDto);
+
+        // then
+        assertThat(result).isSameAs(expectedDto);
+        verify(userRepository).save(userEntity);
+        verify(credentialsProvider).createDefaultCredentials("test@example.com");
+    }
 }
