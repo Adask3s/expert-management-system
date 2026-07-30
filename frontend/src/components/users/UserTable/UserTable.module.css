@@ -1,0 +1,45 @@
+/* --- Layout komórek --- */
+.cellId,
+.cellRole {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+}
+
+.cellId {
+    font-family: var(--font-family-mono);
+}
+
+.cellUser {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.userInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 2px; /* minimalny odstęp niezdefiniowany w tokenach, dopuszczalny dla text-stacków */
+}
+
+.userName {
+    color: var(--color-text-primary);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-md);
+}
+
+.userEmail {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+}
+
+.skillList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+}
+
+.cellActions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}

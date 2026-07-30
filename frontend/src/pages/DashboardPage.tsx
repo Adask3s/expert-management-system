@@ -1,55 +1,43 @@
-import {UserAvatar} from "../components/common/UserAvatar/UserAvatar.tsx";
-import {Badge} from "../components/common/Badge/Badge.tsx";
-import {ActionIconButton} from "../components/common/IconButton/ActionIconButton.tsx";
-import editIcon from '../assets/icons/Edit.svg'; // impotrujemy ikonę edytowania
-import deleteIcon from '../assets/icons/Delete.svg'; // impotrujemy ikonę usuwania
 import plusIcon from '../assets/icons/Plus.svg'; // impotrujemy ikonę dodawania
 import {Button} from "../components/common/Button/Button.tsx";
+import {UserTable} from "../components/users/UserTable/UserTable.tsx";
+import type {UserListItem} from "../types/users.ts";
 import {TablePagination} from "../components/common/Table/TablePagination.tsx";
-import {Table} from "../components/common/Table/Table.tsx";
+
+// Dane testowe w 100% odzwierciedlające odpowiedź z API (DTO UserListItem)
+const MOCK_USERS: UserListItem[] = [
+    {
+        id: 101,
+        firstName: 'Paweł',
+        lastName: 'Matujewicz',
+        email: 'pawel.matujewicz@corp.io',
+        active: true,
+        roles: ['ROLE_USER'],
+        skills: [
+            {domainName: 'Java', levelName: 'Professional', rankValue: 3},
+            {domainName: 'SQL', levelName: 'Master', rankValue: 4},
+            {domainName: 'Docker', levelName: 'Functional', rankValue: 2},
+            {domainName: 'Spring', levelName: 'Awareness', rankValue: 1}
+        ]
+    },
+    {
+        id: 104,
+        firstName: 'Katarzyna',
+        lastName: 'Nowak',
+        email: 'katarzyna.nowak@corp.io',
+        active: false,
+        roles: ['ROLE_USER'],
+        skills: [
+            {domainName: 'SQL', levelName: 'Master', rankValue: 4},
+            {domainName: 'PostgreSQL', levelName: 'Professional', rankValue: 3},
+            {domainName: 'Python', levelName: 'Professional', rankValue: 3}
+        ]
+    }
+];
 
 export const DashboardPage = () => {
     return (
         <div>
-            {/* Tymczasowy nagłówek, TODO: użyjemy tu odpowiedniej typografii */}
-            <h1 style={{color: 'var(--color-text-primary)'}}>User List</h1>
-            <p style={{color: 'var(--color-text-secondary)'}}>Here, the users table will be implemented.</p>
-            <br/><UserAvatar/><br/>
-            <div style={{display: 'flex', gap: '12px', alignItems: 'center'}}>
-                <span
-                    style={{color: 'var(--color-text-secondary)', width: '80px', fontSize: '14px'}}>Statuses:</span>
-                <Badge>Default</Badge>
-                <Badge variant="status" status="active"/>
-                <Badge variant="status" status="inactive"/>
-            </div>
-            <br/>
-            {/* Poziomy kompetencji (Domeny) */}
-            <div style={{display: 'flex', gap: '12px', alignItems: 'center'}}>
-                <span style={{color: 'var(--color-text-secondary)', width: '80px', fontSize: '14px'}}>Skills:</span>
-                {/* Wariant bez podanego poziomu (użyje domyślnego koloru dla .skill .dot) */}
-                <Badge variant="skill" domainName="Unknown"/>
-
-                {/* Poziomy 1-4 zmapowane na konkretne tokeny */}
-                <Badge variant="skill" domainName="TypeScript" levelName="Awareness" level={1}/>
-                <Badge variant="skill" domainName="React" levelName="Functional" level={2}/>
-                <Badge variant="skill" domainName="Java" levelName="Professional" level={3}/>
-                <Badge variant="skill" domainName="SQL" levelName="Master" level={4}/>
-            </div>
-            <br/>
-            <div style={{display: 'flex', gap: '12px', alignItems: 'center'}}>
-                <ActionIconButton
-                    iconSource={editIcon}
-                    altText="Edit User"
-                    onClick={() => console.log('Edit action.')}
-                />
-                <ActionIconButton
-                    iconSource={deleteIcon}
-                    altText="Edit User"
-                    variant="danger"
-                    onClick={() => console.log('Delete action.')}
-                />
-            </div>
-            <br/>
             <div style={{display: 'flex', gap: '12px', alignItems: 'center'}}>
                 <Button variant="primary" icon={<img src={plusIcon} alt="" aria-hidden="true"/>}
                         onClick={() => console.log('Primary Action')}>Add
@@ -58,20 +46,15 @@ export const DashboardPage = () => {
                 <Button variant="ghost" onClick={() => console.log('Ghost Action')}>Clear All</Button>
             </div>
             <br/>
+            {/* Wywołanie naszego gotowego komponentu UserTable */}
+            <UserTable
+                data={MOCK_USERS}
+                onEdit={(user) => console.log(`Otwórz modal edycji dla: ${user.firstName} ${user.lastName}`)}
+                onDelete={(user) => console.log(`Rozpocznij proces usuwania dla: ${user.firstName} ${user.lastName}`)}
+            />
+            {/* Przykładowe użycie TablePagination */}
             <TablePagination number={0} size={10} totalElements={245} totalPages={25}
                              onPageChange={(page) => console.log(`Page changed to: ${page}`)}/>
-            <br/>
-            <Table columns={[
-                {header: 'Name', accessor: (row) => row.name},
-                {header: 'Email', accessor: (row) => row.email},
-                {header: 'Role', accessor: (row) => row.role},
-            ]} data={[
-                {name: 'John Doe', email: 'john@example.com', role: 'Admin'},
-                {name: 'Jane Smith', email: 'jane@example.com', role: 'User'},
-                {name: 'Alice Johnson', email: 'alice@example.com', role: 'Moderator'},
-            ]} pagination={<TablePagination number={0} size={10} totalElements={245} totalPages={25}
-                                            onPageChange={(page) => console.log(`Page changed to: ${page}`)}/>}
-                   emptyMessage="No users found."/>
         </div>
     );
 };
