@@ -1,0 +1,37 @@
+.pageWrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 600px;
+
+    /* Zastosowanie semantycznych tokenów tła i obramowania */
+    background-color: var(--color-bg-surface);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+}
+
+.headerSection {
+    margin-bottom: var(--space-4);
+}
+
+.topContentSection {
+    margin-bottom: var(--space-4);
+}
+
+.filtersSection {
+    margin-bottom: var(--space-4);
+}
+
+.tableContainer {
+    /* Rozpychamy kontener tabeli na całą dostępną wolną przestrzeń */
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: var(--space-4);
+}
+
+.paginationContainer {
+    flex-shrink: 0;
+    border-top: 1px solid var(--color-border-default);
+    padding-top: var(--space-4);
+}

@@ -1,0 +1,66 @@
+.headerContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* Odstęp dolny zabezpiecza TablePageLayout */
+}
+
+.headerTitles {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1); /*[cite: 6] */
+}
+
+.pageTitle {
+    margin: 0;
+    font-size: var(--font-size-lg); /*[cite: 6] */
+    font-weight: var(--font-weight-semibold); /*[cite: 6] */
+    color: var(--color-text-primary); /*[cite: 6] */
+}
+
+.pageSubtitle {
+    margin: 0;
+    font-size: var(--font-size-sm); /*[cite: 6] */
+    color: var(--color-text-secondary); /*[cite: 6] */
+}
+
+.primaryButton {
+    background: var(--color-brand-solid-button); /*[cite: 6] */
+    color: var(--color-text-primary); /*[cite: 6] */
+    padding: var(--space-2) var(--space-4); /*[cite: 6] */
+    border-radius: var(--radius-full); /* Kształt pigułki z makiety[cite: 6] */
+    border: none;
+    cursor: pointer;
+    font-size: var(--font-size-base); /*[cite: 6] */
+    font-weight: var(--font-weight-medium); /*[cite: 6] */
+    box-shadow: var(--shadow-button); /*[cite: 6] */
+    transition: filter 0.2s ease;
+}
+
+.primaryButton:hover {
+    filter: brightness(1.1);
+}
+
+.searchContainer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.searchInput {
+    background: var(--color-bg-app); /*[cite: 6] */
+    border: 1px solid var(--color-border-default); /*[cite: 6] */
+    color: var(--color-text-primary); /*[cite: 6] */
+    padding: var(--space-2) var(--space-4); /*[cite: 6] */
+    border-radius: var(--radius-full); /*[cite: 6] */
+    font-size: var(--font-size-base); /*[cite: 6] */
+    width: 300px;
+}
+
+.searchInput::placeholder {
+    color: var(--color-text-muted); /*[cite: 6] */
+}
+
+.searchInput:focus {
+    outline: none;
+    border-color: var(--color-border-brand); /*[cite: 6] */
+}
