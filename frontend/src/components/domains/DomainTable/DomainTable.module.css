@@ -1,0 +1,32 @@
+.tableWrapper {
+    width: 100%;
+}
+
+.cellId {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    font-family: var(--font-family-mono);
+}
+
+.cellDomain {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.domainName {
+    color: var(--color-text-primary);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-medium);
+}
+
+.cellDescription {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-base);
+}
+
+.cellActions {
+    display: flex;
+    gap: var(--space-2);
+    justify-content: flex-end;
+}
