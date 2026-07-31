@@ -4,12 +4,14 @@
 // Widok zarządzania domenami również itp.
 
 import {axiosClient} from '../api/axiosClient';
-import type {Domain, ExpertiseLevel} from '../types/users';
+import type {DomainPageDto, ExpertiseLevel} from '../types/users';
 
 export const dictionaryService = {
     /* Pobiera listę wszystkich domen kompetencyjnych dla selektorów */
-    getDomains: async (): Promise<Domain[]> => {
-        const response = await axiosClient.get<Domain[]>('/domains');
+    getDomains: async (page = 0, size = 10): Promise<DomainPageDto> => {
+        const response = await axiosClient.get<DomainPageDto>('/domains', {
+            params: {page, size},
+        });
         return response.data;
     },
 
