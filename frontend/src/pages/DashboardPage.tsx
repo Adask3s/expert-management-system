@@ -37,7 +37,7 @@ export const DashboardPage = () => {
                             onDelete={(user) => console.log(`Start the deletion process for ID: ${user.id}`)}
                         />
 
-                        {/* Paginacja bazująca na prawdzich metadanych ze Spring Data JPA */}
+                        {/* Paginacja bazująca na prawdziwych metadanych ze Spring Data JPA */}
                         {data && (data.totalPages ?? 0) > 1 && (
                             <TablePagination
                                 number={data.number ?? 0}

@@ -16,14 +16,14 @@ npm install
 
 ## Environment configuration
 
-The project uses Vite environment variables. The root directory contains a `.env` file:
+The project uses Vite environment variables. The root directory contains a `.env.example` file:
 
 ```
 VITE_API_BASE_URL=http://localhost:8080/
 ```
 
-If the backend runs on a different host/port, update this value. For a local, git-ignored override, create a
-`.env.local` file with your own values — it will take precedence over `.env`.
+You need to create a .env file with this value. If the backend runs on a different host/port, update this value. For a
+local, git-ignored override, create a `.env.local` file with your own values — it will take precedence over `.env`.
 
 ## Running in development mode
 
@@ -102,6 +102,7 @@ src/
 ## Quick start (TL;DR)
 
 ```bash
+cd frontend
 npm install
 npm run dev
 ```
