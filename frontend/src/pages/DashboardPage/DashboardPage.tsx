@@ -22,7 +22,7 @@ export const DashboardPage = () => {
 
     return (
         <div className={styles.dashboardContainer}>
-            <main className={styles.mainContent}>
+            <div className={styles.mainContent}>
                 {isPending ? (
                     // Skeleton ładuje się TYLKO raz, po odświeżeniu strony
                     <UserTableSkeleton rows={PAGE_SIZE}/>
@@ -46,7 +46,7 @@ export const DashboardPage = () => {
                         )}
                     </div>
                 )}
-            </main>
+            </div>
         </div>
     );
 };
