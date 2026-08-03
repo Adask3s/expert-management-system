@@ -6,11 +6,14 @@
 import {axiosClient} from '../api/axiosClient';
 import type {DomainPageDto, ExpertiseLevel} from '../types/users';
 
+// Przygotowujemy serwis na przyszły task o wyszukiwaniu domen.
+// Dlatego metoda getDomains przyjmuje dodatkowy parametr name, który jest opcjonalny.
+// W przyszłym tasku będziemy go wykorzystywać do wyszukiwania domen po nazwie.
 export const dictionaryService = {
     /* Pobiera listę wszystkich domen kompetencyjnych dla selektorów */
-    getDomains: async (page = 0, size = 10): Promise<DomainPageDto> => {
+    getDomains: async (page: number, size: number, name?: string): Promise<DomainPageDto> => {
         const response = await axiosClient.get<DomainPageDto>('/domains', {
-            params: {page, size},
+            params: {page, size, ...(name && {name})},
         });
         return response.data;
     },
