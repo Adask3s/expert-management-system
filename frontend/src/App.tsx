@@ -1,7 +1,7 @@
 import {Navigate, Route, Routes} from 'react-router-dom';
 import {AppLayout} from './components/layout/AppLayout';
-import {DashboardPage} from './pages/DashboardPage';
-import {DomainsPage} from './pages/DomainsPage';
+import {DashboardPage} from './pages/DashboardPage/DashboardPage';
+import {DomainsPage} from './pages/DomainsPage/DomainsPage';
 
 export function App() {
     return (
