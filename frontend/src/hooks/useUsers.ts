@@ -1,15 +1,21 @@
-import {useMutation, useQuery} from '@tanstack/react-query';
+import {keepPreviousData, useMutation, useQuery} from '@tanstack/react-query';
 import {userService} from '../services/userService';
 import type {ExpertSearchRequest} from '../types/users';
 
+export const PAGE_SIZE = 10; // standardowa liczba rekordów na stronie
+
 // Hook do standardowej, paginowanej listy użytkowników
-export const useUsersList = (page: number = 0, size: number = 10) => {
+export const useUsersList = (page: number = 0, size: number = PAGE_SIZE) => {
     return useQuery({
         // queryKey jest kluczowe, gdy zmienimy `page` lub `size` w komponencie,
         // React Query automatycznie wywoła nowe żądanie
         queryKey: ['users', {page, size}],
+
         // strzelamy do metody z userService.ts
         queryFn: () => userService.getUsers(page, size),
+
+        // Zatrzymujemy stare dane w cache do momentu pobrania nowych
+        placeholderData: keepPreviousData, // zachowujemy poprzednie dane, gdy zmieniamy stronę
     });
 };
 
