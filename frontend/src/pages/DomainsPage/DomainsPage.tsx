@@ -1,8 +1,8 @@
 import React, {useMemo, useState} from 'react';
-import {DomainTable} from '../components/domains/DomainTable/DomainTable.tsx';
-import {TablePagination} from '../components/common/Table/TablePagination';
-import {TablePageLayout} from '../components/layout/TablePageLayout/TablePageLayout';
-import type {Domain, DomainPageDto} from '../types/users';
+import {DomainTable} from '../../components/domains/DomainTable/DomainTable.tsx';
+import {TablePagination} from '../../components/common/Table/TablePagination';
+import {TablePageLayout} from '../../components/layout/TablePageLayout/TablePageLayout';
+import type {Domain, DomainPageDto} from '../../types/users';
 import styles from './DomainsPage.module.css';
 
 
