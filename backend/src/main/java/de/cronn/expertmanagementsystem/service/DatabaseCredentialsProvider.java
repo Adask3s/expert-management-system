@@ -26,7 +26,7 @@ public class DatabaseCredentialsProvider {
     public String getPassword(String email) {
         return repository.findByEmail(email)
                 .map(UserCredentials::getPassword)
-                .orElseThrow(() -> new RuntimeException("Nie znaleziono poświadczeń dla użytkownika: " + email));
+                .orElseThrow(() -> new RuntimeException("Credentials not found for user: " + email));
     }
 
     @Transactional
