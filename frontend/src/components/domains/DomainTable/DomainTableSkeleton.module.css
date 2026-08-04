@@ -1,0 +1,64 @@
+.skeletonWrapper {
+    width: 100%;
+    background-color: var(--color-bg-surface);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.skeletonHeader {
+    display: flex;
+    padding: var(--space-4) var(--space-6);
+    background-color: var(--color-bg-table-header);
+    border-bottom: 1px solid var(--color-border-strong);
+    gap: var(--space-4);
+}
+
+.skeletonRow {
+    display: flex;
+    padding: var(--space-4) var(--space-6);
+    border-bottom: 1px solid var(--color-border-subtle);
+    gap: var(--space-4);
+    align-items: center;
+}
+
+.skeletonRow:last-child {
+    border-bottom: none;
+}
+
+/* Animacja i kształty */
+.pulse {
+    animation: pulse 1.5s infinite ease-in-out;
+    background-color: var(--color-bg-surface-hover);
+    border-radius: var(--radius-sm);
+}
+
+.textLine {
+    height: var(--font-size-md);
+    border-radius: var(--radius-xs);
+}
+
+.domainIcon {
+    width: 24px;
+    height: 24px;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+}
+
+.actionIcon {
+    width: 20px;
+    height: 20px;
+    border-radius: var(--radius-xs);
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.5;
+    }
+}

@@ -9,6 +9,14 @@ import styles from './DashboardPage.module.css';
 export const DashboardPage = () => {
     const [page, setPage] = useState(0);
 
+    // isPending - stan inicjalny, np. przy wejściu na stronę nie mamy żadnych danych w cashe'u,
+    // to faza "twardego ładowania", isPending używamy chwilowego zablokowania rednerowania tabeli
+    // i wstrzyknięcia w te miejsce Skeletona
+
+    // isFetching - stan odświeżania, żądanie sieciowe jest w toku, ale mamy dane w cache
+    // nie pokazujemy tu znowu Skeletona, bo użytkownik widziałby ciągle agresywne migotanie tabeli
+    // isFetching używamy do obniżenia opacity tabeli i zablokowania kliknięć w trakcie przełączania stron
+    // (pointer-events: none)
     const {data, isPending, isFetching, isError} = useUsersList(page, PAGE_SIZE);
 
     if (isError) {
@@ -28,23 +36,25 @@ export const DashboardPage = () => {
         </div>
     );
 
-    const statsTopContent = (
-        <div className={styles.statsPlaceholder}>
-            {/* Tutaj kiedyś trafi komponent <DashboardStats /> */}
-        </div>
-    );
+    // TODO: Sekcja statystyk Dashboardu i wyszukiwania oraz filtry 
+    // const statsTopContent = (
+    //     <div className={styles.statsPlaceholder}>
+    //         {/* Tutaj kiedyś trafi komponent <DashboardStats /> */}
+    //     </div>
+    // );
 
-    const searchAndFilters = (
-        <div className={styles.filtersPlaceholder}>
-            {/* Tutaj trafi <ExpertFilterPanel /> zintegrowany z POST /search */}
-        </div>
-    );
+    // const searchAndFilters = (
+    //     <div className={styles.filtersPlaceholder}>
+    //         {/* Tutaj trafi <ExpertFilterPanel /> zintegrowany z POST /search */}
+    //     </div>
+    // );
 
     return (
         <TablePageLayout
             header={pageHeader}
-            topContent={statsTopContent}
-            filters={searchAndFilters}
+            // Sekcja statystyk Dashboardu i wyszukiwania oraz filtrów
+            // topContent={statsTopContent}
+            // filters={searchAndFilters}
             table={
                 isPending ? (
                     // Skeleton ładuje się tylko raz (pierwsze wejście)

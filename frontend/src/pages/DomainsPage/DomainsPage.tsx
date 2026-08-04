@@ -4,12 +4,20 @@ import {DomainTable} from '../../components/domains/DomainTable/DomainTable';
 import {TablePagination} from '../../components/common/Table/TablePagination';
 import {TablePageLayout} from '../../components/layout/TablePageLayout/TablePageLayout';
 import {PAGE_SIZE, useDomainsList} from '../../hooks/useDomainsList';
+import {DomainTableSkeleton} from "../../components/domains/DomainTable/DomainTableSkeleton";
 import styles from './DomainsPage.module.css';
 
 export const DomainsPage = () => {
     const [page, setPage] = useState<number>(0);
 
-    // Pełna kontrola nad cyklem życia zapytania sieciowego
+    // isPending - stan inicjalny, np. przy wejściu na stronę nie mamy żadnych danych w cashe'u,
+    // to faza "twardego ładowania", isPending używamy chwilowego zablokowania rednerowania tabeli
+    // i wstrzyknięcia w te miejsce Skeletona
+
+    // isFetching - stan odświeżania, żądanie sieciowe jest w toku, ale mamy dane w cache
+    // nie pokazujemy tu znowu Skeletona, bo użytkownik widziałby ciągle agresywne migotanie tabeli
+    // isFetching używamy do obniżenia opacity tabeli i zablokowania kliknięć w trakcie przełączania stron
+    // (pointer-events: none)
     const {data, isPending, isFetching, isError} = useDomainsList(page);
 
     const pageHeader = (
@@ -39,14 +47,11 @@ export const DomainsPage = () => {
             header={pageHeader}
             table={
                 isPending ? (
-                    // TODO: Skeleton blokuje układ (zapobiega skakaniu Layoutu)
-                    <div className={styles.skeletonPlaceholder}>Loading domains...</div>
+                    // Wstrzykujemy Skeleton, gdy dane są w trakcie ładowania (pierwsze wejście)
+                    <DomainTableSkeleton/>
                 ) : (
-                    // Background refetch -> obniżamy opacity obecnej tabeli
-                    <div
-                        className={styles.tableTransitionWrapper}
-                        style={{opacity: isFetching ? 0.6 : 1}}
-                    >
+                    // Wrapper obsługuje przezroczystość i blokadę kliknięć podczas przełączania stron
+                    <div className={`${styles.tableWrapper} ${isFetching ? styles.isFetching : ''}`}>
                         <DomainTable
                             data={domains}
                             onEdit={undefined}
