@@ -8,15 +8,30 @@ export const axiosClient = axios.create({
     },
 });
 
-// interceptor żądań - będzie dodawał token JWT do każdego wysyłanego zapytania
+// interceptor żądań dodaje token JWT do każdego wysyłanego zapytania
 axiosClient.interceptors.request.use((config) => {
-    // tutaj w przyszłości będziemy pobierali token np. z localStorage
-    const token = localStorage.getItem('jwt_token');
+    const token = localStorage.getItem('accessToken');
 
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
 }, (error) => {
+    return Promise.reject(error);
+});
+
+axiosClient.interceptors.response.use((response) => {
+    return response;
+}, (error) => {
+
+    // Jeśli backend zwraca błąd 401 (token wygasł lub jest nieprawidłowy)
+    if (error.response && error.response.status === 401) {
+        // To czyścimy stary token
+        localStorage.removeItem('accessToken');
+
+        // I przekierowujemy na stronę logowania
+        // Używamy window.location, ponieważ instancja axiosa żyje poza drzewem Reacta
+        window.location.href = '/login';
+    }
     return Promise.reject(error);
 });
