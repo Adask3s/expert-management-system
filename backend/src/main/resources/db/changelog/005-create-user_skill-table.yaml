@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 005-create-user-skills
+      id: create-user-skills
       author: szymon
       changes:
         - createTable:

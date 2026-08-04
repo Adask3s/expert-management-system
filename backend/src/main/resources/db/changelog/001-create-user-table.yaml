@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 001-create-users
+      id: create-users
       author: szymon
       changes:
         - createTable:
@@ -35,3 +35,23 @@ databaseChangeLog:
                   defaultValueBoolean: true
                   constraints:
                     nullable: false
+  - changeSet:
+      id: add-user-search-text-column
+      author: jonatan
+      context: dev
+      changes:
+        - sql:
+            sql: >
+              ALTER TABLE users 
+              ADD COLUMN search_text VARCHAR(512) 
+              GENERATED ALWAYS AS (
+              LOWER(COALESCE(first_name, '') || ' ' || COALESCE(last_name, '') || ' ' || COALESCE(email, ''))
+              ) STORED;
+
+        # Adds a standard B-Tree index to the column for faster search
+        - createIndex:
+            indexName: idx_users_search_text
+            tableName: users
+            columns:
+              - column:
+                  name: search_text

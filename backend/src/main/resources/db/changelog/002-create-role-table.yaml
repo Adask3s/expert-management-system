@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 002-create-roles
+      id: create-roles
       author: szymon
       changes:
         - createTable:

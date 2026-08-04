@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 003-create-domains
+      id: create-domains
       author: szymon
       changes:
         - createTable:

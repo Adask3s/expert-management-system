@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 004-create-expertise-levels
+      id: create-expertise-levels
       author: szymon
       changes:
         - createTable:
