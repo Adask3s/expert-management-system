@@ -3,7 +3,8 @@ import {UserTable} from "../../components/users/UserTable/UserTable";
 import {UserTableSkeleton} from "../../components/users/UserTable/UserTableSkeleton";
 import {TablePagination} from "../../components/common/Table/TablePagination";
 import {TablePageLayout} from "../../components/layout/TablePageLayout/TablePageLayout";
-import {PAGE_SIZE, useUsersList} from "../../hooks/useUsers";
+import {useUsersList} from "../../hooks/useUsers";
+import {PAGE_SIZE} from '../../constants/paginations';
 import styles from './DashboardPage.module.css';
 
 export const DashboardPage = () => {

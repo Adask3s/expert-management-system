@@ -1,8 +1,8 @@
 import {keepPreviousData, useMutation, useQuery} from '@tanstack/react-query';
 import {userService} from '../services/userService';
 import type {ExpertSearchRequest} from '../types/users';
-
-export const PAGE_SIZE = 10; // standardowa liczba rekordów na stronie
+// Standardowa liczba rekordów na stronie
+import {PAGE_SIZE} from '../constants/paginations';
 
 // Hook do standardowej, paginowanej listy użytkowników
 export const useUsersList = (page: number = 0, size: number = PAGE_SIZE) => {

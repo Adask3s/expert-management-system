@@ -3,8 +3,9 @@ import {DomainTable} from '../../components/domains/DomainTable/DomainTable';
 // TODO: Import DomainTableSkeleton, gdy zostanie utworzony
 import {TablePagination} from '../../components/common/Table/TablePagination';
 import {TablePageLayout} from '../../components/layout/TablePageLayout/TablePageLayout';
-import {PAGE_SIZE, useDomainsList} from '../../hooks/useDomainsList';
+import {useDomainsList} from '../../hooks/useDomainsList';
 import {DomainTableSkeleton} from "../../components/domains/DomainTable/DomainTableSkeleton";
+import {PAGE_SIZE} from '../../constants/paginations';
 import styles from './DomainsPage.module.css';
 
 export const DomainsPage = () => {
