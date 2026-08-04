@@ -9,10 +9,10 @@ export const DomainTableSkeleton = ({rows = 10}: SkeletonProps) => {
         <div className={styles.skeletonWrapper}>
             {/* Nagłówek tabeli */}
             <div className={styles.skeletonHeader}>
-                <div className={`${styles.pulse} ${styles.textLine}`} style={{width: '40px'}}></div>
-                <div className={`${styles.pulse} ${styles.textLine}`} style={{width: '150px'}}></div>
+                <div className={`${styles.pulse} ${styles.textLine}`} style={{width: '60px'}}></div>
+                <div className={`${styles.pulse} ${styles.textLine}`} style={{width: '250px'}}></div>
                 <div className={`${styles.pulse} ${styles.textLine}`} style={{flex: 1}}></div>
-                <div className={`${styles.pulse} ${styles.textLine}`} style={{width: '80px'}}></div>
+                <div className={`${styles.pulse} ${styles.textLine}`} style={{width: '100px'}}></div>
             </div>
 
             {/* Generowanie wierszy na podstawie pętli */}
@@ -20,7 +20,7 @@ export const DomainTableSkeleton = ({rows = 10}: SkeletonProps) => {
                 <div key={index} className={styles.skeletonRow}>
 
                     {/* Kolumna ID */}
-                    <div style={{width: '40px'}}>
+                    <div style={{width: '60px'}}>
                         <div className={`${styles.pulse} ${styles.textLine}`} style={{width: '20px'}}></div>
                     </div>
 
@@ -36,7 +36,7 @@ export const DomainTableSkeleton = ({rows = 10}: SkeletonProps) => {
                     </div>
 
                     {/* Kolumna Action (Edit/Delete) */}
-                    <div style={{display: 'flex', gap: '8px', width: '80px', justifyContent: 'flex-end'}}>
+                    <div style={{display: 'flex', gap: '8px', width: '100px', justifyContent: 'flex-end'}}>
                         <div className={`${styles.pulse} ${styles.actionIcon}`}></div>
                         <div className={`${styles.pulse} ${styles.actionIcon}`}></div>
                     </div>

@@ -1,6 +1,5 @@
 import {useState} from 'react';
 import {DomainTable} from '../../components/domains/DomainTable/DomainTable';
-// TODO: Import DomainTableSkeleton, gdy zostanie utworzony
 import {TablePagination} from '../../components/common/Table/TablePagination';
 import {TablePageLayout} from '../../components/layout/TablePageLayout/TablePageLayout';
 import {useDomainsList} from '../../hooks/useDomainsList';
@@ -37,8 +36,8 @@ export const DomainsPage = () => {
 
     if (isError) {
         return (
-            <div className={styles.pageWrapper}>
-                <h2 className={styles.errorMessage}>Failed to load domains.</h2>
+            <div className={styles.errorMessage}>
+                Error retrieving data. Check if the Spring Boot server is running.
             </div>
         );
     }
@@ -49,7 +48,7 @@ export const DomainsPage = () => {
             table={
                 isPending ? (
                     // Wstrzykujemy Skeleton, gdy dane są w trakcie ładowania (pierwsze wejście)
-                    <DomainTableSkeleton/>
+                    <DomainTableSkeleton rows={PAGE_SIZE}/>
                 ) : (
                     // Wrapper obsługuje przezroczystość i blokadę kliknięć podczas przełączania stron
                     <div className={`${styles.tableWrapper} ${isFetching ? styles.isFetching : ''}`}>

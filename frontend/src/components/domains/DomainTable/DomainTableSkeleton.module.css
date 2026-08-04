@@ -8,7 +8,7 @@
 
 .skeletonHeader {
     display: flex;
-    padding: var(--space-4) var(--space-6);
+    padding: var(--space-4);
     background-color: var(--color-bg-table-header);
     border-bottom: 1px solid var(--color-border-strong);
     gap: var(--space-4);
@@ -16,7 +16,7 @@
 
 .skeletonRow {
     display: flex;
-    padding: var(--space-4) var(--space-6);
+    padding: var(--space-4);
     border-bottom: 1px solid var(--color-border-subtle);
     gap: var(--space-4);
     align-items: center;

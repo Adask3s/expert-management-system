@@ -28,7 +28,7 @@
     background: var(--color-brand-solid-button);
     color: var(--color-text-primary);
     padding: var(--space-2) var(--space-4);
-    border-radius: var(--radius-full); /* Kształt pigułki z makiety[cite: 6] */
+    border-radius: var(--radius-full);
     border: none;
     cursor: pointer;
     font-size: var(--font-size-base);
@@ -73,4 +73,15 @@
 .isFetching {
     opacity: 0.6;
     pointer-events: none; /* Blokuje kliknięcia w trakcie pobierania kolejnej strony */
+}
+
+/* Komponenty błędów */
+.errorMessage {
+    color: var(--color-error);
+    background-color: var(--color-bg-surface);
+    padding: var(--space-4);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-error);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
 }
