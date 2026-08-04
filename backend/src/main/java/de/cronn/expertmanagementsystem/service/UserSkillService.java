@@ -36,7 +36,6 @@ public class UserSkillService {
         return userSkillMapper.toDetailDtoList(userSkills);
     }
 
-    // should do by userid and name?? not sure
     @Transactional
     public void deleteUserSkill(Integer id) {
         if (!userSkillRepository.existsById(id)) {
