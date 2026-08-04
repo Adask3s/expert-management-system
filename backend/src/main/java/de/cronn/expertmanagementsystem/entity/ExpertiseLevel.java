@@ -1,7 +1,11 @@
 package de.cronn.expertmanagementsystem.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "expertise_levels")
 public class ExpertiseLevel {
@@ -19,27 +23,4 @@ public class ExpertiseLevel {
     public ExpertiseLevel() {
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getRankValue() {
-        return rankValue;
-    }
-
-    public void setRankValue(Integer rankValue) {
-        this.rankValue = rankValue;
-    }
 }

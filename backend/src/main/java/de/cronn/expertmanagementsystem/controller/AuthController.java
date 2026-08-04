@@ -31,7 +31,6 @@ public class AuthController implements AuthApi {
                 )
         );
 
-        // Pobieramy Springowy UserDetails zamiast naszej encji User
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         String token = jwtService.generateToken(userDetails);

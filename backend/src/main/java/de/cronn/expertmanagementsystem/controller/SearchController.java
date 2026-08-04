@@ -15,7 +15,6 @@ public class SearchController implements SearchApi {
     private final UserService userService;
 
     // paging in this endpoint can be done later
-    // openapi doesn't allow for name or email search, so no tests for this method for now TODO later
     @Override
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<UserListPageDto> searchPost(ExpertSearchRequestDto expertSearchRequestDto) {

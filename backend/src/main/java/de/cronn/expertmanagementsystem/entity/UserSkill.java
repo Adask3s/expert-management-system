@@ -1,7 +1,11 @@
 package de.cronn.expertmanagementsystem.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "user_skills")
 public class UserSkill {
@@ -25,35 +29,4 @@ public class UserSkill {
     public UserSkill() {
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Domain getDomain() {
-        return domain;
-    }
-
-    public void setDomain(Domain domain) {
-        this.domain = domain;
-    }
-
-    public ExpertiseLevel getExpertiseLevel() {
-        return expertiseLevel;
-    }
-
-    public void setExpertiseLevel(ExpertiseLevel expertiseLevel) {
-        this.expertiseLevel = expertiseLevel;
-    }
 }

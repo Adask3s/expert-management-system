@@ -41,7 +41,7 @@ class DomainServiceTest {
         Page<Domain> result = domainService.getDomains(null, 0, 10);
 
         assertThat(result.getContent()).hasSize(1);
-        assertThat(result.getContent().get(0).getName()).isEqualTo("Backend");
+        assertThat(result.getContent().getFirst().getName()).isEqualTo("Backend");
         verify(domainRepository, times(1))
                 .findAll(any(Pageable.class));
     }
