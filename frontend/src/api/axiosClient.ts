@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-// tworzymy globalną instancję klienta
+// Tworzymy globalną instancję klienta
 export const axiosClient = axios.create({
     baseURL: import.meta.env.VITE_API_BASE_URL,
     headers: {
@@ -8,7 +8,7 @@ export const axiosClient = axios.create({
     },
 });
 
-// interceptor żądań dodaje token JWT do każdego wysyłanego zapytania
+// Interceptor żądań - dodaje token JWT do każdego wysyłanego zapytania
 axiosClient.interceptors.request.use((config) => {
     const token = localStorage.getItem('accessToken');
 
@@ -29,7 +29,7 @@ axiosClient.interceptors.response.use((response) => {
         // To czyścimy stary token
         localStorage.removeItem('accessToken');
 
-        // I przekierowujemy na stronę logowania
+        // I resetujemy stan Reacta (czyścimy cache) i przekierowujemy na stronę logowania
         // Używamy window.location, ponieważ instancja axiosa żyje poza drzewem Reacta
         window.location.href = '/login';
     }
