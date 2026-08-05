@@ -21,3 +21,18 @@
     overflow-y: auto;
     padding: var(--space-6);
 }
+
+/* Tymczasowe style dla przycisku wylogowania */
+.logoutButton {
+    background: transparent;
+    border: 1.8px solid var(--raw-white-100);
+    cursor: pointer;
+    padding: var(--space-2);
+    border-radius: var(--radius-sm);
+    margin-top: var(--space-4);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.logoutButton:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
