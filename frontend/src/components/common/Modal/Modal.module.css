@@ -1,0 +1,77 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    /* Półprzezroczyste czarne tło dla zaciemnienia kolor  spoza tokens.css, ponieważ
+    jest to specyficzne zachowanie overlay'a */
+    background-color: rgba(0, 0, 0, 0.65);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modalContent {
+    background-color: var(--color-bg-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-modal-card);
+    border: 1px solid var(--color-border-card);
+    width: 100%;
+    max-width: 460px; /* Zabezpieczenie przed rozciągnięciem na szerokich ekranach */
+    display: flex;
+    flex-direction: column;
+    /* Animacja "wjazdu" */
+    animation: slideUpFade 0.2s ease-out forwards;
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-5) var(--space-6);
+    border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.modalTitle {
+    margin: 0;
+    font-family: var(--font-family-sans);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xl);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+    padding: var(--space-1);
+    line-height: 1;
+}
+
+.closeButton:hover {
+    color: var(--color-text-primary);
+}
+
+.modalBody {
+    padding: var(--space-6);
+}
+
+@keyframes slideUpFade {
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
