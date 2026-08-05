@@ -3,16 +3,25 @@ import {AppLayout} from './components/layout/AppLayout';
 import {DashboardPage} from './pages/DashboardPage/DashboardPage';
 import {DomainsPage} from './pages/DomainsPage/DomainsPage';
 import {LoginPage} from './pages/LoginPage/LoginPage';
+import {ProtectedRoute} from './routes/ProtectedRoute';
 
 export function App() {
     return (
         <Routes>
-            <Route path="/" element={<AppLayout/>}>
-                <Route index element={<Navigate to="/dashboard" replace/>}/>
-                <Route path="dashboard" element={<DashboardPage/>}/>
-                <Route path="domains" element={<DomainsPage/>}/>
-                <Route path="/login" element={<LoginPage/>}/>
+            {/* Tutaj jest ścieżka publiczna, czyli widok lodowania - wyciągnięta poza AppLayout */}
+            <Route path="/login" element={<LoginPage/>}/>
+
+            {/* Tutaj jest ścieżka chroniona naszym ProtectedRoute - obejmujemy widoki po zalogowaniu */}
+            <Route path="/" element={<ProtectedRoute/>}>
+                <Route path="/" element={<AppLayout/>}>
+                    <Route index element={<Navigate to="/dashboard" replace/>}/>
+                    <Route path="dashboard" element={<DashboardPage/>}/>
+                    <Route path="domains" element={<DomainsPage/>}/>
+                </Route>
             </Route>
+
+            {/* Przechwytywanie nieistniejących ścieżek - oddelegowujemy do dashboard'u */}
+            <Route path="*" element={<Navigate to="/dashboard" replace/>}/>
         </Routes>
     );
 }

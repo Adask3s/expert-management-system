@@ -2,6 +2,8 @@ import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {type LoginFormInputs, loginSchema} from './loginSchema';
 import {Button} from '../../components/common/Button/Button';
+import {useLogin} from '../../hooks/useLogin';
+import {useNavigate} from 'react-router-dom';
 import EmailIcon from '../../assets/icons/Email.svg';
 import PasswordIcon from '../../assets/icons/Password.svg';
 import styles from './LoginPage.module.css';
@@ -10,13 +12,29 @@ export const LoginPage = () => {
     const {
         register,
         handleSubmit,
-        formState: {errors, isSubmitting}
+        setError,
+        formState: {errors}
     } = useForm<LoginFormInputs>({
         resolver: zodResolver(loginSchema)
     });
 
+    const {mutate: loginMutation, isPending} = useLogin();
+    const navigate = useNavigate();
+
     const onSubmit = (data: LoginFormInputs) => {
-        console.log('Validated payload ready for submission:', data);
+        loginMutation(data, {
+            onSuccess: (response) => {
+                // Zapisujemy token w localStorage
+                localStorage.setItem('accessToken', response.accessToken);
+
+                // Po udanym logowaniu przekierowujemy użytkownika na stronę dashboard
+                navigate('/dashboard', {replace: true});
+            },
+            onError: () => {
+                // Ustawiamy błąd formularza (na obiekcie password, żeby pokazać cokolwiek pod formularzem)
+                setError('password', {type: 'manual', message: 'Invalid email or password.'});
+            }
+        });
     };
 
     return (
@@ -57,8 +75,8 @@ export const LoginPage = () => {
                     <Button
                         type="submit"
                         variant="primary"
-                        disabled={isSubmitting}
-                        children={isSubmitting ? 'LOGGING IN...' : 'LOGIN'}
+                        disabled={isPending}
+                        children={isPending ? 'LOGGING IN...' : 'LOGIN'}
                     />
                 </form>
             </div>
