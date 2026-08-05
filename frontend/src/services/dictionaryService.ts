@@ -23,4 +23,10 @@ export const dictionaryService = {
         const response = await axiosClient.get<ExpertiseLevel[]>('/expertise-levels');
         return response.data;
     },
+
+    /* Aktualizuje istniejącą domenę */
+    updateDomain: async (id: number, payload: DomainRequest): Promise<Domain> => {
+        const response = await axiosClient.put<Domain>(`/domains/${id}`, payload);
+        return response.data;
+    },
 };
