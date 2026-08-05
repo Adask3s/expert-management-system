@@ -1,6 +1,5 @@
 import {keepPreviousData, useQuery} from '@tanstack/react-query';
 import {dictionaryService} from '../services/dictionaryService';
-// Standardowa liczba rekordów na stronie
 import {PAGE_SIZE} from '../constants/paginations';
 
 // Parametr name zaimplementujemy dopiero w następnym tasku, gdy będziemy zajmować się wyszukiwaniem domen.

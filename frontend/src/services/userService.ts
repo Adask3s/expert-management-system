@@ -1,5 +1,6 @@
 import {axiosClient} from '../api/axiosClient';
-import type {ExpertSearchRequest, UserListPage} from '../types/users';
+import type {ExpertSearchRequest, User, UserListPage} from '../types/users';
+import type {UserRequestFormData} from '../validations/userSchema';
 
 export const userService = {
     /* Pobiera paginowaną listę użytkowników (Domyślne ładowanie tabeli) */
@@ -7,6 +8,12 @@ export const userService = {
         const response = await axiosClient.get<UserListPage>('/users', {
             params: {page, size},
         });
+        return response.data;
+    },
+
+    /* Dodawanie nowego użytkownika */
+    addUser: async (userData: UserRequestFormData): Promise<User> => {
+        const response = await axiosClient.post<User>('/users', userData);
         return response.data;
     },
 

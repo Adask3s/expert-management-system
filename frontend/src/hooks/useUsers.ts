@@ -1,8 +1,8 @@
-import {keepPreviousData, useMutation, useQuery} from '@tanstack/react-query';
+import {keepPreviousData, useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import {userService} from '../services/userService';
-import type {ExpertSearchRequest} from '../types/users';
-// Standardowa liczba rekordów na stronie
+import type {ExpertSearchRequest, User} from '../types/users';
 import {PAGE_SIZE} from '../constants/paginations';
+import type {UserRequestFormData} from '../validations/userSchema';
 
 // Hook do standardowej, paginowanej listy użytkowników
 export const useUsersList = (page: number = 0, size: number = PAGE_SIZE) => {
@@ -30,3 +30,22 @@ export const useSearchExperts = () => {
         mutationFn: (request: ExpertSearchRequest) => userService.searchExperts(request),
     });
 };
+
+export const useAddUser = () => {
+    // Potrzebujemy dostępu do globalnego cach'u, ponieważ dodanie użytkownika 
+    // musi spowodować odświeżenie listy użytkowników (aby nowy użytkownik pojawił się w tabeli)
+    const queryClient = useQueryClient();
+
+    return useMutation<User, Error, UserRequestFormData>({
+        mutationFn: (userData: UserRequestFormData) => userService.addUser(userData),
+        onSuccess: () => {
+            // Unieważniamy wszystkie zapytania zawierające w swoim kluczu 'users'
+            // Zmuszamy w ten sposób React Query do ponownego pobrania listy użytkowników, aby odświeżyć tabelę
+            queryClient.invalidateQueries({queryKey: ['users']});
+
+        },
+        onError: (error) => {
+            console.error('Error adding user:', error);
+        }
+    });
+}

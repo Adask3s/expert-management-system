@@ -4,6 +4,8 @@ import type {components} from './api';
 export type UserListItem = components['schemas']['UserListItem'];
 export type UserSkillDetail = components['schemas']['UserSkillDetail'];
 export type UserListPage = components['schemas']['UserListPage'];
+// Model bazowa z OpenAPI, który jest używany w walidacji formularza dodawania użytkownika
+export type User = components['schemas']['User'];
 
 // Typy filtrowania i wyszukiwania
 export type ExpertSearchCriteria = components['schemas']['ExpertSearchCriteria'];
