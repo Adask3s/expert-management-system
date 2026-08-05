@@ -630,7 +630,6 @@ databaseChangeLog:
               - column: { name: "last_name", value: "System" }
               - column: { name: "email", value: "admin@example.com" }
               - column: { name: "active", valueBoolean: "true" }
-
         - insert:
             tableName: user_roles
             columns:
@@ -643,6 +642,7 @@ databaseChangeLog:
   - changeSet:
       id: insert-admin-credentials
       author: jonatan
+      context: dev
       changes:
         - insert:
             tableName: user_credentials
@@ -652,6 +652,7 @@ databaseChangeLog:
   - changeSet:
       id: insert-users-credentials
       author: jonatan
+      context: dev
       changes:
         - sql:
             sql: "INSERT INTO user_credentials (email, password) SELECT email, '$2a$10$ZWNkOFRepD.tqfbTPC//beptPY29deOQ1NXI6gMbaXkalu.X3BZ/q' FROM users WHERE email NOT IN (SELECT email FROM user_credentials)"
