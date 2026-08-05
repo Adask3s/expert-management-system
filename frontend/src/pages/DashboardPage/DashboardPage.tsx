@@ -7,6 +7,7 @@ import {useUsersList} from "../../hooks/useUsers";
 import {PAGE_SIZE} from '../../constants/paginations';
 import {Modal} from "../../components/common/Modal/Modal";
 import {Button} from "../../components/common/Button/Button";
+import {AddUserForm} from "../../components/users/AddUserForm/AddUserForm";
 import styles from './DashboardPage.module.css';
 
 export const DashboardPage = () => {
@@ -25,6 +26,10 @@ export const DashboardPage = () => {
     // (pointer-events: none)
     const {data, isPending, isFetching, isError} = useUsersList(page, PAGE_SIZE);
 
+    // Funkcje do otwierania i zamykania modala
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
+
     if (isError) {
         return (
             <div className={styles.errorMessage}>
@@ -40,7 +45,7 @@ export const DashboardPage = () => {
             </div>
             <Button
                 variant="primary"
-                onClick={() => setIsModalOpen(true)}
+                onClick={openModal}
             >
                 + Add Employee
             </Button>
@@ -99,22 +104,12 @@ export const DashboardPage = () => {
             <Modal
                 title="Add Employee"
                 isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
+                onClose={closeModal}
             >
-                {/* Tymczasowy kontener oparty ściśle na tokenach z tokens.css */}
-                <div style={{
-                    padding: 'var(--space-4)',
-                    backgroundColor: 'var(--color-bg-surface-hover)',
-                    borderRadius: 'var(--radius-sm)',
-                    color: 'var(--color-text-primary)',
-                    fontFamily: 'var(--font-family-sans)',
-                    textAlign: 'center'
-                }}>
-                    <p>System Diagnostics: Modal Portal Rendered Successfully.</p>
-                    <p style={{color: 'var(--color-text-muted)', fontSize: 'var(--font-size-sm)'}}>
-                        Place for the form to add a new employee. This is a placeholder for future implementation.
-                    </p>
-                </div>
+                <AddUserForm
+                    onSuccess={closeModal}
+                    onCancel={closeModal}
+                />
             </Modal>
         </>
     );

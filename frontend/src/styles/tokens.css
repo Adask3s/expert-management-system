@@ -13,17 +13,6 @@
  *    jego tokeny powinny żyć w Login.module.css, nie tutaj.
  */
 
-/**
-* ============================================================
-* UWAGA - Login Panel
-* ============================================================
-* Ekran logowania w Figmie ma inny język wizualny
-* (fioletowy glassmorphism na czarnym tle) niż reszta aplikacji.
-* Celowo NIE ma tu jego tokenów - gdy zdecydujemy się go
-* zaimplementować, stwórzymy osobny `Login.module.css` z lokalnymi
-* zmiennymi. Nie mieszamy tego z globalnym design systemem.
-*/
-
 :root {
     /* ============================================================
      * PRYMITYWY - surowe wartości kolorów (nie używamy bezpośrednio

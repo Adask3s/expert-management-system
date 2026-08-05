@@ -1,0 +1,168 @@
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+}
+
+.fieldGroup {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.label {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+}
+
+.input {
+    background-color: var(--color-bg-app);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-sm);
+    padding: var(--space-3) var(--space-4);
+    color: var(--color-text-primary);
+    font-size: var(--font-size-base);
+    font-family: var(--font-family-sans);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input:focus {
+    outline: none;
+    border-color: var(--color-border-brand);
+    box-shadow: 0 0 0 1px var(--color-border-brand);
+}
+
+.input::placeholder {
+    color: var(--color-text-faint);
+}
+
+.inputError {
+    border-color: var(--color-error);
+}
+
+.errorMessage {
+    color: var(--color-error);
+    font-size: var(--font-size-xs);
+    margin-top: calc(var(--space-1) * -1);
+}
+
+/* Sekcja statusu konta (Toggle) */
+.statusRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--space-2);
+}
+
+.statusText {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.statusDescription {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-subtle);
+}
+
+/* Własny stylizowany Toggle Switch z użyciem tokenów */
+.toggleLabel {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+}
+
+.toggleInput {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggleSlider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--color-bg-app);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-full);
+    transition: 0.3s;
+}
+
+.toggleSlider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 2px;
+    bottom: 2px;
+    background-color: var(--color-text-muted);
+    border-radius: var(--radius-full);
+    transition: 0.3s;
+}
+
+.toggleInput:checked + .toggleSlider {
+    background-color: color-mix(in srgb, var(--color-level-master-fg) 30%, transparent);
+    border-color: var(--color-status-active-fg);
+}
+
+.toggleInput:checked + .toggleSlider:before {
+    transform: translateX(20px);
+    background-color: var(--color-status-active-fg);
+    box-shadow: var(--shadow-active-status-glow);
+}
+
+/* Footer / Przyciski */
+.formActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border-subtle);
+}
+
+.cancelButton {
+    background: transparent;
+    border: 1px solid var(--color-border-default);
+    color: var(--color-text-secondary);
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cancelButton:hover {
+    background-color: var(--color-bg-surface-hover);
+    color: var(--color-text-primary);
+}
+
+.submitButton {
+    background: var(--color-brand-solid-button);
+    border: none;
+    color: var(--color-text-primary);
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    box-shadow: var(--shadow-button);
+    transition: filter 0.2s ease;
+}
+
+.submitButton:hover:not(:disabled) {
+    filter: brightness(1.1);
+}
+
+.submitButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
