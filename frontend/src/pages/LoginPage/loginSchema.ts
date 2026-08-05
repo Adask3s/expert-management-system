@@ -2,10 +2,10 @@ import {z} from 'zod';
 
 export const loginSchema = z.object({
     email: z.string()
-        .min(1, "Adres e-mail jest wymagany")
-        .email("Niepoprawny format adresu e-mail"),
+        .min(1, "Email adress is required")
+        .email("Invalid email format"),
     password: z.string()
-        .min(1, "Hasło jest wymagane")
+        .min(1, "Password is required")
 });
 
 export type LoginFormInputs = z.infer<typeof loginSchema>;
