@@ -12,12 +12,15 @@ export const AppLayout = () => {
                 <ul>
                     <li><Link to="/dashboard">Dashboard</Link></li>
                     <li><Link to="/domains">Domains</Link></li>
-                    <button
-                        onClick={logout}
-                        className={styles.logoutButton}
-                        title="Log out"
-                    > Log out
-                    </button>
+                    <li>
+                        <button
+                            onClick={logout}
+                            className={styles.logoutButton}
+                            title="Log out"
+                        >
+                            Log out
+                        </button>
+                    </li>
                 </ul>
             </nav>
 

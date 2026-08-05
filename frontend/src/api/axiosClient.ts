@@ -24,8 +24,8 @@ axiosClient.interceptors.response.use((response) => {
     return response;
 }, (error) => {
 
-    // Jeśli backend zwraca błąd 401 (token wygasł lub jest nieprawidłowy)
-    if (error.response && error.response.status === 401) {
+    // Jeśli backend zwraca błąd 401/403 (token wygasł, jest nieprawidłowy lub brak dostępu)
+    if (error.response && (error.response.status === 401 || error.response.status === 403)) {
         // To czyścimy stary token
         localStorage.removeItem('accessToken');
 
