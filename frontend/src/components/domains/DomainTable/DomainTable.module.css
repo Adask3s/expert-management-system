@@ -30,3 +30,52 @@
     gap: var(--space-2);
     justify-content: flex-end;
 }
+
+.tableInput {
+    width: 100%;
+    background-color: var(--color-bg-app);
+    border: 1px solid var(--color-border-default);
+    color: var(--color-text-primary);
+    padding: var(--space-1-5) var(--space-2-5);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-base);
+    font-family: var(--font-family-sans);
+    box-sizing: border-box;
+}
+
+.tableInput:focus {
+    outline: none;
+    border-color: var(--color-border-brand);
+}
+
+.saveButton {
+    background-color: var(--color-brand-solid-button);
+    color: var(--color-text-primary);
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: var(--space-1) var(--space-2-5);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+}
+
+.saveButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.cancelButton {
+    background-color: transparent;
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-sm);
+    padding: var(--space-1) var(--space-2-5);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+}
+
+.cancelButton:hover {
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-surface-hover);
+}

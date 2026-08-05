@@ -1,8 +1,10 @@
-import type {Domain} from '../../../types/users';
+import type {Domain, DomainRequest} from '../../../types/users';
 import {type ColumnDefinition, Table} from '../../common/Table/Table';
 import {ActionIconButton} from '../../common/IconButton/ActionIconButton';
 import {DomainAvatar} from '../../common/DomainAvatar/DomainAvatar';
 import styles from './DomainTable.module.css';
+import {useState} from 'react';
+import {useUpdateDomain} from '../../../hooks/useUpdateDomain';
 
 import editIcon from '../../../assets/icons/Edit.svg';
 import deleteIcon from '../../../assets/icons/Delete.svg';
@@ -15,6 +17,46 @@ interface DomainTableProps {
 }
 
 export function DomainTable({data, pagination, onEdit, onDelete}: DomainTableProps) {
+    // Przechowuje id wiersza, który jest obecnie w trakcie edycji
+    const [editingId, setEditingId] = useState<number | null>(null);
+
+    // Przechowuje wartości pól obecnie edytowanej domeny
+    const [editForm, setEditForm] = useState<DomainRequest>({
+        name: '',
+        description: '',
+    });
+
+    const updateDomainMutation = useUpdateDomain();
+
+    // start edit
+    const handleStartEdit = (domain: Domain) => {
+        if (domain.id !== undefined) {
+            setEditingId(domain.id); // Ustawiamy ten wiersz w tryb edycji
+            setEditForm({
+                name: domain.name ?? '', // Wypełniamy formularz aktualną wartością
+                description: domain.description ?? '',
+            });
+        }
+    };
+
+    // cancel edit
+    const handleCancelEdit = () => {
+        setEditingId(null); // Resetujemy ID edytowanego wiersza -> tabela wraca do widoku tekstu
+        setEditForm({name: '', description: ''});
+    };
+
+    // save edit
+    const handleSaveEdit = (id: number) => {
+        updateDomainMutation.mutate(
+            {id, payload: editForm},
+            {
+                onSuccess: () => {
+                    handleCancelEdit();
+                },
+            }
+        );
+    };
+
     const columns: ColumnDefinition<Domain>[] = [
         {
             header: 'ID',
@@ -23,40 +65,100 @@ export function DomainTable({data, pagination, onEdit, onDelete}: DomainTablePro
         },
         {
             header: 'DOMAIN NAME',
-            accessor: (domain) => (
-                <div className={styles.cellDomain}>
-                    <DomainAvatar/>
-                    <span className={styles.domainName}>{domain.name}</span>
-                </div>
-            ),
+            accessor: (domain) => {
+                const isEditing = domain.id === editingId;
+
+                return (
+                    <div className={styles.cellDomain}>
+                        <DomainAvatar/>
+                        {isEditing ? (
+                            <input
+                                type="text"
+                                className={styles.tableInput}
+                                value={editForm.name}
+                                onChange={(e) =>
+                                    setEditForm((prev) => ({...prev, name: e.target.value}))
+                                }
+                                placeholder="Domain name"
+                            />
+                        ) : (
+                            <span className={styles.domainName}>{domain.name}</span>
+                        )}
+                    </div>
+                );
+            },
             width: '250px',
         },
         {
             header: 'DESCRIPTION',
-            accessor: (domain) => (
-                <span className={styles.cellDescription}>{domain.description}</span>
-            ),
+            accessor: (domain) => {
+                const isEditing = domain.id === editingId;
+
+                return isEditing ? (
+                    <input
+                        type="text"
+                        className={styles.tableInput}
+                        value={editForm.description}
+                        onChange={(e) =>
+                            setEditForm((prev) => ({...prev, description: e.target.value}))
+                        }
+                        placeholder="Description"
+                    />
+                ) : (
+                    <span className={styles.cellDescription}>{domain.description}</span>
+                );
+            },
         },
         {
             header: 'ACTIONS',
-            accessor: (domain) => (
-                <div className={styles.cellActions}>
-                    <ActionIconButton
-                        iconSource={editIcon}
-                        altText={`Edit domain ${domain.name}`}
-                        title="Edit Domain"
-                        onClick={() => onEdit?.(domain)}
-                    />
-                    <ActionIconButton
-                        iconSource={deleteIcon}
-                        variant="danger"
-                        altText={`Delete domain ${domain.name}`}
-                        title="Delete Domain"
-                        onClick={() => onDelete?.(domain)}
-                    />
-                </div>
-            ),
-            width: '100px',
+            accessor: (domain) => {
+                const isEditing = domain.id === editingId;
+
+                // wiersz jest edytowany -> pokazujemy save i cancel
+                if (isEditing && domain.id !== undefined) {
+                    return (
+                        <div className={styles.cellActions}>
+                            {/* todo uzyc tutaj komponenta */}
+                            <button
+                                type="button"
+                                className={styles.saveButton}
+                                onClick={() => handleSaveEdit(domain.id!)}
+                                disabled={updateDomainMutation.isPending || !editForm.name.trim()}
+                            >
+                                {updateDomainMutation.isPending ? 'Saving...' : 'Save'}
+                            </button>
+                            <button
+                                type="button"
+                                className={styles.cancelButton}
+                                onClick={handleCancelEdit}
+                                disabled={updateDomainMutation.isPending}
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    );
+                }
+
+                // wiersz nie jest edytowany:
+                return (
+                    <div className={styles.cellActions}>
+                        <ActionIconButton
+                            iconSource={editIcon}
+                            altText={`Edit domain ${domain.name}`}
+                            title="Edit Domain"
+                            onClick={() => handleStartEdit(domain)}
+                        />
+                        <ActionIconButton
+                            iconSource={deleteIcon}
+                            variant="danger"
+                            altText={`Delete domain ${domain.name}`}
+                            title="Delete Domain"
+                            onClick={() => onDelete?.(domain)}
+                        />
+                    </div>
+                );
+            },
+            width: '140px',
         },
     ];
 
