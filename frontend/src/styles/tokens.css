@@ -98,6 +98,8 @@
     --color-danger-button-glow: var(--raw-red-glow);
     --color-error: var(--raw-red-500);
 
+    --color-brand-gradient-login: linear-gradient(135deg, var(--raw-purple-500) 0%, var(--raw-purple-400) 100%);
+
     /* ============================================================
      * SEMANTYKA - Poziomy kompetencji (EXPERTISE_LEVEL)
      * Spięte z domeną aplikacji - 1:1 z tym co przyjdzie z API.

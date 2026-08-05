@@ -56,6 +56,16 @@
     background-color: var(--color-error);
 }
 
+.login {
+    background-color: var(--raw-purple-500);
+    color: var(--color-text-primary);
+    box-shadow: var(--shadow-button);
+}
+
+.login:hover:not(:disabled) {
+    background-image: var(--color-brand-gradient-login);
+}
+
 .iconWrapper {
     display: flex;
     align-items: center;

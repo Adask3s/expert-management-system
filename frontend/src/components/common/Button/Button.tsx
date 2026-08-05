@@ -2,12 +2,12 @@ import type {ButtonHTMLAttributes, ReactNode} from "react";
 import styles from './Button.module.css';
 
 // ghost np. dla "Clear All" z Dashboard
-export type ButtonVariant = 'primary' | 'ghost' | 'danger';
+export type ButtonVariant = 'primary' | 'ghost' | 'danger' | 'login';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: ButtonVariant;
     icon?: ReactNode;   // opcjonalna ikona np. "+" dla "+ Add Employee", ReactNode dla uniwersalności (to odpowiada za wszystko,
-                        // co React potrafi wyrenderować
+    // co React potrafi wyrenderować
     children: ReactNode; // children jako tekst przycisku
 }
 

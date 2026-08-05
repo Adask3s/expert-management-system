@@ -74,7 +74,7 @@ export const LoginPage = () => {
 
                     <Button
                         type="submit"
-                        variant="primary"
+                        variant="login"
                         disabled={isPending}
                         children={isPending ? 'LOGGING IN...' : 'LOGIN'}
                     />
