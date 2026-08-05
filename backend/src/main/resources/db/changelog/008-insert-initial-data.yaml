@@ -649,3 +649,9 @@ databaseChangeLog:
             columns:
               - column: { name: "email", value: "admin@example.com" }
               - column: { name: "password", value: "$2a$10$BM4Ln5Sn4zfqI4t6TTfYCebRORU/en.H6cpMZWQK.X1/ynoK6sqmO" }
+  - changeSet:
+      id: insert-users-credentials
+      author: jonatan
+      changes:
+        - sql:
+            sql: "INSERT INTO user_credentials (email, password) SELECT email, '$2a$10$ZWNkOFRepD.tqfbTPC//beptPY29deOQ1NXI6gMbaXkalu.X3BZ/q' FROM users WHERE email NOT IN (SELECT email FROM user_credentials)"
