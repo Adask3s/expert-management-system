@@ -5,6 +5,7 @@
 
 import {axiosClient} from '../api/axiosClient';
 import type {Domain, DomainPageDto, DomainRequest, ExpertiseLevel} from '../types/users';
+import type {DomainRequestFormData} from '../validations/domainSchema';
 
 // Przygotowujemy serwis na przyszły task o wyszukiwaniu domen.
 // Dlatego metoda getDomains przyjmuje dodatkowy parametr name, który jest opcjonalny.
@@ -27,6 +28,12 @@ export const dictionaryService = {
     /* Aktualizuje istniejącą domenę */
     updateDomain: async (id: number, payload: DomainRequest): Promise<Domain> => {
         const response = await axiosClient.put<Domain>(`/domains/${id}`, payload);
+        return response.data;
+    },
+
+    /* Dodaje nową domenę do systemu */
+    addDomain: async (domainData: DomainRequestFormData): Promise<Domain> => {
+        const response = await axiosClient.post<Domain>('/domains', domainData);
         return response.data;
     },
 };
