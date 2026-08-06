@@ -5,6 +5,7 @@ import {DomainAvatar} from '../../common/DomainAvatar/DomainAvatar';
 import styles from './DomainTable.module.css';
 import {useState} from 'react';
 import {useUpdateDomain} from '../../../hooks/useUpdateDomain';
+import {Button} from '../../common/Button/Button';
 
 import editIcon from '../../../assets/icons/Edit.svg';
 import deleteIcon from '../../../assets/icons/Delete.svg';
@@ -31,9 +32,9 @@ export function DomainTable({data, pagination, onEdit, onDelete}: DomainTablePro
     // start edit
     const handleStartEdit = (domain: Domain) => {
         if (domain.id !== undefined) {
-            setEditingId(domain.id); // Ustawiamy ten wiersz w tryb edycji
+            setEditingId(domain.id);
             setEditForm({
-                name: domain.name ?? '', // Wypełniamy formularz aktualną wartością
+                name: domain.name ?? '',
                 description: domain.description ?? '',
             });
         }
@@ -41,7 +42,7 @@ export function DomainTable({data, pagination, onEdit, onDelete}: DomainTablePro
 
     // cancel edit
     const handleCancelEdit = () => {
-        setEditingId(null); // Resetujemy ID edytowanego wiersza -> tabela wraca do widoku tekstu
+        setEditingId(null);
         setEditForm({name: '', description: ''});
     };
 
@@ -118,28 +119,25 @@ export function DomainTable({data, pagination, onEdit, onDelete}: DomainTablePro
                 if (isEditing && domain.id !== undefined) {
                     return (
                         <div className={styles.cellActions}>
-                            {/* todo uzyc tutaj komponenta */}
-                            <button
-                                type="button"
-                                className={styles.saveButton}
+                            <Button
+                                variant="primary"
                                 onClick={() => handleSaveEdit(domain.id!)}
                                 disabled={updateDomainMutation.isPending || !editForm.name.trim()}
                             >
                                 {updateDomainMutation.isPending ? 'Saving...' : 'Save'}
-                            </button>
-                            <button
-                                type="button"
-                                className={styles.cancelButton}
+                            </Button>
+                            <Button
+                                variant="ghost"
                                 onClick={handleCancelEdit}
                                 disabled={updateDomainMutation.isPending}
                             >
                                 Cancel
-                            </button>
+                            </Button>
                         </div>
                     );
                 }
 
-                // wiersz nie jest edytowany:
+                // wiersz nie jest edytowany
                 return (
                     <div className={styles.cellActions}>
                         <ActionIconButton
@@ -158,7 +156,7 @@ export function DomainTable({data, pagination, onEdit, onDelete}: DomainTablePro
                     </div>
                 );
             },
-            width: '140px',
+            width: '180px',
         },
     ];
 
