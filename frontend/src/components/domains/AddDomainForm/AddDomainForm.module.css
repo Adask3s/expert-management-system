@@ -1,0 +1,71 @@
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+}
+
+.formSubtitle {
+    color: var(--color-text-subtle);
+    font-size: var(--font-size-sm);
+    margin-top: calc(var(--space-4) * -1);
+    margin-bottom: var(--space-2);
+}
+
+.fieldGroup {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.label {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+}
+
+.input, .textarea {
+    background-color: var(--color-bg-app);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-sm);
+    padding: var(--space-3) var(--space-4);
+    color: var(--color-text-primary);
+    font-size: var(--font-size-base);
+    font-family: var(--font-family-sans);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.input:focus, .textarea:focus {
+    outline: none;
+    border-color: var(--color-border-brand);
+    box-shadow: 0 0 0 1px var(--color-border-brand);
+}
+
+.input::placeholder, .textarea::placeholder {
+    color: var(--color-text-faint);
+}
+
+.inputError {
+    border-color: var(--color-error);
+}
+
+.errorMessage {
+    color: var(--color-error);
+    font-size: var(--font-size-xs);
+    margin-top: calc(var(--space-1) * -1);
+}
+
+.formActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border-subtle);
+}

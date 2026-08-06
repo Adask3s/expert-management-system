@@ -5,10 +5,14 @@ import {TablePageLayout} from '../../components/layout/TablePageLayout/TablePage
 import {useDomainsList} from '../../hooks/useDomainsList';
 import {DomainTableSkeleton} from "../../components/domains/DomainTable/DomainTableSkeleton";
 import {PAGE_SIZE} from '../../constants/paginations';
+import {Modal} from "../../components/common/Modal/Modal";
+import {AddDomainForm} from "../../components/domains/AddDomainForm/AddDomainForm";
 import styles from './DomainsPage.module.css';
 
 export const DomainsPage = () => {
     const [page, setPage] = useState<number>(0);
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     // isPending - stan inicjalny, np. przy wejściu na stronę nie mamy żadnych danych w cashe'u,
     // to faza "twardego ładowania", isPending używamy chwilowego zablokowania rednerowania tabeli
@@ -19,13 +23,18 @@ export const DomainsPage = () => {
     // isFetching używamy do obniżenia opacity tabeli i zablokowania kliknięć w trakcie przełączania stron
     // (pointer-events: none)
     const {data, isPending, isFetching, isError} = useDomainsList(page);
+    // Funkcje do otwierania i zamykania modala
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
 
     const pageHeader = (
         <div className={styles.headerContainer}>
             <div className={styles.headerTitles}>
                 <h1 className={styles.pageTitle}>All Domains</h1>
             </div>
-            <button className={styles.primaryButton}>+ Add New Domain</button>
+            <button className={styles.primaryButton} onClick={openModal}>
+                + Add New Domain
+            </button>
         </div>
     );
 
@@ -43,35 +52,48 @@ export const DomainsPage = () => {
     }
 
     return (
-        <TablePageLayout
-            header={pageHeader}
-            table={
-                isPending ? (
-                    // Wstrzykujemy Skeleton, gdy dane są w trakcie ładowania (pierwsze wejście)
-                    <DomainTableSkeleton rows={PAGE_SIZE}/>
-                ) : (
-                    // Wrapper obsługuje przezroczystość i blokadę kliknięć podczas przełączania stron
-                    <div className={`${styles.tableWrapper} ${isFetching ? styles.isFetching : ''}`}>
-                        <DomainTable
-                            data={domains}
-                            onEdit={undefined}
-                            onDelete={undefined}
+        <>
+            <TablePageLayout
+                header={pageHeader}
+                table={
+                    isPending ? (
+                        // Wstrzykujemy Skeleton, gdy dane są w trakcie ładowania (pierwsze wejście)
+                        <DomainTableSkeleton rows={PAGE_SIZE}/>
+                    ) : (
+                        // Wrapper obsługuje przezroczystość i blokadę kliknięć podczas przełączania stron
+                        <div className={`${styles.tableWrapper} ${isFetching ? styles.isFetching : ''}`}>
+                            <DomainTable
+                                data={domains}
+                                onEdit={undefined}
+                                onDelete={undefined}
+                            />
+                        </div>
+                    )
+                }
+                pagination={
+                    // Paginacja pojawia się dopiero, gdy mamy dane w cache
+                    data ? (
+                        <TablePagination
+                            number={page}
+                            size={PAGE_SIZE}
+                            totalElements={totalElements}
+                            totalPages={totalPages}
+                            onPageChange={setPage}
                         />
-                    </div>
-                )
-            }
-            pagination={
-                // Paginacja pojawia się dopiero, gdy mamy dane w cache
-                data ? (
-                    <TablePagination
-                        number={page}
-                        size={PAGE_SIZE}
-                        totalElements={totalElements}
-                        totalPages={totalPages}
-                        onPageChange={setPage}
-                    />
-                ) : null
-            }
-        />
+                    ) : null
+                }
+            />
+
+            <Modal
+                title="Add Domain"
+                isOpen={isModalOpen}
+                onClose={closeModal}
+            >
+                <AddDomainForm
+                    onSuccess={closeModal}
+                    onCancel={closeModal}
+                />
+            </Modal>
+        </>
     );
 };
