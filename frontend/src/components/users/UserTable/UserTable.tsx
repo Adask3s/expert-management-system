@@ -100,7 +100,7 @@ export function UserTable({data, onEdit, onDelete}: UserTableProps) {
             <Table
                 data={data}
                 columns={columns}
-                emptyMessage="No users found. Please adjust your search or filters."
+                emptyMessage="No users found matching the criteria."
             />
         </div>
     );

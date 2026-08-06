@@ -43,39 +43,39 @@ const mockUsers: UserListItem[] = [
 
 describe('UserTable Component', () => {
 
-    it('powinien poprawnie wyrenderować tabelę z danymi użytkowników', () => {
+    it('should render the table with user data correctly', () => {
         render(<UserTable data={mockUsers}/>);
 
-        // Weryfikacja renderowania danych tekstowych
+        // Verify rendering of text data
         expect(screen.getByText('Paweł Matujewicz')).toBeInTheDocument();
         expect(screen.getByText('pawel.matujewicz@corp.io')).toBeInTheDocument();
         expect(screen.getByText('Katarzyna Nowak')).toBeInTheDocument();
 
-        // Weryfikacja parsowania ról (usunięcie prefixu ROLE_)
+        // Verify role parsing (remove ROLE_ prefix)
         expect(screen.getByText('USER, ADMIN')).toBeInTheDocument();
 
-        // Weryfikacja domen wiedzy
+        // Verify domain badges
         expect(screen.getByText('Java')).toBeInTheDocument();
         expect(screen.getByText('Professional')).toBeInTheDocument();
     });
 
-    it('powinien wyrenderować status Active/Inactive na podstawie wartości boolean', () => {
+    it('should render Active/Inactive status based on boolean value', () => {
         render(<UserTable data={mockUsers}/>);
 
-        // Ponieważ Badge ze statusem ma twardo wpisany tekst w zależności od propsa `status`
+        // Badge status text is hardcoded based on the provided status prop
         expect(screen.getByText('Active')).toBeInTheDocument();
         expect(screen.getByText('Inactive')).toBeInTheDocument();
     });
 
-    it('powinien wyrenderować empty state gdy przekazano pustą tablicę', () => {
+    it('should render the empty state when an empty array is passed', () => {
         render(<UserTable data={[]}/>);
 
-        // Weryfikacja fallbacku, gdy brakuje wyników z API
-        expect(screen.getByText('Brak użytkowników pasujących do kryteriów.')).toBeInTheDocument();
+        // Verify fallback when the API returns no results
+        expect(screen.getByText('No users found matching the criteria.')).toBeInTheDocument();
     });
 
-    it('powinien poprawnie wywoływać callbacki onEdit oraz onDelete po kliknięciu akcji', () => {
-        // vi.fn() tworzy szpiegów (spies), którzy pozwalają sprawdzić, czy funkcje zostały wywołane
+    it('should correctly call onEdit and onDelete callbacks when actions are clicked', () => {
+        // vi.fn() creates spies to verify whether functions were called
         const onEditMock = vi.fn();
         const onDeleteMock = vi.fn();
 
@@ -87,7 +87,7 @@ describe('UserTable Component', () => {
             />
         );
 
-        // Szukamy przycisków po ich atrybucie aria-label, który zdefiniowaliśmy w ActionIconButton
+        // Search for buttons by their aria-label attribute defined in ActionIconButton
         const editButton = screen.getByLabelText(`Edit ${mockUsers[0].firstName}`);
         const deleteButton = screen.getByLabelText(`Delete ${mockUsers[0].firstName}`);
 

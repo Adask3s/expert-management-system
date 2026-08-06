@@ -43,6 +43,10 @@ export const DashboardPage = () => {
             <div className={styles.headerTitles}>
                 <h1 className={styles.pageTitle}>All employees</h1>
             </div>
+            {/* 
+              TODO: Owinąć ten przycisk w komponent strażnika (np. <RequireRole role="ADMIN">)
+              Zwykły użytkownik (ROLE_USER) nie może widzieć przycisku dodawania
+            */}
             <Button
                 variant="primary"
                 onClick={openModal}
