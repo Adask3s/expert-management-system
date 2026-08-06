@@ -1,9 +1,12 @@
 import {useState} from 'react';
+import type {Domain} from '../../types/users.ts';
 import {DomainTable} from '../../components/domains/DomainTable/DomainTable';
 import {TablePagination} from '../../components/common/Table/TablePagination';
 import {TablePageLayout} from '../../components/layout/TablePageLayout/TablePageLayout';
 import {useDomainsList} from '../../hooks/useDomainsList';
 import {DomainTableSkeleton} from "../../components/domains/DomainTable/DomainTableSkeleton";
+import {useDeleteDomain} from '../../hooks/useDomainsList.ts';
+import {ConfirmModal} from '../../components/common/Modal/ConfirmModal.tsx'
 import {PAGE_SIZE} from '../../constants/paginations';
 import {Modal} from "../../components/common/Modal/Modal";
 import {AddDomainForm} from "../../components/domains/AddDomainForm/AddDomainForm";
@@ -13,6 +16,10 @@ export const DomainsPage = () => {
     const [page, setPage] = useState<number>(0);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const [domainToDelete, setDomainToDelete] = useState<Domain | null>(null);
+
+    const {mutate: deleteDomain, isPending: isDeleting} = useDeleteDomain();
 
     // isPending - stan inicjalny, np. przy wejściu na stronę nie mamy żadnych danych w cashe'u,
     // to faza "twardego ładowania", isPending używamy chwilowego zablokowania rednerowania tabeli
@@ -65,7 +72,7 @@ export const DomainsPage = () => {
                             <DomainTable
                                 data={domains}
                                 onEdit={undefined}
-                                onDelete={undefined}
+                                onDelete={(domain) => setDomainToDelete(domain)}
                             />
                         </div>
                     )
@@ -82,6 +89,17 @@ export const DomainsPage = () => {
                         />
                     ) : null
                 }
+            />
+
+            <ConfirmModal
+                isOpen={!!domainToDelete}
+                onClose={() => setDomainToDelete(null)}
+                onConfirm={handleConfirmDelete}
+                title={`Delete domain "${domainToDelete?.name}"?`}
+                description="This action cannot be undone. The domain and its associations will be permanently removed."
+                confirmText="Delete"
+                variant="danger"
+                isLoading={isDeleting}
             />
 
             <Modal

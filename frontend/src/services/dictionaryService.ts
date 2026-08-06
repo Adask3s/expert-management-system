@@ -31,6 +31,10 @@ export const dictionaryService = {
         return response.data;
     },
 
+    deleteDomain: async (id: number): Promise<void> => {
+        await axiosClient.delete(`/domains/${id}`);
+    },
+
     /* Dodaje nową domenę do systemu */
     addDomain: async (domainData: DomainRequestFormData): Promise<Domain> => {
         const response = await axiosClient.post<Domain>('/domains', domainData);
