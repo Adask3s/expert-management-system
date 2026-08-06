@@ -49,3 +49,15 @@ export const useAddUser = () => {
         }
     });
 }
+
+export const useDeleteUser = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (id: number) => userService.deleteUser(id),
+        onSuccess: () => {
+            // Refresh tabeli
+            queryClient.invalidateQueries({queryKey: ['users']});
+        },
+    });
+};

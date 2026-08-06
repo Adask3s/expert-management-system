@@ -3,11 +3,13 @@ import {UserTable} from "../../components/users/UserTable/UserTable";
 import {UserTableSkeleton} from "../../components/users/UserTable/UserTableSkeleton";
 import {TablePagination} from "../../components/common/Table/TablePagination";
 import {TablePageLayout} from "../../components/layout/TablePageLayout/TablePageLayout";
-import {useUsersList} from "../../hooks/useUsers";
+import {useDeleteUser, useUsersList} from "../../hooks/useUsers";
 import {PAGE_SIZE} from '../../constants/paginations';
 import {Modal} from "../../components/common/Modal/Modal";
 import {Button} from "../../components/common/Button/Button";
 import {AddUserForm} from "../../components/users/AddUserForm/AddUserForm";
+import type {UserListItem} from "../../types/users.ts"
+import {ConfirmModal} from "../../components/common/Modal/ConfirmModal.tsx"
 import styles from './DashboardPage.module.css';
 
 export const DashboardPage = () => {
@@ -25,6 +27,21 @@ export const DashboardPage = () => {
     // isFetching używamy do obniżenia opacity tabeli i zablokowania kliknięć w trakcie przełączania stron
     // (pointer-events: none)
     const {data, isPending, isFetching, isError} = useUsersList(page, PAGE_SIZE);
+
+    // Usuwanie uzytkownika
+    const [userToDelete, setUserToDelete] = useState<UserListItem | null>(null);
+
+    const {mutate: deleteUser, isPending: isDeleting} = useDeleteUser();
+
+    const handleConfirmDelete = () => {
+        if (!userToDelete) return;
+
+        deleteUser(userToDelete.id, {
+            onSuccess: () => {
+                setUserToDelete(null); // Zamykamy modal po udanym usunięciu
+            },
+        });
+    };
 
     // Funkcje do otwierania i zamykania modala
     const openModal = () => setIsModalOpen(true);
@@ -86,9 +103,10 @@ export const DashboardPage = () => {
                             <UserTable
                                 data={data?.content || []}
                                 onEdit={(user) => console.log(`Open the edit user modal for ID: ${user.id}`)}
-                                onDelete={(user) => console.log(`Start the deletion process for ID: ${user.id}`)}
+                                onDelete={(user) => setUserToDelete(user)}
                             />
                         </div>
+
                     )
                 }
                 pagination={
@@ -115,6 +133,17 @@ export const DashboardPage = () => {
                     onCancel={closeModal}
                 />
             </Modal>
+
+            <ConfirmModal
+                isOpen={!!userToDelete}
+                onClose={() => setUserToDelete(null)}
+                onConfirm={handleConfirmDelete}
+                title={`Delete ${userToDelete?.firstName} ${userToDelete?.lastName}?`}
+                description="This action cannot be undone. The record will be permanently removed from the directory."
+                confirmText="Delete"
+                variant="danger"
+                isLoading={isDeleting}
+            />
         </>
     );
 };
