@@ -10,5 +10,11 @@ import java.util.List;
 public interface UserSkillRepository extends JpaRepository<UserSkill, Integer> {
     List<UserSkill> findByUserId(Long userId);
 
+    List<UserSkill> findByDomainId(Long domainId);
+
     boolean existsByUserIdAndDomainId(Long userId, Long domainId);
+
+    boolean existsByDomainId(Long domainId);
+
+    void deleteByDomainId(Long domainId);
 }
