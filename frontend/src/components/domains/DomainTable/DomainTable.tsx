@@ -156,7 +156,8 @@ export function DomainTable({data, pagination, onEdit, onDelete}: DomainTablePro
                     </div>
                 );
             },
-            width: '180px',
+            width: '300px',
+            align: 'right',
         },
     ];
 

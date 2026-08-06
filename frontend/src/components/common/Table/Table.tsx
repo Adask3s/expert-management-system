@@ -5,6 +5,7 @@ export interface ColumnDefinition<T> {
     header: string // tytuł kolumny wyświetlany w nagłówku tabeli <thead>
     accessor: (row: T) => ReactNode // funkcja wyciągająca i formatująca dane do komórki
     width?: string // opcjonalna szerokość kolumny
+    align?: 'left' | 'center' | 'right'
 }
 
 export interface TableProps<T> {
@@ -21,7 +22,7 @@ export function Table<T>({columns, data, pagination, emptyMessage = 'No data ava
                 <thead>
                 <tr>
                     {columns.map((col, index) => (
-                        <th key={index} style={{width: col.width}}>
+                        <th key={index} style={{width: col.width, textAlign: col.align || 'left'}}>
                             {col.header}
                         </th>
                     ))}
@@ -38,7 +39,7 @@ export function Table<T>({columns, data, pagination, emptyMessage = 'No data ava
                     data.map((row, rowIndex) => (
                         <tr key={rowIndex}>
                             {columns.map((col, colIndex) => (
-                                <td key={colIndex}>
+                                <td key={colIndex} style={{textAlign: col.align || 'left'}}>
                                     {col.accessor(row)}
                                 </td>
                             ))}

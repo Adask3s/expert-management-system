@@ -36,7 +36,13 @@ export const DomainTableSkeleton = ({rows = 10}: SkeletonProps) => {
                     </div>
 
                     {/* Kolumna Action (Edit/Delete) */}
-                    <div style={{display: 'flex', gap: '8px', width: '100px', justifyContent: 'flex-end'}}>
+                    <div style={{
+                        display: 'flex',
+                        gap: '8px',
+                        width: '300px',
+                        justifyContent: 'flex-end',
+                        align: "right"
+                    }}>
                         <div className={`${styles.pulse} ${styles.actionIcon}`}></div>
                         <div className={`${styles.pulse} ${styles.actionIcon}`}></div>
                     </div>
