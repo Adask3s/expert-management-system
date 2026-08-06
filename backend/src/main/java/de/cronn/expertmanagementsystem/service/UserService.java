@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -92,11 +93,11 @@ public class UserService {
     @Transactional
     public UserDto createUser(UserRequestDto userRequestDto) {
         User userToSave = userMapper.toEntity(userRequestDto);
+        Optional<Role> userRole = roleRepository.findByName("ROLE_USER");
+        userRole.ifPresent(userToSave::addRole);
 
-        // Zapisujemy usera do głównej tabeli (bez hasła)
         User savedUser = userRepository.save(userToSave);
 
-        // Generujemy i zapisujemy domyślne hasło startowe w nowej tabeli
         credentialsProvider.createDefaultCredentials(savedUser.getEmail());
 
         return userMapper.toDto(savedUser);

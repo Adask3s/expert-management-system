@@ -4,6 +4,7 @@ import de.cronn.expertmanagementsystem.entity.User;
 import de.cronn.expertmanagementsystem.mapper.UserMapper;
 import de.cronn.expertmanagementsystem.model.UserDto;
 import de.cronn.expertmanagementsystem.model.UserRequestDto;
+import de.cronn.expertmanagementsystem.repository.RoleRepository;
 import de.cronn.expertmanagementsystem.repository.UserRepository;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -32,6 +33,9 @@ class UserServiceTest {
 
     @Mock
     private DatabaseCredentialsProvider credentialsProvider;
+
+    @Mock
+    private RoleRepository roleRepository;
 
     @InjectMocks
     private UserService userService;
@@ -156,6 +160,7 @@ class UserServiceTest {
         when(userMapper.toEntity(requestDto)).thenReturn(userEntity);
         when(userRepository.save(any(User.class))).thenReturn(userEntity);
         when(userMapper.toDto(userEntity)).thenReturn(expectedDto);
+        when(roleRepository.findByName(anyString())).thenReturn(Optional.empty());
 
         // when
         UserDto result = userService.createUser(requestDto);
@@ -163,6 +168,7 @@ class UserServiceTest {
         // then
         assertThat(result).isSameAs(expectedDto);
         verify(userRepository).save(userEntity);
+        verify(roleRepository).findByName("ROLE_USER");
         verify(credentialsProvider).createDefaultCredentials("test@example.com");
     }
 }
