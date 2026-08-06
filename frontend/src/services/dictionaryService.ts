@@ -4,8 +4,8 @@
 // Widok zarządzania domenami również itp.
 
 import {axiosClient} from '../api/axiosClient';
-import type {Domain, DomainPageDto, DomainRequest, ExpertiseLevel} from '../types/users';
 import type {DomainRequestFormData} from '../validations/domainSchema';
+import type {Domain, DomainPageDto, DomainRequest, ExpertiseLevel} from '../types/users';
 
 // Przygotowujemy serwis na przyszły task o wyszukiwaniu domen.
 // Dlatego metoda getDomains przyjmuje dodatkowy parametr name, który jest opcjonalny.
