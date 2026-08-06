@@ -14,6 +14,7 @@ export type ExpertSearchRequest = components['schemas']['ExpertSearchRequest'];
 // Słowniki
 export type Domain = components['schemas']['Domain'];
 export type DomainPageDto = components['schemas']['DomainPageDto'];
+export type DomainRequest = components['schemas']['DomainRequest'];
 export type ExpertiseLevel = components['schemas']['ExpertiseLevel'];
 
 // Pomocnicze unie wyliczeniowe dla interfejsu UI

@@ -41,7 +41,7 @@ export const DomainTableSkeleton = ({rows = 10}: SkeletonProps) => {
                         gap: '8px',
                         width: '300px',
                         justifyContent: 'flex-end',
-                        align: "right"
+                        alignContent: "right"
                     }}>
                         <div className={`${styles.pulse} ${styles.actionIcon}`}></div>
                         <div className={`${styles.pulse} ${styles.actionIcon}`}></div>

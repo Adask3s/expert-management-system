@@ -6,7 +6,6 @@ import styles from './DomainTable.module.css';
 import {useState} from 'react';
 import {useUpdateDomain} from '../../../hooks/useUpdateDomain';
 import {Button} from '../../common/Button/Button';
-
 import editIcon from '../../../assets/icons/Edit.svg';
 import deleteIcon from '../../../assets/icons/Delete.svg';
 
@@ -37,6 +36,7 @@ export function DomainTable({data, pagination, onEdit, onDelete}: DomainTablePro
                 name: domain.name ?? '',
                 description: domain.description ?? '',
             });
+            onEdit?.(domain);
         }
     };
 
