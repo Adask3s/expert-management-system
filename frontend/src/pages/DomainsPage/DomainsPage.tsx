@@ -3,10 +3,9 @@ import type {Domain} from '../../types/users.ts';
 import {DomainTable} from '../../components/domains/DomainTable/DomainTable';
 import {TablePagination} from '../../components/common/Table/TablePagination';
 import {TablePageLayout} from '../../components/layout/TablePageLayout/TablePageLayout';
-import {useDomainsList} from '../../hooks/useDomainsList';
+import {useDeleteDomain, useDomainsList} from '../../hooks/useDomainsList';
 import {DomainTableSkeleton} from "../../components/domains/DomainTable/DomainTableSkeleton";
-import {useDeleteDomain} from '../../hooks/useDomainsList.ts';
-import {ConfirmModal} from '../../components/common/Modal/ConfirmModal.tsx'
+import {ConfirmModal} from '../../components/common/Modal/ConfirmModal.tsx';
 import {PAGE_SIZE} from '../../constants/paginations';
 import {Modal} from "../../components/common/Modal/Modal";
 import {AddDomainForm} from "../../components/domains/AddDomainForm/AddDomainForm";
@@ -14,25 +13,25 @@ import styles from './DomainsPage.module.css';
 
 export const DomainsPage = () => {
     const [page, setPage] = useState<number>(0);
-
     const [isModalOpen, setIsModalOpen] = useState(false);
-
     const [domainToDelete, setDomainToDelete] = useState<Domain | null>(null);
 
     const {mutate: deleteDomain, isPending: isDeleting} = useDeleteDomain();
-
-    // isPending - stan inicjalny, np. przy wejściu na stronę nie mamy żadnych danych w cashe'u,
-    // to faza "twardego ładowania", isPending używamy chwilowego zablokowania rednerowania tabeli
-    // i wstrzyknięcia w te miejsce Skeletona
-
-    // isFetching - stan odświeżania, żądanie sieciowe jest w toku, ale mamy dane w cache
-    // nie pokazujemy tu znowu Skeletona, bo użytkownik widziałby ciągle agresywne migotanie tabeli
-    // isFetching używamy do obniżenia opacity tabeli i zablokowania kliknięć w trakcie przełączania stron
-    // (pointer-events: none)
     const {data, isPending, isFetching, isError} = useDomainsList(page);
-    // Funkcje do otwierania i zamykania modala
+
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
+
+    // Obsługa potwierdzenia usunięcia domeny
+    const handleConfirmDelete = () => {
+        if (!domainToDelete) return;
+
+        deleteDomain(domainToDelete.id, {
+            onSuccess: () => {
+                setDomainToDelete(null);
+            },
+        });
+    };
 
     const pageHeader = (
         <div className={styles.headerContainer}>
@@ -45,7 +44,6 @@ export const DomainsPage = () => {
         </div>
     );
 
-    // Mapujemy strukturę DomainPageDto
     const domains = data?.content ?? [];
     const totalElements = data?.totalElements ?? 0;
     const totalPages = data?.totalPages ?? 1;
@@ -64,10 +62,8 @@ export const DomainsPage = () => {
                 header={pageHeader}
                 table={
                     isPending ? (
-                        // Wstrzykujemy Skeleton, gdy dane są w trakcie ładowania (pierwsze wejście)
                         <DomainTableSkeleton rows={PAGE_SIZE}/>
                     ) : (
-                        // Wrapper obsługuje przezroczystość i blokadę kliknięć podczas przełączania stron
                         <div className={`${styles.tableWrapper} ${isFetching ? styles.isFetching : ''}`}>
                             <DomainTable
                                 data={domains}
@@ -78,7 +74,6 @@ export const DomainsPage = () => {
                     )
                 }
                 pagination={
-                    // Paginacja pojawia się dopiero, gdy mamy dane w cache
                     data ? (
                         <TablePagination
                             number={page}
