@@ -4,6 +4,7 @@ import de.cronn.expertmanagementsystem.mapper.ExpertiseLevelMapper;
 import de.cronn.expertmanagementsystem.model.ExpertiseLevelDto;
 import de.cronn.expertmanagementsystem.repository.ExpertiseLevelRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +18,7 @@ public class ExpertiseLevelService {
 
     @Transactional
     public List<ExpertiseLevelDto> getAllExpertiseLevels() {
-        return expertiseLevelRepository.findAll().stream()
+        return expertiseLevelRepository.findAll(Sort.by(Sort.Direction.ASC, "id")).stream()
                 .map(expertiseLevelMapper::toDto)
                 .toList();
     }

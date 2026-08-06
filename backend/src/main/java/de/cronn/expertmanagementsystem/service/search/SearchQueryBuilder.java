@@ -50,7 +50,7 @@ public class SearchQueryBuilder {
         if (logicalOperator == LogicalOperatorEnum.AND) {
             sql.append(" HAVING COUNT(DISTINCT d.id) = :criteriaCount ");
         }
-
+        sql.append(" ORDER BY u.id ASC");
         return sql.toString();
     }
 
