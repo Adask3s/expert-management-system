@@ -55,7 +55,9 @@ export function UserTable({data, onEdit, onDelete}: UserTableProps) {
             header: 'ROLE',
             accessor: (user) => (
                 <span className={styles.cellRole}>
-                    {user.roles?.map(role => role.replace('ROLE_', '')).join(', ') || 'User'}
+                    {user.roles && user.roles.length > 0
+                        ? user.roles.map(role => role.replace('ROLE_', '')).join(', ')
+                        : '—'}
                 </span>
             ),
             width: '100px',
@@ -98,7 +100,7 @@ export function UserTable({data, onEdit, onDelete}: UserTableProps) {
             <Table
                 data={data}
                 columns={columns}
-                emptyMessage="Brak użytkowników pasujących do kryteriów."
+                emptyMessage="No users found. Please adjust your search or filters."
             />
         </div>
     );
