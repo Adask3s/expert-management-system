@@ -38,5 +38,23 @@ export const userService = {
     updateUser: async (id: string, userData: UserRequestFormData): Promise<User> => {
         const response = await axiosClient.put<User>(`/users/${id}`, userData);
         return response.data;
-    }
+    },
+
+    /* Nadawanie roli użytkownikowi */
+    addRole: async (userId: string, roleName: string): Promise<void> => {
+        // Kontrakt wymaga obiektu RoleRequest { roleName: string } w ciele POST
+        await axiosClient.post(`/users/${userId}/roles`, {roleName});
+    },
+
+    /* Odbieranie roli użytkownikowi */
+    removeRole: async (userId: string, roleName: string): Promise<void> => {
+        // DELETE przyjmuje parametr roleName w ścieżce
+        await axiosClient.delete(`/users/${userId}/roles/${roleName}`);
+    },
+
+    /* Pobieranie ról przypisanych do konkretnego użytkownika */
+    getUserRoles: async (userId: string): Promise<string[]> => {
+        const response = await axiosClient.get<string[]>(`/users/${userId}/roles`);
+        return response.data;
+    },
 };

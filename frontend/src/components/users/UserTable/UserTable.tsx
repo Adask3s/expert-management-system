@@ -57,9 +57,10 @@ export function UserTable({data, onEdit, onDelete}: UserTableProps) {
             header: 'ROLE',
             accessor: (user) => (
                 <span className={styles.cellRole}>
-                    {user.roles && user.roles.length > 0
-                        ? user.roles.map(role => role.replace('ROLE_', '')).join(', ')
-                        : '—'}
+                    {/* Logika hierarchii: jeśli ma ROLE_ADMIN, ignorujemy resztę. Jeśli nie, sprawdzamy czy ma ROLE_USER. */}
+                    {user.roles?.includes('ROLE_ADMIN')
+                        ? 'Admin'
+                        : (user.roles?.includes('ROLE_USER') ? 'User' : '—')}
                 </span>
             ),
             width: '100px',

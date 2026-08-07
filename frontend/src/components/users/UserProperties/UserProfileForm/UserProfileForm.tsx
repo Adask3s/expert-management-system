@@ -1,4 +1,3 @@
-// frontend/src/components/users/UserProperties/UserProfileForm/UserProfileForm.tsx
 import {useRef, useState} from 'react';
 import {Button} from '../../../common/Button/Button';
 import {UserAvatar} from '../../../common/UserAvatar/UserAvatar';

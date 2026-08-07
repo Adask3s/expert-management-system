@@ -3,6 +3,7 @@ import {useQuery} from '@tanstack/react-query';
 import {userService} from '../../services/userService';
 import {UserProfileForm} from '../../components/users/UserProperties/UserProfileForm/UserProfileForm';
 import styles from './UserPropertiesPage.module.css';
+import {UserRolesPanel} from '../../components/users/UserProperties/UserRolesPanel/UserRolesPanel';
 
 export const UserPropertiesPage = () => {
     const {id} = useParams<{ id: string }>();
@@ -43,6 +44,7 @@ export const UserPropertiesPage = () => {
                     <aside className={styles.leftColumn}>
                         {/* Wstrzykujemy pobrane dane do formularza */}
                         <UserProfileForm initialData={user!}/>
+                        <UserRolesPanel user={user!}/>
 
                         {/* TODO: Tutaj wyląduje UserRolesPanel.tsx */}
                     </aside>

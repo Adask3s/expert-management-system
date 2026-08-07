@@ -12,9 +12,19 @@
  */
 
 import {fireEvent, render, screen} from '@testing-library/react';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import type {ReactElement} from 'react';
 import {describe, expect, it, vi} from 'vitest';
 import {UserTable} from './UserTable';
 import type {UserListItem} from '../../../types/users'; // Upewnij się co do ścieżki
+
+vi.mock('../../../hooks/useAuth', () => ({
+    useAuth: () => ({
+        user: {roles: ['ROLE_ADMIN']},
+        isAdmin: true,
+        isLoading: false,
+    }),
+}));
 
 // Mock danych w 100% zgodny z kontraktem OpenAPI (DTO: UserListItem)
 const mockUsers: UserListItem[] = [
@@ -41,10 +51,26 @@ const mockUsers: UserListItem[] = [
     }
 ];
 
+function renderWithQueryClient(ui: ReactElement) {
+    const queryClient = new QueryClient({
+        defaultOptions: {
+            queries: {
+                retry: false,
+            },
+        },
+    });
+
+    return render(
+        <QueryClientProvider client={queryClient}>
+            {ui}
+        </QueryClientProvider>
+    );
+}
+
 describe('UserTable Component', () => {
 
     it('should render the table with user data correctly', () => {
-        render(<UserTable data={mockUsers}/>);
+        renderWithQueryClient(<UserTable data={mockUsers}/>);
 
         // Verify rendering of text data
         expect(screen.getByText('Paweł Matujewicz')).toBeInTheDocument();
@@ -52,7 +78,7 @@ describe('UserTable Component', () => {
         expect(screen.getByText('Katarzyna Nowak')).toBeInTheDocument();
 
         // Verify role parsing (remove ROLE_ prefix)
-        expect(screen.getByText('USER, ADMIN')).toBeInTheDocument();
+        expect(screen.getByText('Admin')).toBeInTheDocument();
 
         // Verify domain badges
         expect(screen.getByText('Java')).toBeInTheDocument();
@@ -60,7 +86,7 @@ describe('UserTable Component', () => {
     });
 
     it('should render Active/Inactive status based on boolean value', () => {
-        render(<UserTable data={mockUsers}/>);
+        renderWithQueryClient(<UserTable data={mockUsers}/>);
 
         // Badge status text is hardcoded based on the provided status prop
         expect(screen.getByText('Active')).toBeInTheDocument();
@@ -68,7 +94,7 @@ describe('UserTable Component', () => {
     });
 
     it('should render the empty state when an empty array is passed', () => {
-        render(<UserTable data={[]}/>);
+        renderWithQueryClient(<UserTable data={[]}/>);
 
         // Verify fallback when the API returns no results
         expect(screen.getByText('No users found matching the criteria.')).toBeInTheDocument();
@@ -79,7 +105,7 @@ describe('UserTable Component', () => {
         const onEditMock = vi.fn();
         const onDeleteMock = vi.fn();
 
-        render(
+        renderWithQueryClient(
             <UserTable
                 data={[mockUsers[0]]}
                 onEdit={onEditMock}
