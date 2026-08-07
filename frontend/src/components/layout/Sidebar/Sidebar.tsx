@@ -6,6 +6,7 @@ import Logout from '../../../assets/icons/Logout.svg';
 import Star from '../../../assets/icons/Star.svg';
 import {UserAvatar} from '../../common/UserAvatar/UserAvatar';
 import {useLogout} from '../../../hooks/useLogout';
+import {useAuth} from '../../../hooks/useAuth'
 
 const navItems = [
     {to: '/dashboard', label: 'Dashboard', icon: Dashboard},
@@ -16,8 +17,9 @@ export const Sidebar = () => {
     // Podpinamy gotową logikę czyszczenia sesji i przekierowania
     const logout = useLogout();
 
-    // Sprawdzamy czy sesja fizycznie istnieje (zgodnie z logiką ProtectedRoute)
-    const isAuthenticated = !!localStorage.getItem('accessToken');
+    const {user, isLoading} = useAuth();
+    const fullName = user ? `${user.firstName} ${user.lastName}` : 'Guest';
+    const email = user?.email ?? 'Not logged in';
 
     return (
         <aside className={styles.sidebarContainer}>
@@ -54,17 +56,13 @@ export const Sidebar = () => {
             {/* Profil użytkownika */}
             <div className={styles.userSection}>
                 <div className={styles.userInfo}>
-                    <UserAvatar/>
+                    <UserAvatar altText={fullName}/>
                     <div className={styles.userDetails}>
-                        {/* 
-                          TODO: Wdrożyć JWT Decode i globalny AuthContext,
-                          aby pobierać z tokena rzeczywiste imię, nazwisko i rolę użytkownika
-                        */}
                         <span className={styles.userName}>
-                            {isAuthenticated ? 'System User' : 'Guest'}
+                            {isLoading ? 'Loading...' : fullName}
                         </span>
                         <span className={styles.userEmail}>
-                            {isAuthenticated ? 'Authenticated' : 'Not logged in'}
+                            {isLoading ? '...' : email}
                         </span>
                     </div>
                 </div>

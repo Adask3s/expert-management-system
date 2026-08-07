@@ -1,5 +1,6 @@
 import type {UserListItem} from '../../../types/users';
 import {type ColumnDefinition, Table} from '../../common/Table/Table';
+import {useAuth} from '../../../hooks/useAuth'
 import {Badge, type LevelRank} from '../../common/Badge/Badge';
 import {UserAvatar} from '../../common/UserAvatar/UserAvatar';
 import {ActionIconButton} from '../../common/IconButton/ActionIconButton';
@@ -17,6 +18,7 @@ interface UserTableProps {
 }
 
 export function UserTable({data, onEdit, onDelete}: UserTableProps) {
+    const {isAdmin} = useAuth();
     const columns: ColumnDefinition<UserListItem>[] = [
         {
             header: 'ID',
@@ -72,7 +74,10 @@ export function UserTable({data, onEdit, onDelete}: UserTableProps) {
             ),
             width: '120px',
         },
-        {
+    ];
+
+    if (isAdmin) {
+        columns.push({
             header: 'ACTIONS',
             accessor: (user) => (
                 <div className={styles.cellActions}>
@@ -92,8 +97,8 @@ export function UserTable({data, onEdit, onDelete}: UserTableProps) {
                 </div>
             ),
             width: '100px',
-        },
-    ];
+        });
+    }
 
     return (
         <div className={styles.userTableWrapper}>

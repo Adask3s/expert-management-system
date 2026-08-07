@@ -4,6 +4,7 @@ import {UserTableSkeleton} from "../../components/users/UserTable/UserTableSkele
 import {TablePagination} from "../../components/common/Table/TablePagination";
 import {TablePageLayout} from "../../components/layout/TablePageLayout/TablePageLayout";
 import {useDeleteUser, useUsersList} from "../../hooks/useUsers";
+import {useAuth} from '../../hooks/useAuth'
 import {PAGE_SIZE} from '../../constants/paginations';
 import {Modal} from "../../components/common/Modal/Modal";
 import {Button} from "../../components/common/Button/Button";
@@ -17,7 +18,7 @@ export const DashboardPage = () => {
 
     // Stan kontrolujący widoczność okna modalnego
     const [isModalOpen, setIsModalOpen] = useState(false);
-
+    const {isAdmin} = useAuth();
     // isPending - stan inicjalny, np. przy wejściu na stronę nie mamy żadnych danych w cashe'u,
     // to faza "twardego ładowania", isPending używamy chwilowego zablokowania rednerowania tabeli
     // i wstrzyknięcia w te miejsce Skeletona
@@ -60,16 +61,13 @@ export const DashboardPage = () => {
             <div className={styles.headerTitles}>
                 <h1 className={styles.pageTitle}>All employees</h1>
             </div>
-            {/* 
-              TODO: Owinąć ten przycisk w komponent strażnika (np. <RequireRole role="ADMIN">)
-              Zwykły użytkownik (ROLE_USER) nie może widzieć przycisku dodawania
-            */}
-            <Button
-                variant="primary"
-                onClick={openModal}
-            >
-                + Add Employee
-            </Button>
+            {isAdmin &&
+                (<Button
+                    variant="primary"
+                    onClick={openModal}
+                >
+                    + Add Employee
+                </Button>)}
         </div>
     );
 

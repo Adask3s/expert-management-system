@@ -4,6 +4,7 @@ import {DomainTable} from '../../components/domains/DomainTable/DomainTable';
 import {TablePagination} from '../../components/common/Table/TablePagination';
 import {TablePageLayout} from '../../components/layout/TablePageLayout/TablePageLayout';
 import {useDeleteDomain, useDomainsList} from '../../hooks/useDomainsList';
+import {useAuth} from '../../hooks/useAuth'
 import {DomainTableSkeleton} from "../../components/domains/DomainTable/DomainTableSkeleton";
 import {ConfirmModal} from '../../components/common/Modal/ConfirmModal.tsx';
 import {PAGE_SIZE} from '../../constants/paginations';
@@ -13,6 +14,7 @@ import styles from './DomainsPage.module.css';
 
 export const DomainsPage = () => {
     const [page, setPage] = useState<number>(0);
+    const {isAdmin} = useAuth();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [domainToDelete, setDomainToDelete] = useState<Domain | null>(null);
 
@@ -38,12 +40,14 @@ export const DomainsPage = () => {
             <div className={styles.headerTitles}>
                 <h1 className={styles.pageTitle}>All Domains</h1>
             </div>
-            <button className={styles.primaryButton} onClick={openModal}>
-                + Add New Domain
-            </button>
+            {isAdmin &&
+                (<button className={styles.primaryButton} onClick={openModal}>
+                    + Add New Domain
+                </button>)}
         </div>
     );
 
+    // Mapujemy strukturę DomainPageDto
     const domains = data?.content ?? [];
     const totalElements = data?.totalElements ?? 0;
     const totalPages = data?.totalPages ?? 1;
@@ -62,8 +66,10 @@ export const DomainsPage = () => {
                 header={pageHeader}
                 table={
                     isPending ? (
+                        // Wstrzykujemy Skeleton, gdy dane są w trakcie ładowania (pierwsze wejście)
                         <DomainTableSkeleton rows={PAGE_SIZE}/>
                     ) : (
+                        // Wrapper obsługuje przezroczystość i blokadę kliknięć podczas przełączania stron
                         <div className={`${styles.tableWrapper} ${isFetching ? styles.isFetching : ''}`}>
                             <DomainTable
                                 data={domains}
@@ -74,6 +80,7 @@ export const DomainsPage = () => {
                     )
                 }
                 pagination={
+                    // Paginacja pojawia się dopiero, gdy mamy dane w cache
                     data ? (
                         <TablePagination
                             number={page}

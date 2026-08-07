@@ -4,6 +4,7 @@ import {ActionIconButton} from '../../common/IconButton/ActionIconButton';
 import {DomainAvatar} from '../../common/DomainAvatar/DomainAvatar';
 import styles from './DomainTable.module.css';
 import {useState} from 'react';
+import {useAuth} from '../../../hooks/useAuth'
 import {useUpdateDomain} from '../../../hooks/useUpdateDomain';
 import {Button} from '../../common/Button/Button';
 import editIcon from '../../../assets/icons/Edit.svg';
@@ -17,6 +18,7 @@ interface DomainTableProps {
 }
 
 export function DomainTable({data, pagination, onEdit, onDelete}: DomainTableProps) {
+    const {isAdmin} = useAuth();
     // Przechowuje id wiersza, który jest obecnie w trakcie edycji
     const [editingId, setEditingId] = useState<number | null>(null);
 
@@ -110,7 +112,10 @@ export function DomainTable({data, pagination, onEdit, onDelete}: DomainTablePro
                 );
             },
         },
-        {
+    ];
+
+    if (isAdmin) {
+        columns.push({
             header: 'ACTIONS',
             accessor: (domain) => {
                 const isEditing = domain.id === editingId;
@@ -158,8 +163,8 @@ export function DomainTable({data, pagination, onEdit, onDelete}: DomainTablePro
             },
             width: '300px',
             align: 'right',
-        },
-    ];
+        });
+    }
 
     return (
         <div className={styles.tableWrapper}>
