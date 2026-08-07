@@ -27,4 +27,16 @@ export const userService = {
     deleteUser: async (id: number): Promise<void> => {
         await axiosClient.delete(`/users/${id}`);
     },
+
+    /* Pobieranie pojedynczego użytkownika po ID */
+    getUserById: async (id: string): Promise<User> => {
+        const response = await axiosClient.get<User>(`/users/${id}`);
+        return response.data;
+    },
+
+    /* Aktualizacja danych profilowych użytkownika */
+    updateUser: async (id: string, userData: UserRequestFormData): Promise<User> => {
+        const response = await axiosClient.put<User>(`/users/${id}`, userData);
+        return response.data;
+    }
 };

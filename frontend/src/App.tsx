@@ -4,6 +4,7 @@ import {DashboardPage} from './pages/DashboardPage/DashboardPage';
 import {DomainsPage} from './pages/DomainsPage/DomainsPage';
 import {LoginPage} from './pages/LoginPage/LoginPage';
 import {ProtectedRoute} from './routes/ProtectedRoute';
+import {UserPropertiesPage} from './pages/UserPropertiesPage/UserPropertiesPage';
 
 export function App() {
     return (
@@ -17,11 +18,16 @@ export function App() {
                     <Route index element={<Navigate to="/dashboard" replace/>}/>
                     <Route path="dashboard" element={<DashboardPage/>}/>
                     <Route path="domains" element={<DomainsPage/>}/>
+                    {/* Ścieżka do szczegółów użytkownika */}
+                    <Route path="users/:id" element={<UserPropertiesPage/>}/>
                 </Route>
             </Route>
 
             {/* Przechwytywanie nieistniejących ścieżek - oddelegowujemy do dashboard'u */}
             <Route path="*" element={<Navigate to="/dashboard" replace/>}/>
+
+            {/* Ścieżka do szczegółów użytkownika */}
+
         </Routes>
     );
 }
