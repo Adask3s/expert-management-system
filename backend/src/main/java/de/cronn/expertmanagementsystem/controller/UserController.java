@@ -7,6 +7,8 @@ import de.cronn.expertmanagementsystem.service.UserSkillService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -47,6 +49,18 @@ public class UserController implements UsersApi {
     public ResponseEntity<UserDto> usersIdPut(Integer id, UserRequestDto userRequestDto) {
         UserDto updatedUser = userService.updateUser(id.longValue(), userRequestDto);
         return ResponseEntity.ok(updatedUser);
+    }
+
+    @Override
+    public ResponseEntity<UserListItemDto> usersMeGet() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            String email = auth.getName();
+
+            UserListItemDto currentUser = userService.getUserByEmail(email);
+            return ResponseEntity.ok(currentUser);
+        }
+        return ResponseEntity.noContent().build();
     }
 
     @Override

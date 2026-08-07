@@ -31,7 +31,18 @@ paths:
                 $ref: '#/components/schemas/TokenResponse'
         '401':
           description: Niepoprawne dane uwierzytelniające
-
+  /users/me:
+    get:
+      tags: [ Users ]
+      summary: Pobierz dane aktualnie zalogowanego użytkownika
+      description: Zwraca dane profilowe oraz role użytkownika wyciągnięte na podstawie tokenu JWT.
+      responses:
+        '200':
+          description: Dane zalogowanego użytkownika
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserListItem'
   /users:
     get:
       tags: [ Users ]

@@ -55,6 +55,16 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
+    public UserListItemDto getUserByEmail(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+        if (user.isPresent()) {
+            return userMapper.toListItemDto(user.get());
+        } else {
+            throw new EntityNotFoundException("User not found with email: " + email);
+        }
+    }
+
+    @Transactional(readOnly = true)
     public UserListPageDto searchUsers(ExpertSearchRequestDto searchRequestDto) {
         List<ExpertSearchCriteriaDto> criteria = searchCriteriaBuilder.build(searchRequestDto);
 
