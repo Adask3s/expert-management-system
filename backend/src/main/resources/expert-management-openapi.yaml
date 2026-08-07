@@ -548,6 +548,8 @@ components:
     UserSkillDetail:
       type: object
       properties:
+        id:
+          type: integer
         domainName:
           type: string
         levelName:
