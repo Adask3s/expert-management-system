@@ -9,6 +9,7 @@ import {PAGE_SIZE} from '../../constants/paginations';
 import {Modal} from "../../components/common/Modal/Modal";
 import {Button} from "../../components/common/Button/Button";
 import {AddUserForm} from "../../components/users/AddUserForm/AddUserForm";
+import {useNavigate} from 'react-router-dom';
 import type {UserListItem} from "../../types/users.ts"
 import {ConfirmModal} from "../../components/common/Modal/ConfirmModal.tsx"
 import styles from './DashboardPage.module.css';
@@ -19,6 +20,10 @@ export const DashboardPage = () => {
     // Stan kontrolujący widoczność okna modalnego
     const [isModalOpen, setIsModalOpen] = useState(false);
     const {isAdmin} = useAuth();
+
+    // Inicjalizacja funkcji nawigującej
+    const navigate = useNavigate();
+
     // isPending - stan inicjalny, np. przy wejściu na stronę nie mamy żadnych danych w cashe'u,
     // to faza "twardego ładowania", isPending używamy chwilowego zablokowania rednerowania tabeli
     // i wstrzyknięcia w te miejsce Skeletona
@@ -100,7 +105,8 @@ export const DashboardPage = () => {
                         <div className={`${styles.tableWrapper} ${isFetching ? styles.isFetching : ''}`}>
                             <UserTable
                                 data={data?.content || []}
-                                onEdit={(user) => console.log(`Open the edit user modal for ID: ${user.id}`)}
+                                // Wywołujemy nawigację pod adres nowej strony
+                                onEdit={(user) => navigate(`/users/${user.id}`)}
                                 onDelete={(user) => setUserToDelete(user)}
                             />
                         </div>

@@ -1,0 +1,119 @@
+/* frontend/src/components/users/UserProperties/UserProfileForm/UserProfileForm.module.css */
+.card {
+    background-color: var(--color-bg-surface);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    border: 1px solid var(--color-border-subtle);
+}
+
+.profileHeader {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-2);
+}
+
+.avatarLarge > div {
+    width: 48px;
+    height: 48px;
+    background-color: var(--color-segment-active-bg);
+}
+
+.profileInfo {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.fullName {
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+}
+
+.emailAddress {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-subtle);
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1-5);
+}
+
+.label {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+}
+
+/* Kontener blokuje pozycjonowanie absolutne ikonki */
+.inputWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.input {
+    width: 100%;
+    background-color: var(--color-bg-surface-hover); /* Lekkie tło gdy jest aktywny */
+    border: none;
+    border-bottom: 1px solid var(--color-brand-text); /* Niebieska linia gdy piszemy */
+    color: var(--color-text-primary);
+    font-size: var(--font-size-md);
+    line-height: 1.5;
+    padding: var(--space-2) var(--space-5) var(--space-2) var(--space-2); /* Dodany lewy padding dla czytelności trybu edycji */
+    font-family: var(--font-family-sans);
+    transition: border-color 0.2s, background-color 0.2s;
+    border-radius: var(--radius-xs);
+}
+
+.input:focus {
+    outline: none;
+}
+
+/* Stan dla pól dynamicznie zablokowanych (oczekujących na kliknięcie ikonki) */
+.inputLocked {
+    background-color: transparent;
+    border-bottom-color: transparent;
+    padding-left: 0; /* Wyrównanie do lewej krawędzi, jak zwykły tekst */
+    cursor: default; /* Nie sugeruje możliwości wpisywania tekstu */
+}
+
+/* Stan dla pola, które jest w 100% zablokowane permanentnie (Employee ID) */
+.inputReadOnly {
+    color: var(--color-text-faint);
+    pointer-events: none;
+    border-bottom-color: transparent;
+    background-color: transparent;
+    padding-left: 0;
+}
+
+.editIcon {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.4;
+    /* USUNIĘTO pointer-events: none; aby można było w nią kliknąć */
+    cursor: pointer; /* Zmieniamy kursor na "łapkę" */
+    transition: opacity 0.2s;
+}
+
+.editIcon:hover {
+    opacity: 1; /* Mocniejsze podświetlenie na hoverze dla lepszego UX */
+}
+
+.actions {
+    display: flex;
+    gap: var(--space-3);
+    margin-top: var(--space-4);
+}

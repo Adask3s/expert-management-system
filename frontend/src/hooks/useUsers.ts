@@ -61,3 +61,25 @@ export const useDeleteUser = () => {
         },
     });
 };
+
+// User update
+interface UpdateUserArgs {
+    id: string;
+    userData: UserRequestFormData;
+}
+
+export const useUpdateUser = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: ({id, userData}: UpdateUserArgs) => userService.updateUser(id, userData),
+        onSuccess: (_, variables) => {
+            // variables zawiera obiekt UpdateUserArgs przekazany przy wywołaniu mutate()
+            queryClient.invalidateQueries({queryKey: ['user', variables.id]});
+            queryClient.invalidateQueries({queryKey: ['users']});
+        },
+        onError: (error) => {
+            console.error('System Diagnostics: Error updating user profile:', error);
+        }
+    });
+};
