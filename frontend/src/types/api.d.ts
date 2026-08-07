@@ -27,7 +27,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description Sukces */
+                /** @description Zalogowano pomyślnie */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -36,8 +36,54 @@ export interface paths {
                         "application/json": components["schemas"]["TokenResponse"];
                     };
                 };
+                /** @description Niepoprawne dane uwierzytelniające */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
             };
         };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/users/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Pobierz dane aktualnie zalogowanego użytkownika
+         * @description Zwraca dane profilowe oraz role użytkownika wyciągnięte na podstawie tokenu JWT.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Dane zalogowanego użytkownika */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["UserListItem"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -530,7 +576,29 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /** Pobierz role użytkownika */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    userId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Lista ról przypisanych do użytkownika */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": string[];
+                    };
+                };
+            };
+        };
         put?: never;
         /** Nadaj rolę użytkownikowi */
         post: {
@@ -663,14 +731,22 @@ export interface components {
             roleName: string;
         };
         LoginRequest: {
-            /** Format: email */
+            /**
+             * Format: email
+             * @example user@example.com
+             */
             email: string;
+            /**
+             * Format: password
+             * @example Secret123!
+             */
             password: string;
         };
         TokenResponse: {
             accessToken?: string;
         };
         UserSkillDetail: {
+            id?: number;
             domainName?: string;
             levelName?: string;
             rankValue?: number;
