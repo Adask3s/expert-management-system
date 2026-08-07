@@ -1,0 +1,29 @@
+.domainCell {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.domainIcon {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background-color: var(--color-bg-surface-hover);
+    border-radius: var(--radius-sm);
+}
+
+.domainName {
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+}
+
+.actionsCell {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}

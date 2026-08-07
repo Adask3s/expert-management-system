@@ -2,13 +2,14 @@ import {Navigate, useParams} from 'react-router-dom';
 import {useQuery} from '@tanstack/react-query';
 import {userService} from '../../services/userService';
 import {UserProfileForm} from '../../components/users/UserProperties/UserProfileForm/UserProfileForm';
-import styles from './UserPropertiesPage.module.css';
 import {UserRolesPanel} from '../../components/users/UserProperties/UserRolesPanel/UserRolesPanel';
+import {UserSkillsManager} from '../../components/users/UserProperties/UserSkillsManager/UserSkillsManager';
+import styles from './UserPropertiesPage.module.css';
 
 export const UserPropertiesPage = () => {
     const {id} = useParams<{ id: string }>();
 
-    // Pobieranie danych z backendu
+    // Pobieranie danych podstawowych użytkownika z backendu
     const {data: user, isLoading, isError} = useQuery({
         queryKey: ['user', id],
         queryFn: () => userService.getUserById(id!),
@@ -44,13 +45,14 @@ export const UserPropertiesPage = () => {
                     <aside className={styles.leftColumn}>
                         {/* Wstrzykujemy pobrane dane do formularza */}
                         <UserProfileForm initialData={user!}/>
-                        <UserRolesPanel user={user!}/>
 
-                        {/* TODO: Tutaj wyląduje UserRolesPanel.tsx */}
+                        {/* Panel ról systemowych (posiada wbudowane query po role) */}
+                        <UserRolesPanel user={user!}/>
                     </aside>
 
                     <main className={styles.rightColumn}>
-                        {/* TODO: Tutaj wyląduje UserSkillsManager.tsx */}
+                        {/* Menedżer kompetencji (posiada wbudowane query po relacje UserSkill) */}
+                        <UserSkillsManager/>
                     </main>
                 </div>
             )}

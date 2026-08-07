@@ -1,5 +1,5 @@
 import {axiosClient} from '../api/axiosClient';
-import type {ExpertSearchRequest, User, UserListPage} from '../types/users';
+import type {ExpertSearchRequest, User, UserListPage, UserSkillDetail} from '../types/users';
 import type {UserRequestFormData} from '../validations/userSchema';
 
 export const userService = {
@@ -55,6 +55,12 @@ export const userService = {
     /* Pobieranie ról przypisanych do konkretnego użytkownika */
     getUserRoles: async (userId: string): Promise<string[]> => {
         const response = await axiosClient.get<string[]>(`/users/${userId}/roles`);
+        return response.data;
+    },
+
+    /* Pobieranie przypisanych kompetencji danego użytkownika */
+    getUserSkills: async (userId: string): Promise<UserSkillDetail[]> => {
+        const response = await axiosClient.get<UserSkillDetail[]>(`/users/${userId}/skills`);
         return response.data;
     },
 };
