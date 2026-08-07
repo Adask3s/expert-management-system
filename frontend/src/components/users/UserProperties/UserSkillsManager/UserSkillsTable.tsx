@@ -11,15 +11,16 @@ import deleteIcon from '../../../../assets/icons/Delete.svg';
 
 interface UserSkillsTableProps {
     skills: UserSkillDetail[];
+    onEdit: (skill: UserSkillDetail) => void;
+    onDelete: (skill: UserSkillDetail) => void;
 }
 
-export const UserSkillsTable = ({skills}: UserSkillsTableProps) => {
+export const UserSkillsTable = ({skills, onEdit, onDelete}: UserSkillsTableProps) => {
     const columns: ColumnDefinition<UserSkillDetail>[] = [
         {
             header: 'DOMAIN',
             accessor: (skill) => (
                 <div className={styles.domainCell}>
-                    {/* Zastępujemy surowy span Twoim inteligentnym komponentem */}
                     <DomainAvatar/>
                     <span className={styles.domainName}>{skill.domainName}</span>
                 </div>
@@ -44,14 +45,14 @@ export const UserSkillsTable = ({skills}: UserSkillsTableProps) => {
                         iconSource={editIcon}
                         altText={`Edit ${skill.domainName}`}
                         title="Edit"
-                        onClick={() => console.log('Edit locked.')}
+                        onClick={() => onEdit(skill)}
                     />
                     <ActionIconButton
                         iconSource={deleteIcon}
                         variant="danger"
                         altText={`Delete ${skill.domainName}`}
                         title="Delete"
-                        onClick={() => console.log('Delete locked.')}
+                        onClick={() => onDelete(skill)}
                     />
                 </div>
             ),

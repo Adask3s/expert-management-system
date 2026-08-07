@@ -1,11 +1,13 @@
-// frontend/src/components/users/UserProperties/UserSkillsManager/UserSkillsManager.tsx
+import {useState} from 'react';
 import {useParams} from 'react-router-dom';
-import {useUserSkills} from '../../../../hooks/useUsersSkills';
+import {useAddUserSkill, useDeleteUserSkill, useUpdateUserSkill, useUserSkills} from '../../../../hooks/useUsersSkills';
 import {Button} from '../../../common/Button/Button';
 import {UserSkillsTable} from './UserSkillsTable';
+import {UserSkillModal} from './UserSkillModal.tsx';
+import {ConfirmModal} from '../../../common/Modal/ConfirmModal';
 import styles from './UserSkillsManager.module.css';
+import type {UserSkillDetail} from '../../../../types/users';
 
-// Mikro-komponent odpowiedzialny za renderowanie wskaźnika natężenia
 interface IntensityIndicatorProps {
     level: number;
     label: string;
@@ -14,9 +16,7 @@ interface IntensityIndicatorProps {
 }
 
 const IntensityIndicator = ({level, label, nodeClass, textClass}: IntensityIndicatorProps) => {
-    // Generujemy tablicę od 1 do 4, aby reprezentować pełną skalę z bazy danych
     const maxLevel = 4;
-
     return (
         <div className={styles.intensityLegendItem}>
             <div className={styles.intensityTrack}>
@@ -38,7 +38,57 @@ const IntensityIndicator = ({level, label, nodeClass, textClass}: IntensityIndic
 
 export const UserSkillsManager = () => {
     const {id: userId} = useParams<{ id: string }>();
+    if (!userId) throw new Error("System Check: Missing userId in URL params");
+
     const {data: skills, isLoading, isError} = useUserSkills(userId);
+
+    const addMutation = useAddUserSkill(userId);
+    const updateMutation = useUpdateUserSkill(userId);
+    const deleteMutation = useDeleteUserSkill(userId);
+
+    const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+    const [editingSkill, setEditingSkill] = useState<UserSkillDetail | null>(null);
+    const [skillToDelete, setSkillToDelete] = useState<UserSkillDetail | null>(null);
+
+    const handleOpenAdd = () => {
+        setEditingSkill(null);
+        setIsFormModalOpen(true);
+    };
+
+    const handleOpenEdit = (skill: UserSkillDetail) => {
+        setEditingSkill(skill);
+        setIsFormModalOpen(true);
+    };
+
+    const handleSaveSkill = (domainId: number, expertiseLevelId: number) => {
+        // Rygorystyczna konwersja typu dla backendu
+        const numericUserId = Number(userId);
+
+        if (editingSkill && editingSkill.id) {
+            updateMutation.mutate(
+                {
+                    userSkillId: editingSkill.id,
+                    payload: {userId: numericUserId, domainId, expertiseLevelId}
+                },
+                {onSuccess: () => setIsFormModalOpen(false)}
+            );
+        } else {
+            addMutation.mutate(
+                {userId: numericUserId, domainId, expertiseLevelId},
+                {onSuccess: () => setIsFormModalOpen(false)}
+            );
+        }
+    };
+
+    const handleConfirmDelete = () => {
+        if (skillToDelete && skillToDelete.id) {
+            deleteMutation.mutate(skillToDelete.id, {
+                onSuccess: () => setSkillToDelete(null)
+            });
+        }
+    };
+
+    const isPending = addMutation.isPending || updateMutation.isPending;
 
     return (
         <section className={styles.card}>
@@ -47,40 +97,22 @@ export const UserSkillsManager = () => {
                     <h2 className={styles.title}>Assigned Skills</h2>
                     <span className={styles.badge}>{skills?.length || 0} domains</span>
                 </div>
-                <Button variant="primary"
-                        onClick={() => console.warn('System Check: POST /users/{userId}/skills disabled pending backend DTO fix.')}>
+                <Button variant="primary" onClick={handleOpenAdd} disabled={isPending}>
                     + Add Skill
                 </Button>
             </header>
 
-            {/* Legenda z poprawnym odwzorowaniem ordynalnej skali natężenia */}
             <div className={styles.legend}>
                 <span className={styles.legendLabel}>LEVEL SCALE</span>
                 <div className={styles.legendItems}>
-                    <IntensityIndicator
-                        level={1}
-                        label="Awareness"
-                        nodeClass={styles.nodeAwareness}
-                        textClass={styles.textAwareness}
-                    />
-                    <IntensityIndicator
-                        level={2}
-                        label="Functional"
-                        nodeClass={styles.nodeFunctional}
-                        textClass={styles.textFunctional}
-                    />
-                    <IntensityIndicator
-                        level={3}
-                        label="Professional"
-                        nodeClass={styles.nodeProfessional}
-                        textClass={styles.textProfessional}
-                    />
-                    <IntensityIndicator
-                        level={4}
-                        label="Master"
-                        nodeClass={styles.nodeMaster}
-                        textClass={styles.textMaster}
-                    />
+                    <IntensityIndicator level={1} label="Awareness" nodeClass={styles.nodeAwareness}
+                                        textClass={styles.textAwareness}/>
+                    <IntensityIndicator level={2} label="Functional" nodeClass={styles.nodeFunctional}
+                                        textClass={styles.textFunctional}/>
+                    <IntensityIndicator level={3} label="Professional" nodeClass={styles.nodeProfessional}
+                                        textClass={styles.textProfessional}/>
+                    <IntensityIndicator level={4} label="Master" nodeClass={styles.nodeMaster}
+                                        textClass={styles.textMaster}/>
                 </div>
             </div>
 
@@ -90,11 +122,41 @@ export const UserSkillsManager = () => {
                 ) : isError ? (
                     <div className={styles.message}>System Error: Failed to load expertise directory.</div>
                 ) : skills && skills.length > 0 ? (
-                    <UserSkillsTable skills={skills}/>
+                    <UserSkillsTable
+                        skills={skills}
+                        onEdit={handleOpenEdit}
+                        onDelete={(skill) => setSkillToDelete(skill)}
+                    />
                 ) : (
                     <div className={styles.emptyState}>No skills assigned to this employee yet.</div>
                 )}
             </div>
+
+            {/* Modal dodawania / edycji */}
+            <UserSkillModal
+                // Inżynieryjne podejście: gdy zmieniamy tryb pracy (Dodawanie vs Edycja konkretnego ID) 
+                // lub gdy zamykamy modal, 'key' się zmienia. React automatycznie 
+                // niszczy starą instancję modala i czyści wszystkie useState!
+                key={isFormModalOpen ? (editingSkill ? `edit-${editingSkill.id}` : 'add') : 'closed'}
+                isOpen={isFormModalOpen}
+                onClose={() => setIsFormModalOpen(false)}
+                onSave={handleSaveSkill}
+                initialData={editingSkill}
+                existingSkills={skills || []}
+                isPending={isPending}
+            />
+
+            <ConfirmModal
+                isOpen={!!skillToDelete}
+                onClose={() => setSkillToDelete(null)}
+                onConfirm={handleConfirmDelete}
+                title="Remove Skill"
+                description={`Are you sure you want to remove the ${skillToDelete?.domainName} competency from this user's profile? This action cannot be undone.`}
+                confirmText={deleteMutation.isPending ? 'Removing...' : 'Remove'}
+                cancelText="Cancel"
+                variant="danger"
+                isLoading={deleteMutation.isPending}
+            />
         </section>
     );
 };

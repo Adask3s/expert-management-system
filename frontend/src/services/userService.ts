@@ -63,4 +63,27 @@ export const userService = {
         const response = await axiosClient.get<UserSkillDetail[]>(`/users/${userId}/skills`);
         return response.data;
     },
+
+    /* Przypisanie nowej kompetencji użytkownikowi (POST) */
+    addUserSkill: async (userId: string, payload: {
+        userId: number,
+        domainId: number,
+        expertiseLevelId: number
+    }): Promise<void> => {
+        await axiosClient.post(`/users/${userId}/skills`, payload);
+    },
+
+    /* Aktualizacja przypisania kompetencji (PUT) */
+    updateUserSkill: async (userSkillId: number, payload: {
+        userId: number,
+        domainId: number,
+        expertiseLevelId: number
+    }): Promise<void> => {
+        await axiosClient.put(`/user-skills/${userSkillId}`, payload);
+    },
+
+    /* Usunięcie przypisania kompetencji (DELETE) */
+    deleteUserSkill: async (userSkillId: number): Promise<void> => {
+        await axiosClient.delete(`/user-skills/${userSkillId}`);
+    }
 };
