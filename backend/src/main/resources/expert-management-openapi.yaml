@@ -331,6 +331,25 @@ paths:
                 $ref: '#/components/schemas/UserListPage'
 
   /users/{userId}/roles:
+    get:
+      tags: [ Roles ]
+      summary: Pobierz role użytkownika
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Lista ról przypisanych do użytkownika
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                example: [ "ROLE_ADMIN", "ROLE_USER" ]
     post:
       tags: [ Roles ]
       summary: Nadaj rolę użytkownikowi

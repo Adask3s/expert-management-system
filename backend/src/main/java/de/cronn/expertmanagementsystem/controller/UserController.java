@@ -76,6 +76,14 @@ public class UserController implements UsersApi {
         return ResponseEntity.created(location).body(createdUser);
     }
 
+    @Override
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<List<String>> usersUserIdRolesGet(Integer userId) {
+        List<String> userRoles;
+        userRoles = userService.getUserRoles(userId.longValue());
+        return ResponseEntity.ok(userRoles);
+    }
+
     // user_roles table
     @Override
     @PreAuthorize("hasRole('ADMIN')")

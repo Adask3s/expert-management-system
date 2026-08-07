@@ -64,6 +64,17 @@ public class UserService {
         }
     }
 
+    @Transactional
+    public List<String> getUserRoles(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            UserListItemDto userData = userMapper.toListItemDto(user.get());
+            return userData.getRoles();
+        } else {
+            throw new EntityNotFoundException("User not found with id: " + id);
+        }
+    }
+
     @Transactional(readOnly = true)
     public UserListPageDto searchUsers(ExpertSearchRequestDto searchRequestDto) {
         List<ExpertSearchCriteriaDto> criteria = searchCriteriaBuilder.build(searchRequestDto);
