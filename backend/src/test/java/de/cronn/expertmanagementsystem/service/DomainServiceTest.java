@@ -2,6 +2,7 @@ package de.cronn.expertmanagementsystem.service;
 
 import de.cronn.expertmanagementsystem.entity.Domain;
 import de.cronn.expertmanagementsystem.repository.DomainRepository;
+import de.cronn.expertmanagementsystem.repository.UserSkillRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,6 +25,8 @@ class DomainServiceTest {
 
     @Mock
     private DomainRepository domainRepository;
+    @Mock
+    private UserSkillRepository skillRepository;
     @InjectMocks
     private DomainService domainService;
 
@@ -104,7 +107,7 @@ class DomainServiceTest {
     void shouldDeleteDomainWhenExists() {
         Long idToDelete = 1L;
         when(domainRepository.existsById(idToDelete)).thenReturn(true);
-
+        when(skillRepository.existsByDomainId(anyLong())).thenReturn(false);
         domainService.deleteDomain(idToDelete);
 
         verify(domainRepository, times(1)).deleteById(idToDelete);

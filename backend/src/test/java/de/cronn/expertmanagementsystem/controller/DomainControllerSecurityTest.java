@@ -4,6 +4,7 @@ import de.cronn.expertmanagementsystem.config.CustomUserDetails;
 import de.cronn.expertmanagementsystem.config.JwtService;
 import de.cronn.expertmanagementsystem.entity.Domain;
 import de.cronn.expertmanagementsystem.entity.User;
+import de.cronn.expertmanagementsystem.repository.UserSkillRepository;
 import de.cronn.expertmanagementsystem.service.DatabaseCredentialsProvider;
 import de.cronn.expertmanagementsystem.service.DomainService;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,6 +38,9 @@ public class DomainControllerSecurityTest {
 
     @MockitoBean
     private DomainService domainService;
+
+    @MockitoBean
+    private UserSkillRepository skillRepository;
 
     @MockitoBean
     private JwtService jwtService;
@@ -73,6 +77,8 @@ public class DomainControllerSecurityTest {
 
         when(userDetailsService.loadUserByUsername("admin@test.com")).thenReturn(adminDetails);
         when(userDetailsService.loadUserByUsername("user@test.com")).thenReturn(regularDetails);
+
+        when(skillRepository.existsByDomainId(anyLong())).thenReturn(false);
     }
 
     private static Stream<Arguments> endpointTestCases() {
