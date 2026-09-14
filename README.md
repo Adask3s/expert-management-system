@@ -1,161 +1,93 @@
 # Expert Management System
 
-## Cel projektu
+A full-stack web application for managing employee competencies within an organization. It allows assigning expertise levels to knowledge domains and searching for experts that match given criteria (e.g. `Java >= Professional AND SQL >= Master`).
 
-Zaprojektuj i zaimplementuj aplikację webową służącą do zarządzania kompetencjami pracowników w organizacji.
+## Table of Contents
 
-System powinien umożliwiać przypisywanie poziomów kompetencji do określonych domen wiedzy oraz wyszukiwanie ekspertów spełniających zadane kryteria.
+- [Overview](#overview)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Architecture](#architecture)
+- [Project Structure](#project-structure)
+- [Getting Started](#getting-started)
+- [Running Tests](#running-tests)
+- [API Documentation](#api-documentation)
+- [Authors](#authors)
+- [Mentors](#mentors)
+- [License](#license)
 
----
+## Overview
 
-# Opis biznesowy
+An employee can be assigned one or more competencies, each combining a **domain** (e.g. Java, SQL, React) with an **expertise level**:
 
-Przykładowy pracownik:
-
-```text
-Paweł Matujewicz
 ```
-
-może posiadać kompetencje:
-
-```text
-Java = Professional
-SQL = Master
+Java  = Professional
+SQL   = Master
 React = Functional
 ```
 
----
+Expertise levels are presented to users as text but stored internally as numeric values, so their names can change without affecting existing data:
 
-# Model poziomów kompetencji
+| Level        | Value |
+| ------------ | ----- |
+| Awareness    | 1     |
+| Functional   | 2     |
+| Professional | 3     |
+| Master       | 4     |
 
-Poziomy powinny być prezentowane użytkownikowi jako tekst, ale przechowywane w systemie jako wartości liczbowe.
+## Features
 
-```text
-Awareness    = 1
-Functional   = 2
-Professional = 3
-Master       = 4
-```
+**Standard user (`ROLE_USER`)**
 
-Nazwy poziomów powinny być możliwe do zmiany bez modyfikowania istniejących danych.
+- Browse competency domains
+- Browse experts assigned to a given domain
+- Search users by expertise level (`Java = Professional`)
+- Search users by minimum expertise level (`Java >= Professional`)
+- Multi-criteria search (`Java >= Professional AND SQL >= Master`)
 
----
+**Administrator (`ROLE_ADMIN`)** — everything a standard user can do, plus:
 
-# Role systemowe
+- Full CRUD on users
+- Full CRUD on domains
+- Full CRUD on user-to-domain competency assignments
+- Grant/revoke the administrator role
 
-## USER
+**Security**
 
-Użytkownik standardowy powinien mieć możliwość:
+- Spring Security with JWT authentication and refresh tokens
 
-- przeglądania domen kompetencyjnych,
-- przeglądania ekspertów przypisanych do domen,
-- wyszukiwania użytkowników po poziomie kompetencji,
-- wyszukiwania użytkowników z minimalnym poziomem kompetencji,
-- opcjonalnie wyszukiwania wielokryterialnego (AND/OR).
+## Tech Stack
 
-### Przykłady wyszukiwania
+**Backend**
 
-```text
-Java = Professional
-```
-
-```text
-Java >= Professional
-```
-
-```text
-Java >= Professional AND SQL >= Master
-```
-
----
-
-## ADMIN
-
-Administrator powinien mieć wszystkie uprawnienia użytkownika oraz:
-
-### Zarządzanie użytkownikami
-
-CRUD:
-
-- Create
-- Read
-- Update
-- Delete
-
-### Zarządzanie domenami
-
-CRUD:
-
-- Java
-- Spring
-- React
-- SQL
-- Docker
-- Kubernetes
-- inne
-
-### Zarządzanie kompetencjami
-
-CRUD przypisań kompetencji do użytkowników.
-
-### Zarządzanie rolami (opcjonalnie)
-
-- nadawanie roli Administrator,
-- odbieranie roli Administrator.
-
----
-
-# Wymagania technologiczne
-
-## Backend
-
-- Java 21
-- Spring Boot 3.x
-- Spring Web
-- Spring Data JPA
-- Spring Security
+- Java 21, Spring Boot
+- Spring Web, Spring Data JPA, Spring Security
+- JWT (jjwt)
 - Bean Validation
 - Maven
 
-Backend powinien udostępniać REST API.
-
-## Baza danych
+**Database**
 
 - PostgreSQL
-- Liquibase
+- Liquibase (schema is managed exclusively through migrations)
 
-Struktura bazy danych powinna być tworzona wyłącznie przy użyciu migracji Liquibase.
+**Frontend**
 
-## Frontend
+- React 19 + TypeScript
+- React Router 7
+- TanStack React Query
+- Axios
+- Vite 8
+- Vitest + React Testing Library
+- CSS Modules with a Figma-driven design token system
 
-- React
-- TypeScript
+**API contract**
 
-Frontend powinien komunikować się z backendem wyłącznie za pomocą REST API.
+- OpenAPI specification, with backend interfaces and frontend types both generated from it
 
----
+## Architecture
 
-# Bezpieczeństwo
-
-Aplikacja powinna wykorzystywać Spring Security.
-
-Role:
-
-```text
-ROLE_USER
-ROLE_ADMIN
 ```
-
-Opcjonalnie:
-
-- JWT Authentication
-- Refresh Token
-
----
-
-# Architektura aplikacji
-
-```text
 React (Frontend)
         |
      REST API
@@ -165,179 +97,164 @@ Spring Boot
 PostgreSQL
 ```
 
-Backend powinien wykorzystywać warstwy:
+The backend follows a layered architecture:
 
-```text
-Controller
-Service
-Repository
-Entity
-DTO
-Mapper
+```
+Controller → Service → Repository → Entity
+                 |
+              DTO / Mapper
 ```
 
----
+### Domain model
 
-# Model domenowy (propozycja)
-
-```text
-User
-Role
-Domain
-ExpertiseLevel
-UserSkill
 ```
-
-Relacje:
-
-```text
 User      1..* UserSkill
 Domain    1..* UserSkill
 Role      *..* User
 ```
 
----
+The full entity-relationship diagram is available in [`docs/entity-relationship-diagram.md`](docs/entity-relationship-diagram.md).
 
-# Migracje Liquibase
+## Project Structure
 
-Migracje powinny być organizowane w postaci changelogów.
-
-Przykładowa struktura:
-
-```text
-src/main/resources/
-└── db/
-    └── changelog/
-        ├── db.changelog-master.yaml
-        ├── 001-create-user-table.yaml
-        ├── 002-create-role-table.yaml
-        ├── 003-create-domain-table.yaml
-        ├── 004-create-expertise-level-table.yaml
-        ├── 005-create-user-skill-table.yaml
-        └── 006-insert-initial-data.yaml
 ```
-
-Zadanie dodatkowe:
-
-Przygotować migrację dodającą nowy poziom kompetencji:
-
-```text
-Expert
-```
-
-bez utraty istniejących danych.
-
----
-
-# Testowanie
-
-## Backend
-
-Wymagane:
-
-- JUnit 5
-- Mockito
-
-Testy powinny obejmować:
-
-- Service Layer,
-- Security,
-- Walidację,
-- Logikę wyszukiwania ekspertów.
-
-## Frontend
-
-Wymagane:
-
-- React Testing Library
-- Vitest lub Jest
-
----
-
-# Proponowana struktura repozytorium
-
-```text
 expert-management-system/
+├── backend/                 # Spring Boot REST API
+│   ├── src/main/java/…/expertmanagementsystem/
+│   │   ├── config/
+│   │   ├── controller/
+│   │   ├── entity/
+│   │   ├── mapper/
+│   │   ├── repository/
+│   │   └── service/
+│   ├── src/main/resources/
+│   │   ├── application.yaml
+│   │   ├── expert-management-openapi.yaml
+│   │   └── db/changelog/     # Liquibase migrations
+│   ├── src/test/java/
+│   └── pom.xml
 │
-├── backend/
+├── frontend/                 # React + TypeScript SPA
 │   ├── src/
-│   │   ├── main/
-│   │   │   ├── java/com/company/experts/
-│   │   │   │   ├── controller/
-│   │   │   │   ├── service/
-│   │   │   │   ├── repository/
-│   │   │   │   ├── entity/
-│   │   │   │   ├── dto/
-│   │   │   │   ├── mapper/
-│   │   │   │   ├── security/
-│   │   │   │   ├── exception/
-│   │   │   │   └── config/
-│   │   │   └── resources/
-│   │   │       ├── application.yml
-│   │   │       └── db/changelog/
-│   │   └── test/
-│   ├── pom.xml
-│   └── README.md
-│
-├── frontend/
-│   ├── src/
-│   │   ├── api/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   ├── routes/
-│   │   ├── hooks/
-│   │   ├── services/
-│   │   └── types/
-│   ├── package.json
-│   └── README.md
+│   │   ├── api/               # Axios HTTP client
+│   │   ├── components/        # Reusable & feature components
+│   │   ├── hooks/              # Custom hooks (React Query, auth, etc.)
+│   │   ├── pages/               # Route-level views
+│   │   ├── routes/               # Routing / route guards
+│   │   ├── services/              # API service layer
+│   │   ├── styles/                 # Design tokens
+│   │   └── types/                   # Types, incl. those generated from OpenAPI
+│   └── package.json
 │
 ├── docs/
-│   ├── openapi.yaml
-│   └── architecture-diagram.png
+│   └── entity-relationship-diagram.md
 │
-├── docker-compose.yml
-├── README.md
-└── .gitignore
+├── docker-compose.yml         # PostgreSQL for local development
+└── README.md
 ```
 
----
+## Getting Started
 
-# Zawartość repozytorium
+### Prerequisites
 
-Repozytorium powinno zawierać:
+- Java 21 (JDK)
+- Node.js 20+ and npm
+- Docker (for PostgreSQL) or a local PostgreSQL instance
+- Maven (or use the included Maven wrapper, if present)
 
-- kod źródłowy backendu,
-- kod źródłowy frontendu,
-- dokumentację API (OpenAPI),
-- migracje Liquibase,
-- instrukcję uruchomienia projektu,
-- testy jednostkowe,
-- testy integracyjne (opcjonalnie).
+### 1. Clone the repository
 
----
+```bash
+git clone <repository-url>
+cd expert-management-system
+```
 
-# Materiały do nauki
+### 2. Start the database
 
-## Spring Boot
-- https://spring.io/guides
-- https://docs.spring.io/spring-boot/docs/current/reference/html/
+```bash
+docker-compose up -d
+```
 
-## Spring Data JPA
-- https://spring.io/projects/spring-data-jpa
-- https://www.baeldung.com/the-persistence-layer-with-spring-data-jpa
+This starts a PostgreSQL instance on port `5432` (database `expert_db`, user `admin`, password `password` — see [`docker-compose.yml`](docker-compose.yml)).
 
-## Spring Security
-- https://docs.spring.io/spring-security/reference/
+### 3. Run the backend
 
-## React
-- https://react.dev/
-- https://www.typescriptlang.org/docs/
+1. Open the `backend/` module in your IDE (or use the terminal).
+2. Generate the OpenAPI-based interfaces by building the project (`mvn clean compile` or the equivalent IDE action).
+3. Run the Spring Boot application.
+4. The API will be available at `http://localhost:8080`, with interactive documentation at:
+   ```
+   http://localhost:8080/swagger-ui/index.html
+   ```
 
-## PostgreSQL
-- https://www.postgresql.org/docs/
+More backend-specific details are available in [`backend/README.md`](backend/README.md).
 
-## Liquibase
-- https://docs.liquibase.com/
+> **Note:** Liquibase changesets are the single source of truth for the database schema — existing changesets must not be modified; schema changes are added as new changesets.
 
-## Docker
-- https://docs.docker.com/
+### 4. Run the frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+The app will start at `http://localhost:5173` and expects the backend to be reachable at the URL configured in `frontend/.env` (`VITE_API_BASE_URL`, defaults to `http://localhost:8080/`).
+
+More frontend-specific details are available in [`frontend/README.md`](frontend/README.md).
+
+### Default credentials (local/dev seed data)
+
+**Administrator** (`ROLE_ADMIN`):
+
+```
+email:    admin@example.com
+password: admin
+```
+
+**Standard user** (`ROLE_USER`) — to view the app from a regular user's perspective, log in with one of the seeded accounts (e.g. `jan.kowalski1@example.com`) and the shared seed password: `Start123!`.
+
+## Running Tests
+
+**Backend** (JUnit 5, Mockito)
+
+```bash
+cd backend
+mvn test
+```
+
+**Frontend** (Vitest, React Testing Library)
+
+```bash
+cd frontend
+npm run test:run
+```
+
+## API Documentation
+
+The REST API is documented with OpenAPI and served via Swagger UI when the backend is running:
+
+```
+http://localhost:8080/swagger-ui/index.html
+```
+
+The OpenAPI specification itself lives at [`backend/src/main/resources/expert-management-openapi.yaml`](backend/src/main/resources/expert-management-openapi.yaml) and is the source of truth for both backend interfaces and frontend TypeScript types.
+
+## Authors
+
+This project was built as a team effort during an internship.
+
+- Adask3s — Frontend (GitHub: [@Adask3s](https://github.com/Adask3s))
+- jonatanalimowski — Backend (GitHub: [@jonatanalimowski](https://github.com/jonatanalimowski))
+- SzymonMich47 — Backend (GitHub: [@SzymonMich47](https://github.com/SzymonMich47))
+
+## Mentors
+
+Developed under the guidance of two senior developers:
+
+- pawel-matujewicz (GitHub: [@pawel-matujewicz](https://github.com/pawel-matujewicz))
+- SlighTom (GitHub: [SlighTom](https://github.com/SlighTom))
+
+## License
+
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
