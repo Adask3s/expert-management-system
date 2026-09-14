@@ -191,6 +191,18 @@ More backend-specific details are available in [`backend/README.md`](backend/REA
 
 > **Note:** Liquibase changesets are the single source of truth for the database schema — existing changesets must not be modified; schema changes are added as new changesets.
 
+#### Environment variables
+
+| Variable     | Description                                              | Default (local dev)                                                                                                               |
+| ------------ | -------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `JWT_SECRET` | Base64-encoded secret key used to sign JWT access tokens | A dev-only placeholder baked into `application.yaml` — **must be overridden with a strong, secret value in any real deployment.** |
+
+Override it, e.g.:
+
+```bash
+export JWT_SECRET=$(openssl rand -base64 32)
+```
+
 ### 4. Run the frontend
 
 ```bash
